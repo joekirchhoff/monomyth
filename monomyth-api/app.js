@@ -13,9 +13,6 @@ var logger = require('morgan');
 const cors = require('cors');
 const MongoStore = require('connect-mongo');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
 var app = express();
 
 // view engine setup
@@ -31,15 +28,26 @@ app.use(cookieParser());
 // CORS
 app.use(cors({
   'origin' : 'http://localhost:3000',
+  'methods': "GET,POST,PUT,DELETE, PATCH",
   'credentials': true,
 }))
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", 'http://localhost:3000'); // update to match the domain you will make the request from
-  // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Credentials", true)
-  next();
-});
+// app.options('/users/session', cors({
+//   'origin' : 'http://localhost:3000',
+//   'methods': "GET,POST,PUT,DELETE, PATCH",
+//   'credentials': true,
+// }))
+
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", 'http://localhost:3000'); // update to match the domain you will make the request from
+//   // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   res.header("Access-Control-Allow-Credentials", true)
+//   res.header("Vary", 'http://localhost:3000');
+//   next();
+// });
 
 // Mongoose connection
 var mongoose = require('mongoose');

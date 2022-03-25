@@ -6,8 +6,15 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require('bcryptjs');
 var User = require('../models/user');
-
+const cors = require ('cors');
 const user_controller = require('../controllers/userController')
+
+// CORS
+router.use(cors({
+  'origin' : 'http://localhost:3000',
+  'methods': "GET,POST,PUT,DELETE, PATCH",
+  'credentials': true,
+}))
 
 // JSON Parser Middleware
 router.use(bodyParser.json());
@@ -30,20 +37,22 @@ router.post('/session', (req, res, next) => {
     if (err) { console.log('auth error!') }
     req.logIn(user, function (err) { // <-- Log user in
       console.log('logIn called!')
-      res.status(200).json({errors: false, user: user});
+      res.status(200).json({user: user});
     });
   })(req, res, next);
 });
 
-// router.post('/session', passport.authenticate('local'), (req, res) => { console.log(req.user)});
-
 
 // Logout (DELETE session)
 router.delete('/session', (req, res) => {
-  console.log(req.user);
-  // req.logout();
-  // req.session.destroy();
-  // res.send({'message': 'Logout successful!'});
+  req.logout();
+  req.session.destroy();
+  res.send({'message': 'Logout successful!'});
+});
+
+// TEST ROUTE
+router.get('/session', (req, res) => {
+  res.send({'message': req.user});
 });
 
 // USER -----------------------------------------

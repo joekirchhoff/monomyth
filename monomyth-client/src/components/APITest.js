@@ -34,7 +34,7 @@ function APITest() {
   const getStories = () => {
 
     fetch('http://localhost:8080/api/stories?sort=date', { 
-      mode: 'cors',
+      // mode: 'cors',
       method: "GET",
       headers: {
         // 'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ const LoginClick = () => {
   })
   .then(res => {
     console.log("Request complete! response:", res);
-    console.log('Username: ', res.username);
+    console.log('Username: ', res.user.username);
     // document.cookie = `user=${res.userID};secure`;
   });
 }
@@ -92,6 +92,20 @@ const LogoutClick = () => {
   });
 }
 
+const CheckClick = () => {
+  fetch('http://localhost:8080/api/users/session', {
+    method: "GET",
+    headers: {'Content-Type': 'application/json'},
+    credentials: 'include'
+  })
+  .then(res => {
+    return res.json();
+  })
+  .then(res => {
+    console.log("Check complete! response:", res.message);
+  });
+}
+
 
 
   return (
@@ -100,6 +114,7 @@ const LogoutClick = () => {
       <BtnContainer>
         <UserBtn onClick={LoginClick}>Login</UserBtn>
         <UserBtn onClick={LogoutClick}>Logout</UserBtn>
+        <UserBtn onClick={CheckClick}>Check</UserBtn>
       </BtnContainer>
       {stories.map((story) => {
         return <Output key={story._id}>
