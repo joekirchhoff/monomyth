@@ -58,6 +58,8 @@ useEffect(() => {
   getStories();
 }, [])
 
+const [username, setUsername] = useState('')
+
 const LoginClick = () => {
   fetch('http://localhost:8080/api/users/session', {
     method: "POST",
@@ -74,6 +76,8 @@ const LoginClick = () => {
   .then(res => {
     console.log("Request complete! response:", res);
     console.log('Username: ', res.user.username);
+    setUsername(res.user.username);
+    localStorage.setItem('username', res.user.username);
     // document.cookie = `user=${res.userID};secure`;
   });
 }
@@ -89,6 +93,10 @@ const LogoutClick = () => {
   })
   .then(res => {
     console.log("Request complete! response:", res.message);
+    if (res.message) {
+      setUsername('');
+      localStorage.removeItem('username');
+    }
   });
 }
 
@@ -103,18 +111,75 @@ const CheckClick = () => {
   })
   .then(res => {
     console.log("Check complete! response:", res.message);
+    if (res.message) setUsername(res.message.username);
   });
 }
 
+const CheckUsernameLocal = () => {
+  const localUsername = localStorage.getItem('username');
+  if (localUsername) setUsername(localUsername);
+};
 
+useEffect(() => {
+  CheckUsernameLocal();
+}, [])
+
+const GetClick = () => {
+  fetch('http://localhost:8080/api/users/622b9fc4ae7ad997369ee0e9', {
+    method: "GET",
+    headers: {'Content-Type': 'application/json'},
+    credentials: 'include'
+  })
+  .then(res => {
+    return res.json();
+  })
+  .then(res => {
+    console.log("Get complete! response:", res);
+  });
+}
+
+const LikeClick = () => {
+  fetch('http://localhost:8080/api/stories/622aa75f6a57df0b36ce03be/likes', {
+    method: "POST",
+    headers: {'Content-Type': 'application/json'},
+    credentials: 'include'
+  })
+  .then(res => {
+    return res.json();
+  })
+  .then(res => {
+    console.log("Like complete! response:", res);
+  });
+}
+
+const UnlikeClick = () => {
+  fetch('http://localhost:8080/api/stories/622aa75f6a57df0b36ce03be/likes', {
+    method: "DELETE",
+    headers: {'Content-Type': 'application/json'},
+    credentials: 'include'
+  })
+  .then(res => {
+    return res.json();
+  })
+  .then(res => {
+    console.log("Like complete! response:", res);
+  });
+}
 
   return (
     <div>
-      <Output>This is the test!</Output>
+      {username ?
+        <Output>{username}</Output> :
+        <Output>This is the test!</Output> }
       <BtnContainer>
         <UserBtn onClick={LoginClick}>Login</UserBtn>
         <UserBtn onClick={LogoutClick}>Logout</UserBtn>
         <UserBtn onClick={CheckClick}>Check</UserBtn>
+      </BtnContainer>
+      <BtnContainer>
+        <UserBtn onClick={GetClick}>Get</UserBtn>
+        <UserBtn onClick={LikeClick}>Like</UserBtn>
+        <UserBtn onClick={UnlikeClick}>Unlike</UserBtn>
       </BtnContainer>
       {stories.map((story) => {
         return <Output key={story._id}>

@@ -9,9 +9,12 @@ const comment_controller = require('../controllers/commentController')
 // JSON Parser Middleware
 router.use(bodyParser.json());
 
-// CORS Middleware
-router.options('*', cors());
-router.use(cors());
+// CORS
+router.use(cors({
+  'origin' : 'http://localhost:3000',
+  'methods': "GET,POST,PUT,DELETE, PATCH",
+  'credentials': true,
+}))
 
 // STORIES --------------------------------------
 
@@ -36,6 +39,12 @@ router.put('/stories/:storyID', story_controller.story_update);
 
 // DELETE story
 router.delete('/stories/:storyID', story_controller.story_delete);
+
+// (POST) Like Story
+router.post('/stories/:storyID/likes', story_controller.story_like);
+
+// (DELETE) Unlike Story
+router.delete('/stories/:storyID/likes', story_controller.story_unlike);
 
 // COMMENTS -------------------------------------
 

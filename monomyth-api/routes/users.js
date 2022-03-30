@@ -27,7 +27,12 @@ router.post('/', user_controller.user_create);
 // SEARCH ---------------------------------------
 
 // GET user search
-router.get('/search', user_controller.user_search);
+router.get('/search',
+  (req, res, next) => { 
+    console.log('Get middleware: ', req.user)
+    next();
+  },
+  user_controller.user_search);
 
 // SESSION --------------------------------------
 
@@ -36,7 +41,6 @@ router.post('/session', (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) { console.log('auth error!') }
     req.logIn(user, function (err) { // <-- Log user in
-      console.log('logIn called!')
       res.status(200).json({user: user});
     });
   })(req, res, next);

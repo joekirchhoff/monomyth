@@ -50,23 +50,35 @@ exports.user_create = [
 ]
 
 exports.user_get = (req, res, next) => {
-  
-  // MAJOR TODO: limit returned fields based on authentication
 
-  User.findById(req.params.userID)
-  .exec((err, user) => {
-    if (err) {
-      res.status(500).json(err);
-      return;
-    }
-    res.json(user);
-  })
+  // User is logged in as target user; expose all data fields
+  if (req.user && req.params.userID == req.user.id) {
+    User.findById(req.params.userID)
+    .exec((err, user) => {
+      if (err) {
+        res.status(500).json(err);
+        return;
+      }
+      res.json(user);
+    })
+  }
+  // User is not target user; limit data exposed
+  else {
+    User.findById(req.params.userID)
+    .select('-email -password')
+    .exec((err, user) => {
+      if (err) {
+        res.status(500).json(err);
+        return;
+      }
+      res.json(user);
+    })
+  }  
 }
 
 exports.user_update = [
 
   // TODO: validate / sanitize links
-  // TODO: user validation
 
   // Validate and sanitize fields.
   body('email').trim().isLength({ min: 1 }).escape().withMessage('Email must be specified.'),
@@ -79,6 +91,16 @@ exports.user_update = [
 
     // Extract the validation errors from a request.
     const errors = validationResult(req);
+
+    // If not logged in, return error
+    if (!req.user) {
+      res.status(401).json('message', 'Must be logged in to update user');
+    }
+
+    // If logged in but not as target user, return error
+    if (req.user.id !== req.params.userID) {
+      res.status(403).json('message', 'Must be logged in as this user to update');
+    }
 
     if (!errors.isEmpty()) {
       // There are errors. Render form again with sanitized values/errors messages.
@@ -110,7 +132,15 @@ exports.user_update = [
 
 exports.user_delete = (req, res, next) => {
 
-  // TODO: user validation
+  // If not logged in, return error
+  if (!req.user) {
+    res.status(401).json('message', 'Must be logged in to delete user');
+  }
+  
+  // If logged in but not as target user, return error
+  if (req.user.id !== req.params.userID) {
+    res.status(403).json('message', 'Must be logged in as this user to delete');
+  }
 
   User.findByIdAndDelete(req.params.userID, (err) => {
     if (err) { return next(err) };
@@ -122,8 +152,6 @@ exports.user_delete = (req, res, next) => {
 // USER SEARCH ----------------------------------
 
 exports.user_search = (req, res, next) => {
-
-  // MAJOR TODO: user authentication, limit sensitive outputted fields (email and password) to account owner
 
   // Extract URL query strings
   const page = parseInt(req.query.page, 10) || 0;
@@ -139,6 +167,7 @@ exports.user_search = (req, res, next) => {
       fuzzy: {}
     }
   })
+  .project('-email -password')
   .skip(page * limit)
   .limit(limit)
   .exec((err, users) => {

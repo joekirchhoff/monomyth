@@ -4,6 +4,9 @@ const { body,check,validationResult } = require('express-validator');
 
 // COMMENTS -------------------------------------
 
+// TODO: might be best to aggregate -> add fields to results
+// to add a "liked" boolean for speed of client liked rendering
+
 exports.comments_get = (req, res, next) => {
 
   // Extract URL query string
@@ -29,6 +32,11 @@ exports.comment_create = [
   // Process request after validation and sanitization.
   (req, res, next) => {
 
+    // If not logged in, return error
+    if (!req.user) {
+      res.status(401).json('message', 'Must be logged in to comment');
+    }
+
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
@@ -42,7 +50,7 @@ exports.comment_create = [
       const comment = new Comment(
         {
           text: req.body.text,
-          author: req.user,
+          author: req.user.id,
           date: new Date(),
           likes: [],
           score: 0,
@@ -71,14 +79,25 @@ exports.comment_get = (req, res, next) => {
 }
 
 exports.comment_update = [
-
-  // TODO: add user validation
   
   // Validate and sanitize fields.
   body('text').trim().isLength({ min: 1 }).escape().withMessage('Comment text must be specified.'),
 
   // Process request after validation and sanitization.
   (req, res, next) => {
+
+    // If not logged in, return error
+    if (!req.user) {
+      res.status(401).json('message', 'Must be logged in to update comment');
+    }
+    
+    // If logged in but not as comment author, return error
+    Comment.findById(req.params.commentID, (err, comment) => {
+      if (err) res.json(err);
+      if (comment.author !== req.user.id) {
+        res.status(403).json('message', 'Must be logged in as comment author to update');
+      }
+    });
 
     // Extract the validation errors from a request.
     const errors = validationResult(req);
@@ -106,11 +125,115 @@ exports.comment_update = [
 
 exports.comment_delete = (req, res, next) => {
 
-  // TODO: add user validation
+  // If not logged in, return error
+  if (!req.user) {
+    res.status(401).json('message', 'Must be logged in to delete comment');
+  }
+  
+  // If logged in but not as comment author, return error
+  Comment.findById(req.params.commentID, (err, comment) => {
+    if (err) res.json(err);
+    if (comment.author !== req.user.id) {
+      res.status(403).json('message', 'Must be logged in as comment author to delete');
+    }
+  });
 
   Comment.findByIdAndDelete(req.params.commentID, (err) => {
     if (err) { return next(err) };
     // Delete successful
     res.status(200).json('Delete successful')
+  })
+}
+
+// COMMENT LIKES --------------------------------
+
+exports.comment_like = (req, res, next) => {
+
+  // If not logged in, return error
+  if (!req.user) {
+    res.status(401).json('message', 'Must be logged in to like comment');
+  }
+
+  // Get comment likes
+  Comment.findById(req.params.commentID)
+  .select('likes score')
+  .exec((err, comment) => {
+    if (err) return next(err);
+
+    const commentLikes = [...comment.likes];
+
+    // Check if user has already liked comment
+    let alreadyLiked = false;
+    for (let i = 0; i < commentLikes.length; i++) {
+      if (commentLikes[i].toString() === req.user.id) {
+        alreadyLiked = true;
+        break;
+      };
+    }
+
+    if (alreadyLiked) {
+      // User has not already liked comment, return error
+      res.status(400).json('User has already liked comment');
+    } else {
+      // Add user like from comment, decrement
+      commentLikes.push(req.user._id);
+      const commentScore = comment.score + 1;
+
+      const commentInfo = {
+        likes: commentLikes,
+        score: commentScore
+      };
+      Comment.findByIdAndUpdate(req.params.commentID, commentInfo, (err) => {
+        if (err) return next(err);
+        res.status(200).json('Comment like successful');
+      })
+    }
+  })
+}
+
+exports.comment_unlike = (req, res, next) => {
+
+  // If not logged in, return error
+  if (!req.user) {
+    res.status(401).json('message', 'Must be logged in to like comment');
+  }
+
+  // Get comment likes
+  Comment.findById(req.params.commentID)
+  .select('likes score')
+  .exec((err, comment) => {
+    if (err) return next(err);
+
+    const commentLikes = [...comment.likes];
+
+    // Check if user has already liked comment
+    let alreadyLiked = false;
+    let likedIndex = -1;
+    for (let i = 0; i < commentLikes.length; i++) {
+      if (commentLikes[i].toString() === req.user.id) {
+        alreadyLiked = true;
+        likedIndex = i;
+        break;
+      };
+    }
+
+    if (alreadyLiked) {
+      // User has already liked comment, return error
+      res.status(400).json('User has already liked comment');
+    } else {
+      // Add user like to comment, increment
+      commentLikes.push(req.user._id);
+      const commentScore = comment.score + 1;
+
+      const commentInfo = {
+        likes: commentLikes,
+        score: commentScore
+      };
+      console.log('Comment info: ', commentInfo);
+      Comment.findByIdAndUpdate(req.params.commentID, commentInfo, (err) => {
+        if (err) return next(err);
+        res.status(200).json('Comment like successful');
+      })
+    }
   })
 }

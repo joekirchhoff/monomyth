@@ -104,12 +104,10 @@ passport.serializeUser(function(user, done) {
   done(null, user);
 });
 passport.deserializeUser(function(id, done) {
-  console.log('id: ', id);
   User.findById(id, function(err, user) {
     done(err, user);
   });
 });
-
 
 app.use('/api', indexRouter);
 app.use('/api/users', usersRouter);

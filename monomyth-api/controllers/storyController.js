@@ -6,8 +6,6 @@ const { body,check,validationResult } = require('express-validator');
 
 exports.stories_get = (req, res, next) => {
 
-  // console.log(req.user);
-
   // Extract URL query strings
   const page = parseInt(req.query.page, 10) || 0;
   const limit = parseInt(req.query.limit, 10) || 20;
@@ -45,6 +43,11 @@ exports.story_create = [
 
   // Process request after validation and sanitization.
   (req, res, next) => {
+
+    // If not logged in, return error
+    if (!req.user) {
+      res.status(401).json('message', 'Must be logged in to create story');
+    }
 
     // Extract the validation errors from a request.
     const errors = validationResult(req);
@@ -90,14 +93,25 @@ exports.story_get = (req, res, next) => {
 
 exports.story_update = [
 
-  // TODO: add user validation
-
   // Validate and sanitize fields.
   body('title').trim().isLength({ min: 1 }).escape().withMessage('Story title must be specified.'),
   body('text').trim().isLength({ min: 1 }).escape().withMessage('Story text must be specified.'),
 
   // Process request after validation and sanitization.
   (req, res, next) => {
+
+    // If not logged in, return error
+    if (!req.user) {
+      res.status(401).json('message', 'Must be logged in as author to update story');
+    }
+    
+    // If logged in but not as author, return error
+    Story.findById(req.params.storyID, (err, story) => {
+      if (err) res.json(err);
+      if (story.author !== req.user.id) {
+        res.status(403).json('message', 'Must be logged in as author to update story');
+      }
+    });
 
     // Extract the validation errors from a request.
     const errors = validationResult(req);
@@ -115,9 +129,9 @@ exports.story_update = [
           title: req.body.title,
           text: req.body.text,
           genres: req.body.genres,
-          _id: req.body.id
+          _id: req.params.storyID
         });
-      Story.findByIdAndUpdate(req.body.id, story, (err) => {
+      Story.findByIdAndUpdate(req.params.storyID, story, (err) => {
         if (err) { return next(err); }
         res.status(200).json('Update successful');
       })
@@ -127,12 +141,121 @@ exports.story_update = [
 
 exports.story_delete = (req, res, next) => {
   
-  // TODO: add user validation
+  // If not logged in, return error
+  if (!req.user) {
+    res.status(401).json('message', 'Must be logged in as author to delete story');
+  }
+  
+  // If logged in but not as author, return error
+  Story.findById(req.params.storyID, (err, story) => {
+    if (err) res.json(err);
+    if (story.author !== req.user.id) {
+      res.status(403).json('message', 'Must be logged in as author to delete story');
+    }
+  });
 
   Story.findByIdAndDelete(req.params.storyID, (err) => {
     if (err) { return next(err) };
     // Delete successful
     res.status(200).json('Delete successful')
+  })
+}
+
+// STORY LIKES ----------------------------------
+
+exports.story_like = (req, res, next) => {
+
+  // If not logged in, return error
+  if (!req.user) {
+    res.status(401).json('message', 'Must be logged in to like story');
+  }
+
+  // Get story likes
+  Story.findById(req.params.storyID)
+  .select('likes score')
+  .exec((err, story) => {
+    if (err) return next(err);
+
+    const storyLikes = [...story.likes];
+
+    // Check if user has already liked story
+    let alreadyLiked = false;
+    for (let i = 0; i < storyLikes.length; i++) {
+      console.log('got here!');
+      if (storyLikes[i].toString() === req.user.id) {
+        alreadyLiked = true;
+        break;
+      };
+    }
+
+    if (alreadyLiked) {
+      // User has already liked story, return error
+      res.status(400).json('User has already liked story');
+    } else {
+      // Add user like from story, increment
+      storyLikes.push(req.user._id);
+
+      const storyScore = story.score + 1;
+
+      const storyInfo = {
+        likes: storyLikes,
+        score: storyScore
+      };
+      console.log('Story info: ', storyInfo);
+      Story.findByIdAndUpdate(req.params.storyID, storyInfo, (err) => {
+        if (err) return next(err);
+        res.status(200).json('Story like successful');
+      })
+    }
+  })
+}
+
+exports.story_unlike = (req, res, next) => {
+
+  // If not logged in, return error
+  if (!req.user) {
+    res.status(401).json('message', 'Must be logged in to like story');
+  }
+
+  // Get story likes
+  Story.findById(req.params.storyID)
+  .select('likes score')
+  .exec((err, story) => {
+    if (err) return next(err);
+
+    const storyLikes = [...story.likes];
+
+    // Check if user has already liked story
+    let alreadyLiked = false;
+    let likedIndex = -1;
+    for (let i = 0; i < storyLikes.length; i++) {
+      console.log('got here!');
+      if (storyLikes[i].toString() === req.user.id) {
+        alreadyLiked = true;
+        likedIndex = i;
+        break;
+      };
+    }
+
+    if (!alreadyLiked) {
+      // User has not already liked story, return error
+      res.status(400).json('User has not liked story');
+    } else {
+      // Remove user like from story, decrement
+      storyLikes.splice(likedIndex, 1);
+
+      const storyScore = story.score - 1;
+
+      const storyInfo = {
+        likes: storyLikes,
+        score: storyScore
+      };
+      console.log('Story info: ', storyInfo);
+      Story.findByIdAndUpdate(req.params.storyID, storyInfo, (err) => {
+        if (err) return next(err);
+        res.status(200).json('Story unlike successful');
+      })
+    }
   })
 }
 
