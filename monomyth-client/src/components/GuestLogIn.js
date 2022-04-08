@@ -1,0 +1,68 @@
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const Form = styled.form`
+  background-color: slategray;
+  max-width: 750px;
+  width: 90%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  padding: 2rem;
+  margin: 2rem auto;
+`
+
+const Header = styled.h1`
+  font-size: 2rem;
+  color: white;
+  margin-bottom: 2rem;
+`
+
+const SubmitBtn = styled.button`
+  border: none;
+  background-color: palevioletred;
+  color: white;
+  padding: 1rem;
+  margin: 1rem;
+`
+
+function LogInForm() {
+
+  const [showError, setShowError] = useState(false)
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch('http://localhost:8080/api/users/session', {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'}, 
+      credentials: 'include',
+      body: JSON.stringify({
+        'username': document.getElementById('email').value,
+        'password': document.getElementById('password').value
+      })
+    })
+    .then(res => {
+      return res.json();
+    })
+    .then(res => {
+      // Successful login; redirect to home
+      if (res.user) {
+        window.location.assign('/');
+      } else { // Bad login; show error message 
+        setShowError(true);
+      }
+    });
+  }
+
+  return (
+    <Form>
+      <Header >Just looking for a demo?</Header>
+      <SubmitBtn type='submit' onClick={handleSubmit}>Continue as Guest</SubmitBtn>
+    </Form>
+  );
+}
+
+export default LogInForm;

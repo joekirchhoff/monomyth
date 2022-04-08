@@ -77,8 +77,6 @@ const LoginClick = () => {
     console.log("Request complete! response:", res);
     console.log('Username: ', res.user.username);
     setUsername(res.user.username);
-    localStorage.setItem('username', res.user.username);
-    // document.cookie = `user=${res.userID};secure`;
   });
 }
 
