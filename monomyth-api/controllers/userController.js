@@ -2,6 +2,7 @@ const async = require('async');
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const { body,check,validationResult } = require('express-validator');
+const passport = require('passport');
 
 // USER -----------------------------------------
 
@@ -10,8 +11,7 @@ exports.user_create = [
   // Validate and sanitize fields.
   body('username').trim().isLength({ min: 1 }).escape().withMessage('Username must be specified.'),
   body('email').trim().isLength({ min: 1 }).escape().withMessage('Email must be specified.'),
-  check('password').exists(),
-  check('confirmPassword', 'Confirm Password field must have the same value as the Password field').exists().custom((value, { req }) => value === req.body.password),
+  check('password').isLength({ min: 8 }).escape().withMessage('Password must contain at least 8 characters'),
 
   // Process request after validation and sanitization.
   (req, res, next) => {
@@ -25,28 +25,70 @@ exports.user_create = [
       return;
     }
     else {
-      // Data from form is valid.
-      bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
-        // if err, do something
-        if (err) {return next(err); }
-        // otherwise, store hashedPassword in DB
-        const user = new User(
-          {
-            date: new Date(),
-            username: req.body.username,
-            email: req.body.email,
-            password: hashedPassword,
-            bio: '',
-            links: [],
+      // Data from form is valid. Check if username and email are unique.
+      async.parallel([
+        function(cb) { User.findOne({ email: req.body.email }, cb) },
+        function(cb) { User.findOne({ username: req.body.username }, cb) }
+      ], function(err, result) {
+        if (err) return next(err);
+        if (result[0]) {
+          res.json({'error' : 'An account with that email already exists'})
+          return;
+        }
+        else if (result[1]) {
+          res.json({'error' : 'An account with that username already exists'})
+          return;
+        }
+        else {
+          // Username and email are unique, create account
+          bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
+            // if err, do something
+            if (err) {return next(err); }
+            // otherwise, store hashedPassword in DB
+            const user = new User(
+              {
+                date: new Date(),
+                username: req.body.username,
+                email: req.body.email,
+                password: hashedPassword,
+                bio: '',
+                links: [],
+              });
+            user.save(function (err, user) {
+              if (err) { return next(err); }
+              // User created successfully; attempt automatic log in
+              console.log('user info :', user)
+              req.login(user, function(err) {
+                if (err) { return next(err); }
+                // Log in successful
+                console.log('post login: ', user)
+                res.status(200).json({user: user});
+              });
+            });
           });
-        user.save(function (err) {
-          if (err) { return next(err); }
-          // Successful
-          res.status(200).json('Signup successful');
-        });
-      });
-    }
+        }
+      })
+    };
   }
+
+      // User.findOne({ email: req.body.email })
+      // .exec((err, user) => {
+      //   if (err) {return next(err)}
+      //   if (user) {
+      //     res.json({'error' : 'An account with that email already exists'})
+      //     next();
+      //   }
+      // })
+      // User.findOne({ username: req.body.username })
+      // .exec((err, user) => {
+      //   if (err) {return next(err)}
+      //   if (user) { 
+      //     res.json({'error' : 'An account with that username already exists'})
+      //     next();
+      //   }
+      // })
+
+      
 ]
 
 exports.user_get = (req, res, next) => {

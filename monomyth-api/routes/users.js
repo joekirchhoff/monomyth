@@ -39,8 +39,8 @@ router.get('/search',
 // Login (POST new session)
 router.post('/session', (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
-    if (err) { console.log('auth error!') }
-    req.logIn(user, function (err) { // <-- Log user in
+    if (err) { return next(err) }
+    req.logIn(user, function (err) {
       res.status(200).json({user: user});
     });
   })(req, res, next);

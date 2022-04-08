@@ -40,10 +40,10 @@ router.put('/stories/:storyID', story_controller.story_update);
 // DELETE story
 router.delete('/stories/:storyID', story_controller.story_delete);
 
-// (POST) Like Story
+// (POST) Like story
 router.post('/stories/:storyID/likes', story_controller.story_like);
 
-// (DELETE) Unlike Story
+// (DELETE) Unlike story
 router.delete('/stories/:storyID/likes', story_controller.story_unlike);
 
 // COMMENTS -------------------------------------
@@ -64,5 +64,11 @@ router.put('/stories/:storyID/comments/:commentID', comment_controller.comment_u
 
 // DELETE story
 router.delete('/stories/:storyID/comments/:commentID', comment_controller.comment_delete);
+
+// (POST) Like comment
+router.post('/stories/:storyID/comments/:commentID/likes', comment_controller.comment_like);
+
+// (DELETE) Unlike comment
+router.delete('/stories/:storyID/comments/:commentID/likes', comment_controller.comment_unlike);
 
 module.exports = router;
