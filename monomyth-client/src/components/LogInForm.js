@@ -41,6 +41,7 @@ const SubmitBtn = styled.button`
   color: white;
   padding: 1rem;
   margin: 1rem;
+  cursor: pointer;
 `
 
 const ErrorMessage = styled.p`

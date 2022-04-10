@@ -19,6 +19,7 @@ const Header = styled.h1`
   font-size: 2rem;
   color: white;
   margin-bottom: 2rem;
+  text-align: center;
 `
 
 const SubmitBtn = styled.button`
@@ -27,9 +28,14 @@ const SubmitBtn = styled.button`
   color: white;
   padding: 1rem;
   margin: 1rem;
+  cursor: pointer;
 `
 
-function LogInForm() {
+const ErrorMessage = styled.p`
+  color: red;
+`
+
+function GuestLogIn() {
 
   const [showError, setShowError] = useState(false)
 
@@ -40,8 +46,8 @@ function LogInForm() {
       headers: {'Content-Type': 'application/json'}, 
       credentials: 'include',
       body: JSON.stringify({
-        'username': document.getElementById('email').value,
-        'password': document.getElementById('password').value
+        'username': 'guest@monomyth.com',
+        'password': 'guestpass'
       })
     })
     .then(res => {
@@ -61,8 +67,9 @@ function LogInForm() {
     <Form>
       <Header >Just looking for a demo?</Header>
       <SubmitBtn type='submit' onClick={handleSubmit}>Continue as Guest</SubmitBtn>
+      {(showError) ? <ErrorMessage >Sorry, something went wrong logging in! Please try again later.</ErrorMessage> : null}
     </Form>
   );
 }
 
-export default LogInForm;
+export default GuestLogIn;

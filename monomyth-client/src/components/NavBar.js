@@ -14,6 +14,7 @@ const Nav = styled.nav`
   position: sticky;
   top: 0;
   width: 100%;
+  z-index: 10;
 `
 
 // SEARCH BAR ===================================
@@ -99,7 +100,6 @@ function NavBar() {
     })
     .then(res => {
       if (res.message) setCurrentUser(res.message);
-      console.log('User check: ', res.message);
     });
   }
 

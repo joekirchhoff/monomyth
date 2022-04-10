@@ -44,17 +44,16 @@ exports.story_create = [
   // Process request after validation and sanitization.
   (req, res, next) => {
 
-    // If not logged in, return error
-    if (!req.user) {
-      res.status(401).json('message', 'Must be logged in to create story');
-    }
-
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      // There are errors. Render form again with sanitized values/errors messages.
+      // There are errors.
       res.json(errors);
+      return;
+    } else if (!req.user) {
+      // User not logged in; send error message
+      res.status(401).json({'message': 'Must be logged in to post story'});
       return;
     }
     else {
@@ -69,10 +68,10 @@ exports.story_create = [
           score: 0,
           genres: req.body.genres
         });
-      story.save(function (err) {
-        if (err) { return next(err); }
-        res.status(200).json('Story posted successfully')
-      });
+      story.save()
+      .then(savedStory => { // Successful save; respond with new story ID
+        res.status(200).json(savedStory._id);
+      })
     };
   }
 ]

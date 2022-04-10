@@ -41,6 +41,7 @@ const SubmitBtn = styled.button`
   color: white;
   padding: 1rem;
   margin: 1rem;
+  cursor: pointer;
 `
 
 const ErrorMessage = styled.p`
@@ -81,7 +82,6 @@ function SignUpForm() {
       if (res.user) {
         window.location.assign(`/user/${res.user._id}`);
       } else { // Bad sign up; show error message
-        console.log(res.error)
         setShowError(true);
       }
     });

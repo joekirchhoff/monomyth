@@ -1,8 +1,9 @@
+import CreateStoryForm from "../components/CreateStoryForm";
 
 function CreateStoryPage() {
   return (
     <div>
-      This is the create story form!
+      <CreateStoryForm />
     </div>
   );
 }

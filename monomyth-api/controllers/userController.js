@@ -69,26 +69,7 @@ exports.user_create = [
         }
       })
     };
-  }
-
-      // User.findOne({ email: req.body.email })
-      // .exec((err, user) => {
-      //   if (err) {return next(err)}
-      //   if (user) {
-      //     res.json({'error' : 'An account with that email already exists'})
-      //     next();
-      //   }
-      // })
-      // User.findOne({ username: req.body.username })
-      // .exec((err, user) => {
-      //   if (err) {return next(err)}
-      //   if (user) { 
-      //     res.json({'error' : 'An account with that username already exists'})
-      //     next();
-      //   }
-      // })
-
-      
+  }   
 ]
 
 exports.user_get = (req, res, next) => {

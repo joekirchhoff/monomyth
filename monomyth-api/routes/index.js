@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const story_controller = require('../controllers/storyController')
 const comment_controller = require('../controllers/commentController')
+const genre_controller = require('../controllers/genreController')
 
 // JSON Parser Middleware
 router.use(bodyParser.json());
@@ -70,5 +71,11 @@ router.post('/stories/:storyID/comments/:commentID/likes', comment_controller.co
 
 // (DELETE) Unlike comment
 router.delete('/stories/:storyID/comments/:commentID/likes', comment_controller.comment_unlike);
+
+// GENRES ---------------------------------------
+
+// GET all genres
+router.get('/genres', genre_controller.genres_get);
+
 
 module.exports = router;
