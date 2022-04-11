@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom'
+import Story from '../components/Story';
 
 function StoryPage() {
 
@@ -6,8 +7,7 @@ function StoryPage() {
 
   return (
     <div>
-      This is the story page!
-      Story ID: {storyID}
+      <Story storyID={storyID}/>
     </div>
   );
 }

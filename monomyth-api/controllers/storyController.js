@@ -81,6 +81,8 @@ exports.story_create = [
 exports.story_get = (req, res, next) => {
 
   Story.findById(req.params.storyID)
+  .populate('author', '_id username')
+  .populate('genres')
   .exec((err, story) => {
     if (err) {
       res.status(500).json(err);
