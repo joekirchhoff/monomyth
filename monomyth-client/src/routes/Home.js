@@ -11,7 +11,6 @@ const ErrorMessage = styled.p`
 const CardList = styled.div`
   width: 90%;
   max-width: 750px;
-  padding: 1rem;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;

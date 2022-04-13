@@ -1,36 +1,49 @@
-import { React, useRef, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { React, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import GenreTag from './GenreTag';
 import LikeButton from './LikeButton';
 
 const Card = styled(Link)`
   background-color: #222;
+  border: gray solid 2px;
   color: white;
-  padding: 1rem;
+  text-decoration: none;
+  min-width: 350px;
   max-width: 750px;
   width: 90%;
   margin: 2rem auto;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr
+  grid-template-rows: 1fr 5rem;
   :hover {
     background-color: #333;
   }
+  align-items: center;
 `
 
 const LeftContainer = styled.div`
-  flex: 1;
+  grid-area: 1 / 1 / span 1 / span 1;
+  padding: 1rem;
 `
 
 const CentralContainer = styled.div`
-  flex: 2;
+  grid-area: 1 / 2 / span 1 / span 1;
+  padding: 1rem;
 `
 
 const RightContainer = styled.div`
-  flex: 1;
+  grid-area: 1 / 3 / span 1 / span 1;
   text-align: right;
+  /* align-self: start; */
+  padding: 1rem;
+`
+
+const BottomContainer = styled.div`
+  grid-area: 2 / 1 / span 1 / span 3;
+  display: flex;
+  flex-flow: row nowrap;
+  border-top: gray solid 2px;
 `
 
 const Title = styled.h1`
@@ -47,8 +60,6 @@ function StoryCard(props) {
 
   // Like button toggle state
   const [storyLiked, setStoryLiked] = useState(false);
-  // Like button error shown (true) if not logged in; links to log in page
-  const [likeBtnError, setLikeBtnError] = useState(false);
 
   // Check if user has liked story already
   useEffect(() => {
@@ -65,7 +76,7 @@ function StoryCard(props) {
 
     e.preventDefault();
 
-    // User not logged in; prompt log in error message
+    // User not logged in; redirect to login
     if (!props.currentUser) {
       window.location.replace('/login');
     }
@@ -109,6 +120,11 @@ function StoryCard(props) {
       <RightContainer>
         Date
       </RightContainer>
+      <BottomContainer >
+        {props.story.genres.map((genre) => {
+            return <GenreTag key={genre._id} genre={genre} />
+        })}
+      </BottomContainer>
     </Card>
   );
 }

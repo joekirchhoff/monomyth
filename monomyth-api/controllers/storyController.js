@@ -23,6 +23,7 @@ exports.stories_get = (req, res, next) => {
   Story.find()
   .where({date: {$gte: dateMin}})
   .populate('author', '_id username')
+  .populate('genres')
   .sort(`-${sortMethod}`)
   .skip(page * limit)
   .limit(limit)
