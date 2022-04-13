@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import LikeButton from './LikeButton';
+import GenreTag from './GenreTag';
 
 const Article = styled.article`
   background-color: #222;
@@ -36,6 +37,16 @@ const AuthorLink = styled(Link)`
   text-decoration: none;
 `
 
+const GenresContainer = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  border-top: gray solid 2px;
+  border-bottom: gray solid 2px;
+  margin: 1rem 0;
+`
+
 const LikeBtnErrorMessage = styled(Link)`
   font-size: 1rem;
   text-align: center;
@@ -48,10 +59,8 @@ function Story(props) {
   // On page load, get and store story data in state
   const [story, setStory] = useState(null)
   
-  // Story text rendered as a read-only Draft.js editor;
-  // Because Draft.js does not provide native HTML output,
-  // this is the cleanest solution that does not add
-  // additional third-party plugin dependencies
+  // Story text rendered as a read-only Draft.js editor
+  // to avoid additional third party dependencies
   const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
   );
@@ -137,6 +146,13 @@ function Story(props) {
     <Article >
       {(story) ? <Title >{story.title}</Title> : null }
       {(story) ? <AuthorLink to={`/user/${story.author._id}`}>{story.author.username}</AuthorLink> : null }
+      <GenresContainer >
+        {(story) ? 
+          story.genres.map((genre) => {
+            return <GenreTag key={genre._id} genre={genre} />
+          })
+        : null }
+      </GenresContainer>
       <EditorWrapper>
         <Editor
           onChange={onChange}
@@ -145,7 +161,7 @@ function Story(props) {
         />
       </EditorWrapper>
       <LikeButton onClick={onLikeButtonClick} isLiked={storyLiked} />
-      {likeBtnError ? <LikeBtnErrorMessage to='/login'>Please log in to like stories!</LikeBtnErrorMessage> : null}
+      {likeBtnError ? <LikeBtnErrorMessage to='/login'>Please log in to like stories!</LikeBtnErrorMessage> : null }
     </Article>
   );
 }
