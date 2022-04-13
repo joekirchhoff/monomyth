@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Story from '../components/Story';
 import CommentForm from '../components/CommentForm';
+import Comment from '../components/Comment';
 
 const PageContainer = styled.div`
   display: flex;
@@ -32,7 +33,25 @@ function StoryPage(props) {
   // Comments
   const [comments, setComments] = useState(null)
 
-  // Show / hide comment form
+  const getComments = (() => {
+    fetch(`http://localhost:8080/api/stories/${storyID}/comments`, {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'}, 
+      credentials: 'include'
+    })
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      setComments(data);
+    })
+  })
+
+  useEffect(() => {
+    getComments();
+  }, [])
+
+  // Show / hide add comment form
   const [commentFormOpen, setCommentFormOpen] = useState(false);
 
   const revealCommentFormClick = (e) => {
@@ -46,7 +65,7 @@ function StoryPage(props) {
   return (
     <PageContainer>
       <Story storyID={storyID} currentUser={props.currentUser} />
-      {(comments) ? 
+      {(comments && comments.length) ? 
         <CommentsHeader >{comments.length} Comments</CommentsHeader>
       : <CommentsHeader>No Comments</CommentsHeader>
       }
@@ -54,7 +73,12 @@ function StoryPage(props) {
         <CommentForm storyID={storyID} currentUser={props.currentUser} hideCommentFormClick={hideCommentFormClick}/> 
       : <RevealCommentFormBtn onClick={revealCommentFormClick}>Add Comment</RevealCommentFormBtn>
       }
-        
+      {(comments) ?
+        comments.map((comment) => {
+          return <Comment key={comment._id} comment={comment} currentUser={props.currentUser} storyID={storyID}/>
+        })
+      : null
+      }
     </PageContainer>
   );
 }

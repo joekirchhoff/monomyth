@@ -15,6 +15,7 @@ exports.comments_get = (req, res, next) => {
   Comment.find()
   .where({story: req.params.storyID})
   .sort(`-${sortMethod}`)
+  .populate('author', 'username _id')
   .exec((err, comments) => {
     if (err) {
       res.status(500).json(err);
@@ -149,43 +150,45 @@ exports.comment_like = (req, res, next) => {
   // If not logged in, return error
   if (!req.user) {
     res.status(401).json('message', 'Must be logged in to like comment');
+  } else {
+    // Get comment likes
+    Comment.findById(req.params.commentID)
+    .select('likes score')
+    .exec((err, comment) => {
+      if (err) return next(err);
+
+      const commentLikes = [...comment.likes];
+
+      // Check if user has already liked comment
+      let alreadyLiked = false;
+      for (let i = 0; i < commentLikes.length; i++) {
+        if (commentLikes[i].toString() === req.user.id) {
+          alreadyLiked = true;
+          break;
+        };
+      }
+
+      if (alreadyLiked) {
+        // User has already liked comment, return error
+        res.status(400).json('User has already liked comment');
+      } else {
+        // Add user like from comment, increment
+        commentLikes.push(req.user._id);
+        const commentScore = comment.score + 1;
+
+        const commentInfo = {
+          likes: commentLikes,
+          score: commentScore
+        };
+        Comment.findByIdAndUpdate(req.params.commentID, commentInfo, (err) => {
+          if (err) return next(err);
+          res.status(200).json('Comment like successful');
+        })
+      }
+    })
   }
 
-  // Get comment likes
-  Comment.findById(req.params.commentID)
-  .select('likes score')
-  .exec((err, comment) => {
-    if (err) return next(err);
-
-    const commentLikes = [...comment.likes];
-
-    // Check if user has already liked comment
-    let alreadyLiked = false;
-    for (let i = 0; i < commentLikes.length; i++) {
-      if (commentLikes[i].toString() === req.user.id) {
-        alreadyLiked = true;
-        break;
-      };
-    }
-
-    if (alreadyLiked) {
-      // User has not already liked comment, return error
-      res.status(400).json('User has already liked comment');
-    } else {
-      // Add user like from comment, decrement
-      commentLikes.push(req.user._id);
-      const commentScore = comment.score + 1;
-
-      const commentInfo = {
-        likes: commentLikes,
-        score: commentScore
-      };
-      Comment.findByIdAndUpdate(req.params.commentID, commentInfo, (err) => {
-        if (err) return next(err);
-        res.status(200).json('Comment like successful');
-      })
-    }
-  })
+  
 }
 
 exports.comment_unlike = (req, res, next) => {
@@ -193,44 +196,46 @@ exports.comment_unlike = (req, res, next) => {
   // If not logged in, return error
   if (!req.user) {
     res.status(401).json('message', 'Must be logged in to like comment');
+  } else {
+    // Get comment likes
+    Comment.findById(req.params.commentID)
+    .select('likes score')
+    .exec((err, comment) => {
+      if (err) return next(err);
+
+      const commentLikes = [...comment.likes];
+
+      // Check if user has already liked comment
+      let alreadyLiked = false;
+      let likedIndex = -1;
+      for (let i = 0; i < commentLikes.length; i++) {
+        if (commentLikes[i].toString() === req.user.id) {
+          alreadyLiked = true;
+          likedIndex = i;
+          break;
+        };
+      }
+
+      if (!alreadyLiked) {
+        // User has not already liked comment, return error
+        res.status(400).json('User has already liked comment');
+      } else {
+        // Add user like to comment, decrement
+        commentLikes.splice(likedIndex, 1);
+        const commentScore = comment.score - 1;
+
+        const commentInfo = {
+          likes: commentLikes,
+          score: commentScore
+        };
+        console.log('Comment info: ', commentInfo);
+        Comment.findByIdAndUpdate(req.params.commentID, commentInfo, (err) => {
+          if (err) return next(err);
+          res.status(200).json('Comment unlike successful');
+        })
+      }
+    })
   }
 
-  // Get comment likes
-  Comment.findById(req.params.commentID)
-  .select('likes score')
-  .exec((err, comment) => {
-    if (err) return next(err);
-
-    const commentLikes = [...comment.likes];
-
-    // Check if user has already liked comment
-    let alreadyLiked = false;
-    let likedIndex = -1;
-    for (let i = 0; i < commentLikes.length; i++) {
-      if (commentLikes[i].toString() === req.user.id) {
-        alreadyLiked = true;
-        likedIndex = i;
-        break;
-      };
-    }
-
-    if (alreadyLiked) {
-      // User has already liked comment, return error
-      res.status(400).json('User has already liked comment');
-    } else {
-      // Add user like to comment, increment
-      commentLikes.push(req.user._id);
-      const commentScore = comment.score + 1;
-
-      const commentInfo = {
-        likes: commentLikes,
-        score: commentScore
-      };
-      console.log('Comment info: ', commentInfo);
-      Comment.findByIdAndUpdate(req.params.commentID, commentInfo, (err) => {
-        if (err) return next(err);
-        res.status(200).json('Comment like successful');
-      })
-    }
-  })
+  
 }
