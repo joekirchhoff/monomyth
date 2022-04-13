@@ -84,28 +84,7 @@ const LogoutBtn = styled.button`
 
 // ==============================================
 
-function NavBar() {
-
-  const [currentUser, setCurrentUser] = useState(null)
-
-  // Get current user on mount (handled through Express session with Passport.js)
-  const getCurrentUser = () => {
-    fetch('http://localhost:8080/api/users/session', {
-      method: "GET",
-      headers: {'Content-Type': 'application/json'},
-      credentials: 'include'
-    })
-    .then(res => {
-      return res.json();
-    })
-    .then(res => {
-      if (res.message) setCurrentUser(res.message);
-    });
-  }
-
-  useEffect(() => {
-    getCurrentUser();
-  }, [])
+function NavBar(props) {
 
   // Logout handler
   const logoutBtnHandler = () => {
@@ -119,7 +98,7 @@ function NavBar() {
     })
     .then(res => {
       if (res.message) {
-        setCurrentUser(null);
+        props.setCurrentUser(null);
         window.location.reload();
       }
     });
@@ -139,19 +118,19 @@ function NavBar() {
         <SearchBar type='text' placeholder='Search' />
         <SearchBtn >🔍</SearchBtn>
       </SearchContainer>
-      { (currentUser) ?
+      { (props.currentUser) ?
         // User logged in; show logout and profile buttons
         <MenuContainer>
           <DesktopMenu>
             <LogoutBtn onClick={logoutBtnHandler}>Log out</LogoutBtn>
-            <LinkBtn to={`/user/${currentUser._id}`}>{currentUser.username}</LinkBtn>
+            <LinkBtn to={`/user/${props.currentUser._id}`}>{props.currentUser.username}</LinkBtn>
             <LinkBtn to='/create'>Create</LinkBtn>
           </DesktopMenu>
           <MobileMenuBtn onClick={handleMenuBtn}>=</MobileMenuBtn>
           {menuOpen ?
             <MobileMenu>
               <LogoutBtn onClick={logoutBtnHandler}>Log out</LogoutBtn>
-              <LinkBtn to={`/user/${currentUser._id}`}>{currentUser.username}</LinkBtn>
+              <LinkBtn to={`/user/${props.currentUser._id}`}>{props.currentUser.username}</LinkBtn>
               <LinkBtn to='/create'>Create</LinkBtn>
             </MobileMenu>
             : null}

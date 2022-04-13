@@ -177,12 +177,15 @@ exports.story_like = (req, res, next) => {
   .exec((err, story) => {
     if (err) return next(err);
 
+    if (!story) {
+      res.status(400).json('message', 'Story not found!');
+    }
+
     const storyLikes = [...story.likes];
 
     // Check if user has already liked story
     let alreadyLiked = false;
     for (let i = 0; i < storyLikes.length; i++) {
-      console.log('got here!');
       if (storyLikes[i].toString() === req.user.id) {
         alreadyLiked = true;
         break;
@@ -224,13 +227,16 @@ exports.story_unlike = (req, res, next) => {
   .exec((err, story) => {
     if (err) return next(err);
 
+    if (!story) {
+      res.status(400).json('message', 'Story not found!');
+    }
+
     const storyLikes = [...story.likes];
 
     // Check if user has already liked story
     let alreadyLiked = false;
     let likedIndex = -1;
     for (let i = 0; i < storyLikes.length; i++) {
-      console.log('got here!');
       if (storyLikes[i].toString() === req.user.id) {
         alreadyLiked = true;
         likedIndex = i;

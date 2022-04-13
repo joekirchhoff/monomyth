@@ -18,7 +18,7 @@ const CardList = styled.div`
   margin: auto;
 `
 
-function Home() {
+function Home(props) {
 
   // Error messaging
   const [errorMessage, setErrorMessage] = useState('');

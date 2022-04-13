@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createGlobalStyle } from 'styled-components'
@@ -39,18 +40,47 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
+const App = () => {
+
+  // Current User state context
+  const [currentUser, setCurrentUser] = useState(null);
+
+  // Get current user session from API
+  const getCurrentUser = () => {
+    fetch('http://localhost:8080/api/users/session', {
+      method: "GET",
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include'
+    })
+    .then(res => {
+      return res.json();
+    })
+    .then(res => {
+      if (res.message) setCurrentUser(res.message);
+    });
+  }
+
+  useEffect(() => {
+    getCurrentUser();
+  }, [])
+
+  return (
+    <BrowserRouter>
+      <GlobalStyle />
+      <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser} />
+      <Routes>
+        <Route index element={<Home currentUser={currentUser} />} />
+        <Route path={'/story/:storyID'} element={<StoryPage currentUser={currentUser} />} />
+        <Route path={'/user/:userID'} element={<UserPage currentUser={currentUser} />} />
+        <Route path={'/create'} element={<CreateStoryPage />} />
+        <Route path={'/signup'} element={<SignUpPage />} />
+        <Route path={'/login'} element={<LogInPage />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
 render(
-  <BrowserRouter>
-    <GlobalStyle />
-    <NavBar />
-    <Routes>
-      <Route index element={<Home />} />
-      <Route path={'/story/:storyID'} element={<StoryPage />} />
-      <Route path={'/user/:userID'} element={<UserPage />} />
-      <Route path={'/create'} element={<CreateStoryPage />} />
-      <Route path={'/signup'} element={<SignUpPage />} />
-      <Route path={'/login'} element={<LogInPage />} />
-    </Routes>
-  </BrowserRouter>,
+  <App />,
   document.getElementById("root")
 );

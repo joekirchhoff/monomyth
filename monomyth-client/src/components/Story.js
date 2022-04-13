@@ -1,8 +1,9 @@
-import { React, useRef, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { React, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
+import LikeButton from './LikeButton';
 
 const Article = styled.article`
   background-color: black;
@@ -31,6 +32,13 @@ const Title = styled.h1`
 const AuthorLink = styled(Link)`
   font-size: 1.5rem;
   text-align: center;
+`
+
+const LikeBtnErrorMessage = styled(Link)`
+  font-size: 1rem;
+  text-align: center;
+  color: white;
+  margin: .5rem;
 `
 
 function Story(props) {
@@ -74,6 +82,55 @@ function Story(props) {
     getStory();
   }, [])
 
+  // Like button toggle state
+  const [storyLiked, setStoryLiked] = useState(false);
+  // Like button error shown (true) if not logged in; links to log in page
+  const [likeBtnError, setLikeBtnError] = useState(false);
+
+  // Check if user has liked story already
+  useEffect(() => {
+    if (story && props.currentUser) {
+      if (story.likes.includes(props.currentUser._id)) {
+        setStoryLiked(true);
+      } else {
+        setStoryLiked(false);
+      }
+    }
+  }, [story, props.currentUser])
+
+  const onLikeButtonClick = () => {
+    // User not logged in; prompt log in error message
+    if (!props.currentUser) {
+      setLikeBtnError(true)
+    }
+    // Story not liked; send like request to API
+    if (props.currentUser && !storyLiked) {
+      fetch(`http://localhost:8080/api/stories/${props.storyID}/likes`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include'
+      })
+      .then(res => {
+        return res.json();
+      })
+      .then(res => {
+        setStoryLiked(true);
+      });
+    } else if (props.currentUser &&  storyLiked) { // Story already liked; send unlike request to API
+      fetch(`http://localhost:8080/api/stories/${props.storyID}/likes`, {
+        method: "DELETE",
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include'
+      })
+      .then(res => {
+        return res.json();
+      })
+      .then(res => {
+        setStoryLiked(false);
+      });
+    }
+  }
+
   return (
     <Article >
       {(story) ? <Title >{story.title}</Title> : null }
@@ -85,6 +142,8 @@ function Story(props) {
           readOnly='true'
         />
       </EditorWrapper>
+      <LikeButton onClick={onLikeButtonClick} isLiked={storyLiked} />
+      {likeBtnError ? <LikeBtnErrorMessage to='/login'>Please log in to like stories!</LikeBtnErrorMessage> : null}
     </Article>
   );
 }
