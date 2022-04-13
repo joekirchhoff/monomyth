@@ -16,9 +16,16 @@ const Form = styled.form`
 `
 
 const Header = styled.h1`
-  font-size: 2rem;
+  font-size: 2.5rem;
+  color: white;
+  margin-bottom: 1rem;
+`
+
+const Subheader = styled.h2`
+  font-size: 1.5rem;
   color: white;
   margin-bottom: 2rem;
+  text-align: center;
 `
 
 const Label = styled.label`
@@ -88,6 +95,7 @@ function LogInForm() {
   return (
     <Form>
       <Header >Log in</Header>
+      <Subheader >Log in to post, like, and comment on stories</Subheader>
       <Label htmlFor='email' >Email</Label>
       <Input id='email' type='email' name='email'/>
       <Label htmlFor='password' >Password</Label>

@@ -54,7 +54,7 @@ function Home(props) {
       {(errorMessage) ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
       <CardList >
         {stories.map((story) => {
-          return <StoryCard key={story._id} story={story} />
+          return <StoryCard key={story._id} story={story} currentUser={props.currentUser} />
         })}
       </CardList>
     </div>

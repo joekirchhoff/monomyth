@@ -6,7 +6,7 @@ import 'draft-js/dist/Draft.css';
 import LikeButton from './LikeButton';
 
 const Article = styled.article`
-  background-color: black;
+  background-color: #222;
   color: white;
   padding: 1rem;
   max-width: 750px;
@@ -20,7 +20,7 @@ const Article = styled.article`
 const EditorWrapper = styled.div`
   padding: 1rem;
   min-height: 15rem;
-  background-color: black;
+  background-color: #222;
   color: white;
 `
 
@@ -32,6 +32,8 @@ const Title = styled.h1`
 const AuthorLink = styled(Link)`
   font-size: 1.5rem;
   text-align: center;
+  color: white;
+  text-decoration: none;
 `
 
 const LikeBtnErrorMessage = styled(Link)`

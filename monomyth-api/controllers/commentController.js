@@ -32,20 +32,17 @@ exports.comment_create = [
   // Process request after validation and sanitization.
   (req, res, next) => {
 
-    // If not logged in, return error
-    if (!req.user) {
-      res.status(401).json('message', 'Must be logged in to comment');
-    }
-
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      // There are errors. Render form again with sanitized values/errors messages.
+    // If not logged in, return error
+    if (!req.user) {
+      res.status(401).json('message', 'Must be logged in to comment');
+    } else if (!errors.isEmpty()) {
+      // There are validation errors. Render form again with sanitized values/errors messages.
       res.json(errors);
       return;
-    }
-    else {
+    } else {
       // Data from form is valid.
       const comment = new Comment(
         {

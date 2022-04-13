@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Nav = styled.nav`
-  background-color: tomato;
+  background-color: #222;
   color: white;
   font-size: 1rem;
   padding: 1rem;
