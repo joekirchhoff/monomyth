@@ -1,11 +1,14 @@
-import { React, useRef, useEffect, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import GenreFilter from '../components/GenreFilter';
 import StoryCard from '../components/StoryCard';
+import StorySorter from '../components/StorySorter';
 
 const ErrorMessage = styled.p`
   text-align: center;
-  color: darkred;
-  font-size: 2rem;
+  color: white;
+  margin: 2rem;
+  font-size: 1.5rem;
 `
 
 const CardList = styled.div`
@@ -24,9 +27,40 @@ function Home(props) {
   // Get story cards
   const [stories, setStories] = useState([]);
 
+  // Story sorting and filtering parameters
+  const [sortMethod, setSortMethod] = useState('score');
+  const [dateLimit, setDateLimit] = useState(0);
+
+  // Pagination of story request
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+
   const getStories = () => {
 
-    fetch('http://localhost:8080/api/stories?sort=date', { 
+    // Initialize query string params object
+    const URLParamsObject = {
+      sort: sortMethod,
+      date: dateLimit,
+      page: page,
+      limit: pageSize,
+    }
+
+    // Add up to three genre filters to params if selected
+    if (selectedGenres[0]) {
+      URLParamsObject.firstGenre = selectedGenres[0];
+    }
+    if (selectedGenres[1]) {
+      URLParamsObject.secondGenre = selectedGenres[1];
+    }
+    if (selectedGenres[2]) {
+      URLParamsObject.thirdGenre = selectedGenres[2];
+    }
+
+    // Convert params object to valid URL string query
+    const URLParamsString = new URLSearchParams(URLParamsObject);
+
+    // Get stories with complete set of string queries
+    fetch('http://localhost:8080/api/stories?' + URLParamsString, { 
       method: "GET",
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -43,18 +77,48 @@ function Home(props) {
     });
   }
 
+  
+  // Genre filtering
+  const [selectedGenres, setSelectedGenres] = useState([])
+  const [genreError, setGenreError] = useState('');
+  
+  const toggleGenre = (e) => {
+    const index = selectedGenres.indexOf(e.target.id);
+    const newGenres = [...selectedGenres];
+    if (index === -1) { // Genre not found in array; attempt to add genre
+      if (selectedGenres.length < 3) {
+        newGenres.push(e.target.id);
+        setSelectedGenres(newGenres);
+      } else { // Max genres already selected, set error message
+        setGenreError('Maximum of three genres selected; please unselect a genre first');
+        e.target.checked = false;
+      }
+    }
+    else { // Genre found in array; remove genre
+      newGenres.splice(index, 1);
+      setSelectedGenres(newGenres);
+      setGenreError('');
+    }
+  }
+  
   useEffect(() => {
     getStories();
-  }, [])
+  }, [selectedGenres, page, pageSize, sortMethod, dateLimit])
 
   return (
     <div>
       {(errorMessage) ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
-      <CardList >
-        {stories.map((story) => {
-          return <StoryCard key={story._id} story={story} currentUser={props.currentUser} />
-        })}
-      </CardList>
+      <StorySorter sortMethod={sortMethod} setSortMethod={setSortMethod} dateLimit={dateLimit} setDateLimit={setDateLimit} />
+      <GenreFilter selectedGenres={selectedGenres} toggleGenre={toggleGenre} genreError={genreError}/>
+      {(stories.length) ?
+        <CardList >
+          {stories.map((story) => {
+            return <StoryCard key={story._id} story={story} currentUser={props.currentUser} />
+          })}
+        </CardList>
+      : <ErrorMessage>Sorry, no stories found! Try adjusting filters.</ErrorMessage>
+      }
+      
     </div>
   );
 }

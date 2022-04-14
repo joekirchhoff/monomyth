@@ -1,5 +1,6 @@
 const async = require('async');
 const Story = require('../models/story');
+const ObjectID = require('mongoose').Types.ObjectId;
 const { body,check,validationResult } = require('express-validator');
 
 // STORIES --------------------------------------
@@ -10,30 +11,87 @@ exports.stories_get = (req, res, next) => {
   const page = parseInt(req.query.page, 10) || 0;
   const limit = parseInt(req.query.limit, 10) || 20;
   const sortMethod = req.query.sort || 'score';
-  const dateLimit = parseInt(req.query.date) || 31;
+  const dateLimit = parseInt(req.query.date) || 0;
 
   // Calculate date filter cutoff
   const dateMin = new Date();
   dateMin.setDate(dateMin.getDate() - dateLimit);
-  // If sortMethod is by 'new', no date limit applies
-  if (sortMethod === 'date') {
+  // If sortMethod is by 'new' or 'all time score', no date limit applies
+  if (sortMethod === 'date' || dateLimit === 0) {
     dateMin.setTime(0);
   }
 
-  Story.find()
-  .where({date: {$gte: dateMin}})
-  .populate('author', '_id username')
-  .populate('genres')
-  .sort(`-${sortMethod}`)
-  .skip(page * limit)
-  .limit(limit)
-  .exec((err, stories) => {
-    if (err) {
-      res.status(500).json(err);
-      return;
-    }
-    res.json(stories);
-  })
+  // Get genre filters; query determined by number of genre parameters
+  const firstGenre = (req.query.firstGenre) ? new ObjectID(req.query.firstGenre) : null;
+  const secondGenre = (req.query.secondGenre) ? new ObjectID(req.query.secondGenre) : null;
+  const thirdGenre = (req.query.thirdGenre) ? new ObjectID(req.query.thirdGenre) : null;
+
+  if (firstGenre && secondGenre && thirdGenre) { // Three genre filters specified
+    Story.find()
+    .where({date: {$gte: dateMin}})
+    .where('genres')
+    .all([firstGenre, secondGenre, thirdGenre])
+    .populate('author', '_id username')
+    .populate('genres')
+    .sort(`-${sortMethod}`)
+    .skip(page * limit)
+    .limit(limit)
+    .exec((err, stories) => {
+      if (err) {
+        res.status(500).json(err);
+        return;
+      }
+      res.json(stories);
+    })
+  } else if (firstGenre && secondGenre) { // Two genre filters specified
+    Story.find()
+    .where({date: {$gte: dateMin}})
+    .where('genres')
+    .all([firstGenre, secondGenre])
+    .populate('author', '_id username')
+    .populate('genres')
+    .sort(`-${sortMethod}`)
+    .skip(page * limit)
+    .limit(limit)
+    .exec((err, stories) => {
+      if (err) {
+        res.status(500).json(err);
+        return;
+      }
+      res.json(stories);
+    })
+  } else if (firstGenre) { // One genre filter specified
+    Story.find()
+    .where({date: {$gte: dateMin}})
+    .where({genres: firstGenre})
+    .populate('author', '_id username')
+    .populate('genres')
+    .sort(`-${sortMethod}`)
+    .skip(page * limit)
+    .limit(limit)
+    .exec((err, stories) => {
+      if (err) {
+        res.status(500).json(err);
+        return;
+      }
+      res.json(stories);
+    })
+  } else { // Default: no genre filtering
+    Story.find()
+    .where({date: {$gte: dateMin}})
+    .populate('author', '_id username')
+    .populate('genres')
+    .sort(`-${sortMethod}`)
+    .skip(page * limit)
+    .limit(limit)
+    .exec((err, stories) => {
+      if (err) {
+        res.status(500).json(err);
+        return;
+      }
+      res.json(stories);
+    })
+  }
 }
 
 exports.story_create = [
