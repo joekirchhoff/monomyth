@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Story from '../components/Story';
 import CommentForm from '../components/CommentForm';
 import Comment from '../components/Comment';
+import CommentSorter from '../components/CommentSorter';
 
 const PageContainer = styled.div`
   display: flex;
@@ -32,9 +33,12 @@ function StoryPage(props) {
 
   // Comments
   const [comments, setComments] = useState(null)
+  const [commentSortMethod, setCommentSortMethod] = useState('score');
 
   const getComments = (() => {
-    fetch(`http://localhost:8080/api/stories/${storyID}/comments`, {
+
+    // Specify comment sort method as string query
+    fetch(`http://localhost:8080/api/stories/${storyID}/comments?sort=${commentSortMethod}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'}, 
       credentials: 'include'
@@ -47,9 +51,10 @@ function StoryPage(props) {
     })
   })
 
+  // Get comments on page load, update if commentSortMethod changes
   useEffect(() => {
     getComments();
-  }, [])
+  }, [commentSortMethod])
 
   // Show / hide add comment form
   const [commentFormOpen, setCommentFormOpen] = useState(false);
@@ -73,6 +78,7 @@ function StoryPage(props) {
         <CommentForm storyID={storyID} currentUser={props.currentUser} hideCommentFormClick={hideCommentFormClick}/> 
       : <RevealCommentFormBtn onClick={revealCommentFormClick}>Add Comment</RevealCommentFormBtn>
       }
+      <CommentSorter setCommentSortMethod={setCommentSortMethod} />
       {(comments) ?
         comments.map((comment) => {
           return <Comment key={comment._id} comment={comment} currentUser={props.currentUser} storyID={storyID}/>

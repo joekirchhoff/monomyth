@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createGlobalStyle } from 'styled-components'
+import Footer from "./components/Footer";
 
 import NavBar from "./components/NavBar";
 import CreateStoryPage from "./routes/CreateStoryPage";
@@ -77,6 +78,7 @@ const App = () => {
         <Route path={'/signup'} element={<SignUpPage />} />
         <Route path={'/login'} element={<LogInPage />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   )
 }

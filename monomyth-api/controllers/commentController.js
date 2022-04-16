@@ -4,9 +4,6 @@ const { body,check,validationResult } = require('express-validator');
 
 // COMMENTS -------------------------------------
 
-// TODO: might be best to aggregate -> add fields to results
-// to add a "liked" boolean for speed of client liked rendering
-
 exports.comments_get = (req, res, next) => {
 
   // Extract URL query string

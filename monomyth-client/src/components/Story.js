@@ -5,6 +5,7 @@ import { Editor, EditorState, convertFromRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import LikeButton from './LikeButton';
 import GenreTag from './GenreTag';
+import DateTag from './DateTag';
 
 const Article = styled.article`
   background-color: #222;
@@ -23,6 +24,10 @@ const EditorWrapper = styled.div`
   min-height: 15rem;
   background-color: #222;
   color: white;
+`
+
+const DateContainer = styled.div`
+  text-align: right;
 `
 
 const Title = styled.h1`
@@ -144,6 +149,9 @@ function Story(props) {
 
   return (
     <Article >
+      <DateContainer>
+        {(story) ? <DateTag date={story.date} /> : null }
+      </DateContainer>
       {(story) ? <Title >{story.title}</Title> : null }
       {(story) ? <AuthorLink to={`/user/${story.author._id}`}>{story.author.username}</AuthorLink> : null }
       <GenresContainer >

@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import DateTag from './DateTag';
 import GenreTag from './GenreTag';
 import LikeButton from './LikeButton';
 
@@ -14,8 +15,8 @@ const Card = styled(Link)`
   width: 90%;
   margin: 2rem auto 0 auto;
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr
-  grid-template-rows: 1fr 5rem;
+  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-rows: 1fr 2rem;
   :hover {
     background-color: #333;
   }
@@ -24,7 +25,7 @@ const Card = styled(Link)`
 
 const LeftContainer = styled.div`
   grid-area: 1 / 1 / span 1 / span 1;
-  padding: 1rem;
+  padding-left: 1rem;
 `
 
 const CentralContainer = styled.div`
@@ -36,7 +37,7 @@ const RightContainer = styled.div`
   grid-area: 1 / 3 / span 1 / span 1;
   text-align: right;
   /* align-self: start; */
-  padding: 1rem;
+  padding-right: 1rem;
 `
 
 const BottomContainer = styled.div`
@@ -47,12 +48,12 @@ const BottomContainer = styled.div`
 `
 
 const Title = styled.h1`
-  font-size: 2rem;
+  font-size: 1.5rem;
   text-align: center;
 `
 
 const Byline = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   text-align: center;
 `
 
@@ -118,7 +119,7 @@ function StoryCard(props) {
         <Byline >by {props.story.author.username}</Byline>
       </CentralContainer>
       <RightContainer>
-        Date
+        <DateTag date={props.story.date} />
       </RightContainer>
       <BottomContainer >
         {props.story.genres.map((genre) => {

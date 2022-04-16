@@ -1,6 +1,7 @@
 import { React, useRef, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import DateTag from './DateTag';
 import LikeButton from './LikeButton';
 
 const Card = styled.div`
@@ -23,7 +24,7 @@ const Byline = styled(Link)`
   grid-area: 1/2/span 1/span 1;
 `
 
-const CommentDate = styled.p`
+const DateContainer = styled.div`
   grid-area: 1/3/span 1/span 1;
   padding: 1rem;
   text-align: right;
@@ -93,7 +94,9 @@ function Comment(props) {
     <Card>
       <LikeButton isOnComment onClick={onLikeButtonClick} isLiked={commentLiked} />
       <Byline to={`/user/${props.comment.author._id}`}>{props.comment.author.username}</Byline>
-      <CommentDate >Date</CommentDate>
+      <DateContainer >
+        <DateTag date={props.comment.date} />
+      </DateContainer>
       <CommentText >{props.comment.text}</CommentText>
     </Card>
   );
