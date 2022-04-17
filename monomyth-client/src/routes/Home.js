@@ -1,8 +1,13 @@
 import { React, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import GenreFilter from '../components/GenreFilter';
+import PageControl from '../components/PageControl';
 import StoryCard from '../components/StoryCard';
 import StorySorter from '../components/StorySorter';
+
+const HomeContainer = styled.div`
+  flex: 1;
+`
 
 const ErrorMessage = styled.p`
   text-align: center;
@@ -15,7 +20,6 @@ const CardList = styled.div`
   max-width: 750px;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
   margin: auto;
 `
 
@@ -76,7 +80,6 @@ function Home(props) {
       if (err) setErrorMessage(err);
     });
   }
-
   
   // Genre filtering
   const [selectedGenres, setSelectedGenres] = useState([])
@@ -106,7 +109,7 @@ function Home(props) {
   }, [selectedGenres, page, pageSize, sortMethod, dateLimit])
 
   return (
-    <div>
+    <HomeContainer>
       {(errorMessage) ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
       <StorySorter sortMethod={sortMethod} setSortMethod={setSortMethod} dateLimit={dateLimit} setDateLimit={setDateLimit} />
       <GenreFilter selectedGenres={selectedGenres} toggleGenre={toggleGenre} genreError={genreError}/>
@@ -116,10 +119,10 @@ function Home(props) {
             return <StoryCard key={story._id} story={story} currentUser={props.currentUser} />
           })}
         </CardList>
-      : <ErrorMessage>Sorry, no stories found! Try adjusting filters.</ErrorMessage>
+      : <ErrorMessage>Sorry, no stories found! Try adjusting filters or returning to an earlier page.</ErrorMessage>
       }
-      
-    </div>
+      <PageControl page={page} setPage={setPage} />
+    </HomeContainer>
   );
 }
 

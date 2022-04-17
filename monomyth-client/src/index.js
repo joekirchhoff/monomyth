@@ -40,6 +40,11 @@ const GlobalStyle = createGlobalStyle`
   body {
     background-color: #111;
   }
+  #root { // Keeps the footer to bottom of page without "position: fixed"; all page containers have "flex: 1"
+    min-height: 100vh;
+    display: flex;
+    flex-flow: column nowrap;
+  }
 `
 
 const App = () => {

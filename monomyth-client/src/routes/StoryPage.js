@@ -7,6 +7,7 @@ import Comment from '../components/Comment';
 import CommentSorter from '../components/CommentSorter';
 
 const PageContainer = styled.div`
+  flex: 1;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;

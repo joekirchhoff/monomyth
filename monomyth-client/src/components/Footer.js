@@ -24,9 +24,9 @@ const Footer = () => {
     <StyledFooter>
       <span>© 2022 Joe Kirchhoff</span>
       <Dot> · </Dot>
-      <Anchor href='#'>Portfolio</Anchor>
+      <Anchor target='_blank' href='#'>Portfolio</Anchor>
       <Dot> · </Dot>
-      <Anchor href='https://github.com/joekirchhoff'>Github</Anchor>
+      <Anchor target='_blank' href='https://github.com/joekirchhoff'>Github</Anchor>
     </StyledFooter>
   )
 }

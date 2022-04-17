@@ -15,6 +15,7 @@ const Nav = styled.nav`
   top: 0;
   width: 100%;
   z-index: 10;
+  height: 3rem;
 `
 
 // SEARCH BAR ===================================

@@ -55,12 +55,12 @@ function StorySorter(props) {
   })
 
   // Button highlight handlers
-  const [topHighlight, setTopHighlight] = useState(false);
+  const [topHighlight, setTopHighlight] = useState(true);
   const [dayHighlight, setDayHighlight] = useState(false);
   const [weekHighlight, setWeekHighlight] = useState(false);
   const [monthHighlight, setMonthHighlight] = useState(false);
   const [yearHighlight, setYearHighlight] = useState(false);
-  const [allTimeHighlight, setAllTimeHighlight] = useState(false);
+  const [allTimeHighlight, setAllTimeHighlight] = useState(true);
   const [newHighlight, setNewHighlight] = useState(false);
 
   // Clear all highlighting (to prevent even more highlighting code repetition)
