@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -18,38 +18,68 @@ const Nav = styled.nav`
   height: 3rem;
 `
 
+// LOGO =========================================
+const LogoContainer = styled.div`
+  flex: 1;
+`
+
 // SEARCH BAR ===================================
 const SearchContainer = styled.div`
-
+  flex: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
 `
 
 const SearchBar = styled.input`
-
+  flex: 1;
+  padding: .25rem .75rem;
+  border-radius: 10rem;
+  margin-right: .5rem;
+  max-width: 20rem;
+  border: gray solid 2px;
+  background-color: #111;
+  color: white;
 `
 
 const SearchBtn = styled.button`
-
+  border: none;
+  background-color: #222;
+  cursor: pointer;
+  font-size: 1.5rem;
 `
 
 // MENU BUTTONS =================================
 const MenuContainer = styled.div`
-
+  flex: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
 `
 
 const MobileMenuBtn = styled.button`
+  border: none;
+  background-color: #222;
+  color: white;
+  font-size: 2rem;
+  line-height: 1rem;
+  cursor: pointer;
   @media (min-width: 768px) {
     display: none;
   }
 `
 
 const MobileMenu = styled.div`
+  border: gray solid 2px;
   display: flex;
   flex-flow: column nowrap;
-  background-color: tomato;
+  justify-content: space-between;
+  background-color: #222;
   padding: 1rem;
+  min-height: 10rem;
   position: fixed;
-  top: 3rem;
-  right: 0;
+  top: 3.5rem;
+  right: .5rem;
   @media (min-width: 768px) {
       display: none;
     }
@@ -60,27 +90,17 @@ const DesktopMenu = styled.div`
   }
 `
 
-const LinkBtn = styled(Link)`
+const NavBtn = styled.button`
   border: none;
-  padding: 1rem;
+  background-color: ${props => props.specialBtn ? '#eee' : '#222'};
+  color: ${props => props.specialBtn ? '#000' : 'white'};
+  border-radius: ${props => props.specialBtn ? '50rem' : 'none'};
+  padding: .5rem 1rem;
   margin: 0 .5rem;
-  background-color: lightseagreen;
   text-decoration: none;
-  color: white;
   font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 1rem;
-`
-
-const LogoutBtn = styled.button`
-  border: none;
-  padding: 1rem;
-  margin: 0 .5rem;
-  background-color: lightseagreen;
-  text-decoration: none;
-  color: white;
   cursor: pointer;
-  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 1rem;
 `
 
 // ==============================================
@@ -112,9 +132,15 @@ function NavBar(props) {
     setMenuOpen(prev => !prev);
   }
 
+  const closeMenu = () => {
+    setMenuOpen(false);
+  }
+
   return (
     <Nav>
-      <Link to='/'>Home Logo</Link>
+      <LogoContainer>
+        <Link to='/'>Home Logo</Link>
+      </LogoContainer>
       <SearchContainer>
         <SearchBar type='text' placeholder='Search' />
         <SearchBtn >🔍</SearchBtn>
@@ -123,32 +149,52 @@ function NavBar(props) {
         // User logged in; show logout and profile buttons
         <MenuContainer>
           <DesktopMenu>
-            <LogoutBtn onClick={logoutBtnHandler}>Log out</LogoutBtn>
-            <LinkBtn to={`/user/${props.currentUser._id}`}>{props.currentUser.username}</LinkBtn>
-            <LinkBtn to='/create'>Create</LinkBtn>
+            <NavBtn onClick={logoutBtnHandler}>Log out</NavBtn>
+            <Link to={`/user/${props.currentUser._id}`}>
+              <NavBtn onClick={closeMenu}>{props.currentUser.username}</NavBtn>
+            </Link>
+            <Link to='/create'>
+              <NavBtn specialBtn onClick={closeMenu}>Create</NavBtn>
+            </Link>
           </DesktopMenu>
-          <MobileMenuBtn onClick={handleMenuBtn}>=</MobileMenuBtn>
+          <MobileMenuBtn onClick={handleMenuBtn}>☰</MobileMenuBtn>
           {menuOpen ?
             <MobileMenu>
-              <LogoutBtn onClick={logoutBtnHandler}>Log out</LogoutBtn>
-              <LinkBtn to={`/user/${props.currentUser._id}`}>{props.currentUser.username}</LinkBtn>
-              <LinkBtn to='/create'>Create</LinkBtn>
+              <NavBtn onClick={logoutBtnHandler}>Log out</NavBtn>
+              <Link to={`/user/${props.currentUser._id}`}>
+                <NavBtn onClick={closeMenu}>{props.currentUser.username}</NavBtn>
+              </Link>
+              <Link to='/create'>
+                <NavBtn specialBtn onClick={closeMenu}>Create</NavBtn>
+              </Link>
             </MobileMenu>
             : null}
         </MenuContainer>
         : // User not logged in; show login and signup buttons; create button redirects to login page
         <MenuContainer>
           <DesktopMenu>
-            <LinkBtn to='/login'>Log in</LinkBtn>
-            <LinkBtn to='/signup'>Sign up</LinkBtn>
-            <LinkBtn to='/login'>Create</LinkBtn>
+            <Link to='/login'>
+              <NavBtn onClick={closeMenu}>Log in</NavBtn>
+            </Link>
+            <Link to='/signup'>
+              <NavBtn onClick={closeMenu}>Sign up</NavBtn>
+            </Link>
+            <Link to='/login'>
+              <NavBtn specialBtn onClick={closeMenu}>Create</NavBtn>
+            </Link>
           </DesktopMenu>
-          <MobileMenuBtn onClick={handleMenuBtn}>=</MobileMenuBtn>
+          <MobileMenuBtn onClick={handleMenuBtn}>☰</MobileMenuBtn>
           {menuOpen ?
             <MobileMenu>
-              <LinkBtn to='/login'>Log in</LinkBtn>
-              <LinkBtn to='/signup'>Sign up</LinkBtn>
-              <LinkBtn to='/login'>Create</LinkBtn>
+              <Link to='/login'>
+                <NavBtn onClick={closeMenu}>Log in</NavBtn>
+              </Link>
+              <Link to='/signup'>
+                <NavBtn onClick={closeMenu}>Sign up</NavBtn>
+              </Link>
+              <Link to='/login'>
+                <NavBtn specialBtn onClick={closeMenu}>Create</NavBtn>
+              </Link>
             </MobileMenu>
             : null}
         </MenuContainer>
