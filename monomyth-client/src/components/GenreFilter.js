@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const SortForm = styled.form`
   width: 90%;
   max-width: 450px;
-  margin: 1rem auto 0 auto;
+  margin: 1rem auto 2rem auto;
   display: flex;
   flex-flow: column nowrap;
 `

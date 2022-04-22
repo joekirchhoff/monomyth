@@ -102,12 +102,11 @@ exports.user_get = (req, res, next) => {
 exports.user_update = [
 
   // TODO: validate / sanitize links
+  // TODO: optional update fields
 
   // Validate and sanitize fields.
-  body('email').trim().isLength({ min: 1 }).escape().withMessage('Email must be specified.'),
+  // body('email').trim().isLength({ min: 1 }).escape().withMessage('Email must be specified.'),
   body('bio').trim().isLength({ max: 1000 }).escape().withMessage('Bio must not exceed 1000 characters.'),
-  check('password').exists(),
-  check('confirmPassword', 'Confirm Password field must have the same value as the Password field').exists().custom((value, { req }) => value === req.body.password),
 
   // Process request after validation and sanitization.
   (req, res, next) => {
@@ -132,23 +131,20 @@ exports.user_update = [
     }
     else {
       // Data from form is valid.
-      bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
-        // if err, do something
-        if (err) {return next(err); }
-        // otherwise, store hashedPassword in DB
-        const user = new User(
-          {
-            email: req.body.email,
-            password: hashedPassword,
-            bio: req.body.bio,
-            links: req.body.links,
-          });
-        User.findByIdAndUpdate(req.params.userID, user, (err) => {
-          if (err) {return next(err); }
+      const user = new User(
+        {
+          bio: req.body.bio,
+          links: req.body.links,
+          _id: req.params.userID
+        });
+      User.findByIdAndUpdate(req.params.userID, user, (err) => {
+        if (err) {
+          res.status(400).json({'message': err})
+        } else {
           // Successful
           res.status(200).json('User update successful');
-        })
-      });
+        }
+      })
     }
   }
 ]

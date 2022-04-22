@@ -12,6 +12,7 @@ exports.stories_get = (req, res, next) => {
   const limit = parseInt(req.query.limit, 10) || 20;
   const sortMethod = req.query.sort || 'score';
   const dateLimit = parseInt(req.query.date) || 0;
+  const author = req.query.author || '';
 
   // Calculate date filter cutoff
   const dateMin = new Date();
@@ -26,7 +27,20 @@ exports.stories_get = (req, res, next) => {
   const secondGenre = (req.query.secondGenre) ? new ObjectID(req.query.secondGenre) : null;
   const thirdGenre = (req.query.thirdGenre) ? new ObjectID(req.query.thirdGenre) : null;
 
-  if (firstGenre && secondGenre && thirdGenre) { // Three genre filters specified
+  if (author) { // Filter by author; excludes genre filters, used for user profile bibliography
+    Story.find()
+    .where({author: new ObjectID(author)})
+    .populate('author', '_id username')
+    .populate('genres')
+    .sort(`-${sortMethod}`)
+    .exec((err, stories) => {
+      if (err) {
+        res.status(500).json(err);
+        return;
+      }
+      res.json(stories);
+    })
+  } else if (firstGenre && secondGenre && thirdGenre) { // Three genre filters specified
     Story.find()
     .where({date: {$gte: dateMin}})
     .where('genres')
