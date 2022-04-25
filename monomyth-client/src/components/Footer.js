@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 
 const StyledFooter = styled.footer`
-  padding: .5rem;
+  height: 2rem;
   width: 100%;
   margin-top: 3rem;
   background-color: #222;
   color: lightgray;
-  text-align: center;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
 `
 
 const Anchor = styled.a`
@@ -14,7 +17,7 @@ const Anchor = styled.a`
 `
 
 const Dot = styled.span`
-  padding: 0 .2rem;
+  padding: 0 .5rem;
 `
 
 const Footer = () => {

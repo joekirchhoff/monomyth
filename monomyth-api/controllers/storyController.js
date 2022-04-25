@@ -223,24 +223,26 @@ exports.story_update = [
 
 exports.story_delete = (req, res, next) => {
   
-  // If not logged in, return error
+  // User is not logged in at all; return error
   if (!req.user) {
-    res.status(401).json('message', 'Must be logged in as author to delete story');
+    res.status(401).json({'message': 'Must be logged in as author to delete story'});
+  } else {
+    // User is logged in; check if user is author
+    Story.findById(req.params.storyID, (err, story) => {
+      if (err) return next(err);
+      if (story.author.valueOf() !== req.user.id) {
+        // User is not author; respond with error message
+        res.status(403).json({'message': 'Must be logged in as author to delete story'});
+      } else {
+        // User is author; attempt delete
+        Story.findByIdAndDelete(req.params.storyID, (err) => {
+          if (err) { return next(err) };
+          // Delete successful
+          res.status(200).json('Delete successful')
+        })
+      }
+    });
   }
-  
-  // If logged in but not as author, return error
-  Story.findById(req.params.storyID, (err, story) => {
-    if (err) res.json(err);
-    if (story.author !== req.user.id) {
-      res.status(403).json('message', 'Must be logged in as author to delete story');
-    }
-  });
-
-  Story.findByIdAndDelete(req.params.storyID, (err) => {
-    if (err) { return next(err) };
-    // Delete successful
-    res.status(200).json('Delete successful')
-  })
 }
 
 // STORY LIKES ----------------------------------

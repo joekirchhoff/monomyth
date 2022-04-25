@@ -7,6 +7,7 @@ import 'draft-js/dist/Draft.css';
 import CreateStoryGenrePicker from './CreateStoryGenrePicker';
 
 const Form = styled.form`
+  filter: ${props => props.showBlur ? 'blur(3px)' : 'none'};
   background-color: #222;
   max-width: 750px;
   width: 95%;
@@ -84,8 +85,8 @@ const FormBtnList = styled.ul`
 
 const SubmitBtn = styled.button`
   border: none;
-  background-color: palevioletred;
-  color: white;
+  background-color: #eee;
+  color: #111;
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
@@ -95,8 +96,9 @@ const SubmitBtn = styled.button`
 `
 
 const CancelBtn = styled(Link)`
-  border: none;
-  background-color: palevioletred;
+  text-decoration: none;
+  border: gray solid 1px;
+  background-color: #111;
   color: white;
   padding: 1rem;
   margin: 1rem;
@@ -114,7 +116,7 @@ const RequiredPrompt = styled.p`
   font-size: 1rem;
 `
 
-function EditStoryForm() {
+function EditStoryForm(props) {
 
   const storyID = useParams().storyID;
 
@@ -284,7 +286,7 @@ function EditStoryForm() {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} showBlur={props.showBlur} >
       <Header >Edit Story</Header>
       <Label htmlFor='title' >Title</Label>
       <Input id='title' type='text' name='title' value={title} onChange={onTitleChange}/>
