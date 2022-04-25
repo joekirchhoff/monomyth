@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const SortForm = styled.form`
@@ -12,7 +12,7 @@ const SortForm = styled.form`
 const TabBtnContainer = styled.div`
   display: flex;
   flex-flow: row nowrap;
-  border: gray solid 2px;
+  border: gray solid 1px;
 `
 
 const TabBtn = styled.button`
@@ -21,8 +21,8 @@ const TabBtn = styled.button`
   color: white;
   padding: .5rem 0;
   border: none;
-  border-right: ${props => props.left ? 'gray solid 1px' : null};
-  border-left: ${props => props.right ? 'gray solid 1px' : null};
+  border-right: ${props => props.left ? 'gray solid .5px' : 'none'};
+  border-left: ${props => props.right ? 'gray solid .5px' : 'none'};
   cursor: pointer;
 `
 
@@ -31,7 +31,7 @@ const TimeMenu = styled.div`
   display: flex;
   flex-flow: column nowrap;
   padding: .5rem 1rem;
-  border: gray solid 2px;
+  border: gray solid 1px;
   border-top: none;
 `
 
@@ -40,7 +40,7 @@ const TimeOptionBtn = styled.button`
   margin-bottom: .25rem;
   background-color: ${props => props.highlight ? '#444' : '#222'};
   color: white;
-  border: gray solid 2px;
+  border: gray solid 1px;
   cursor: pointer;
 `
 

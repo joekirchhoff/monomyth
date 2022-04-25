@@ -47,8 +47,8 @@ const GenresContainer = styled.div`
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  border-top: gray solid 2px;
-  border-bottom: gray solid 2px;
+  border-top: gray solid 1px;
+  border-bottom: gray solid 1px;
   margin: 1rem 0;
 `
 
@@ -57,6 +57,11 @@ const LikeBtnErrorMessage = styled(Link)`
   text-align: center;
   color: white;
   margin: .5rem;
+`
+
+const EditLink = styled(Link)`
+  padding: .5rem;
+  text-align: right;
 `
 
 function Story(props) {
@@ -170,6 +175,10 @@ function Story(props) {
       </EditorWrapper>
       <LikeButton onClick={onLikeButtonClick} isLiked={storyLiked} />
       {likeBtnError ? <LikeBtnErrorMessage to='/login'>Please log in to like stories!</LikeBtnErrorMessage> : null }
+      {(story && props.currentUser && story.author._id === props.currentUser._id) ?
+        <EditLink to={`/story/${story._id}/edit`} >Edit</EditLink>
+      : null
+      }
     </Article>
   );
 }

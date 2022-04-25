@@ -12,6 +12,7 @@ import SignUpPage from "./routes/SignUpPage";
 import StoryPage from "./routes/StoryPage";
 import UserPage from "./routes/UserPage";
 import UpdateUserPage from "./routes/UpdateUserPage";
+import EditStoryPage from "./routes/EditStoryPage";
 
 // Global CSS reset
 const GlobalStyle = createGlobalStyle`
@@ -79,6 +80,7 @@ const App = () => {
       <Routes>
         <Route index element={<Home currentUser={currentUser} />} />
         <Route path={'/story/:storyID'} element={<StoryPage currentUser={currentUser} />} />
+        <Route path={'/story/:storyID/edit'} element={<EditStoryPage currentUser={currentUser} />} />
         <Route path={'/user/:userID'} element={<UserPage currentUser={currentUser} />} />
         <Route path={'/user/:userID/update'} element={<UpdateUserPage currentUser={currentUser} />} />
         <Route path={'/create'} element={<CreateStoryPage />} />

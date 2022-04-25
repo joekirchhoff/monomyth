@@ -176,40 +176,48 @@ exports.story_update = [
 
     // If not logged in, return error
     if (!req.user) {
-      res.status(401).json('message', 'Must be logged in as author to update story');
+      res.status(401).json({'message': 'Must be logged in as author to update story'});
+    } else {
+    // User logged in, GET story to check author identity
+      Story.findById(req.params.storyID, (err, story) => {
+
+        if (err) return next(err);
+
+        // Compare story author to request author
+        if (story.author.valueOf() !== req.user.id) {
+          // User is not the author, return error
+          res.status(403).json({'message': 'Must be logged in as author to update story'});
+        } else {
+          // User is logged in as author
+          // Extract the validation errors from the request
+          const errors = validationResult(req);
+
+          if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/errors messages.
+            res.json(errors);
+            return;
+          }
+          else {
+
+            // Data from form is valid.
+            const story = new Story(
+              {
+                title: req.body.title,
+                text: req.body.text,
+                genres: req.body.genres,
+                _id: req.params.storyID
+              });
+            Story.findByIdAndUpdate(req.params.storyID, story, (err) => {
+              if (err) {
+                res.status(400).json({'message': 'Sorry, something went wrong while updating. Please try again later.'});
+              } else {
+                res.status(200).json('Update successful');
+              }
+            })
+          };
+        }
+      });
     }
-    
-    // If logged in but not as author, return error
-    Story.findById(req.params.storyID, (err, story) => {
-      if (err) res.json(err);
-      if (story.author !== req.user.id) {
-        res.status(403).json('message', 'Must be logged in as author to update story');
-      }
-    });
-
-    // Extract the validation errors from a request.
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      // There are errors. Render form again with sanitized values/errors messages.
-      res.json(errors);
-      return;
-    }
-    else {
-
-      // Data from form is valid.
-      const story = new Story(
-        {
-          title: req.body.title,
-          text: req.body.text,
-          genres: req.body.genres,
-          _id: req.params.storyID
-        });
-      Story.findByIdAndUpdate(req.params.storyID, story, (err) => {
-        if (err) { return next(err); }
-        res.status(200).json('Update successful');
-      })
-    };
   }
 ]
 

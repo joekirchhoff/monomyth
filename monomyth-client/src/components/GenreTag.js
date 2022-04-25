@@ -2,7 +2,7 @@ import { React, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Tag = styled.div`
-  background-color: #222;
+  background-color: none;
   flex: 1;
   display: flex;
   justify-content: center;

@@ -13,7 +13,7 @@ const OpenMenuBtn = styled.button`
   flex: 1;
   background-color: ${props => props.highlight ? '#444' : '#222' };
   color: white;
-  border: gray solid 2px;
+  border: gray solid 1px;
   padding: .5rem 0;
   cursor: pointer;
 `
@@ -22,7 +22,7 @@ const GenreMenu = styled.fieldset`
   display: ${props => props.open ? 'grid' : 'none'};
   grid-template-columns: repeat(2, 1fr);
   padding: .5rem 0;
-  border: gray solid 2px;
+  border: gray solid 1px;
   border-top: none;
 `
 

@@ -37,7 +37,7 @@ const SearchBar = styled.input`
   border-radius: 10rem;
   margin-right: .5rem;
   max-width: 20rem;
-  border: gray solid 2px;
+  border: gray solid 1px;
   background-color: #111;
   color: white;
 `

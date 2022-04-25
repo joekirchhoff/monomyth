@@ -5,7 +5,7 @@ const Fieldset = styled.fieldset`
   width: 90%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border: solid white 1px;
+  border: solid gray 1px;
   padding: 1rem;
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -19,6 +19,7 @@ const Legend = styled.legend`
   font-size: 1.5rem;
   color: white;
   margin: 1rem auto 0 auto;
+  padding: 0 .5rem;
 `
 
 const Label = styled.label`

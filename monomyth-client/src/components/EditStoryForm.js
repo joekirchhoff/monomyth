@@ -2,7 +2,7 @@ import { React, useRef, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
+import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import CreateStoryGenrePicker from './CreateStoryGenrePicker';
 
@@ -114,44 +114,41 @@ const RequiredPrompt = styled.p`
   font-size: 1rem;
 `
 
-function CreateStoryForm() {
+function EditStoryForm() {
 
   const storyID = useParams().storyID;
 
   const [errorMessage, setErrorMessage] = useState('')
 
-  const handleSubmit = (e) => {
-    
-    e.preventDefault();
-
-    // Get form body
-    const editorJSON = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
-    const titleToSave = title;
-    const genresToSave = genres;
-
-    // Attempt to post story
-    fetch('http://localhost:8080/api/stories', {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'}, 
-      body: JSON.stringify({
-        'title': titleToSave,
-        'text': editorJSON,
-        'genres': genresToSave
-      }),
-      credentials: 'include'
-    })
-    .then(res => {
-      return res.json();
-    })
-    .then(res => {
-      if (!res.message) { // Successfully saved to database, redirect to new story page
-        window.location.replace(`/story/${res}`);
-      } else { // Something went wrong; update error message
-        setErrorMessage(res.message);
-      }
-    });
+  // Title handling
+  const [title, setTitle] = useState('');
+  const onTitleChange = (e) => {
+    setTitle(e.target.value);
   }
 
+  // Track genre selections as array of Genre IDs
+  const [genres, setGenres] = useState([]);
+  const [genreError, setGenreError] = useState('');
+
+  const toggleCheck = (e) => {
+    const index = genres.indexOf(e.target.id);
+    const newGenres = [...genres];
+    if (index === -1) { // Genre not found in array; attempt to add genre
+      if (genres.length < 3) {
+        newGenres.push(e.target.id);
+        setGenres(newGenres);
+      } else { // Max genres already selected, set error message
+        setGenreError('Maximum of three genres selected; please unselect a genre first');
+        e.target.checked = false;
+      }
+    }
+    else { // Genre found in array; remove genre
+      newGenres.splice(index, 1);
+      setGenres(newGenres);
+      setGenreError('');
+    }
+  }
+  
   // Draft.js Editor Config
   const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
@@ -159,6 +156,39 @@ function CreateStoryForm() {
 
   const onChange = (editorState) => setEditorState(editorState);
 
+  // Get initial story data for populating form
+  const [story, setStory] = useState();
+  const getStory = () => {
+    fetch(`http://localhost:8080/api/stories/${storyID}`, {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'}, 
+      credentials: 'include'
+    })
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      setStory(data);
+      // Convert stored Draft.js content from raw format
+      const correctedStoryRAW = data.text.replace(/(&quot\;)/g,"\"");
+      const storyJSON = JSON.parse(correctedStoryRAW);
+      const newContentState = convertFromRaw(storyJSON);
+      // Populate editor with story text
+      setEditorState(EditorState.createWithContent(newContentState));
+      // Populate title
+      setTitle(data.title);
+      // Populate genre checkboxes
+      data.genres.forEach((genre) => {
+        document.getElementById(genre._id).checked = true;
+        genres.push(genre._id);
+      })
+    })
+  }
+
+  // Load initial story data on component mount
+  useEffect(() => {
+    getStory();
+  }, [])
 
   // Focus on editor if editor toolbar or wrapper are clicked
   const draftEditor = useRef(null);
@@ -210,35 +240,6 @@ function CreateStoryForm() {
     setEditorState(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'));
   }
 
-  // Track genre selections as array of Genre ObjectIDs
-  const [genres, setGenres] = useState([]);
-  const [genreError, setGenreError] = useState('');
-
-  const toggleCheck = (e) => {
-    const index = genres.indexOf(e.target.id);
-    const newGenres = [...genres];
-    if (index === -1) { // Genre not found in array; attempt to add genre
-      if (genres.length < 3) {
-        newGenres.push(e.target.id);
-        setGenres(newGenres);
-      } else { // Max genres already selected, set error message
-        setGenreError('Maximum of three genres selected; please unselect a genre first');
-        e.target.checked = false;
-      }
-    }
-    else { // Genre found in array; remove genre
-      newGenres.splice(index, 1);
-      setGenres(newGenres);
-      setGenreError('');
-    }
-  }
-
-  const [title, setTitle] = useState('');
-
-  const onTitleChange = (e) => {
-    setTitle(e.target.value);
-  }
-
   // Disable submit button until all fields complete
   useEffect(() => {
     const submitBtn = document.getElementById('submit');
@@ -249,9 +250,42 @@ function CreateStoryForm() {
     }
   }, [genres, title, editorState])
 
+  // Submit handler
+  const handleSubmit = (e) => {
+    
+    e.preventDefault();
+
+    // Get form body
+    const editorJSON = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
+    const titleToSave = title;
+    const genresToSave = genres;
+
+    // Attempt to update story
+    fetch(`http://localhost:8080/api/stories/${storyID}`, {
+      method: "PUT",
+      headers: {'Content-Type': 'application/json'}, 
+      body: JSON.stringify({
+        'title': titleToSave,
+        'text': editorJSON,
+        'genres': genresToSave
+      }),
+      credentials: 'include'
+    })
+    .then(res => {
+      return res.json();
+    })
+    .then(res => {
+      if (!res.message) { // Successfully updated to database, redirect to story page
+        window.location.replace(`/story/${storyID}`);
+      } else { // Something went wrong; update error message
+        setErrorMessage(res.message);
+      }
+    });
+  }
+
   return (
     <Form onSubmit={handleSubmit}>
-      <Header >Create New Story</Header>
+      <Header >Edit Story</Header>
       <Label htmlFor='title' >Title</Label>
       <Input id='title' type='text' name='title' value={title} onChange={onTitleChange}/>
       <StickyWrapper>
@@ -279,11 +313,11 @@ function CreateStoryForm() {
           <SubmitBtn id='submit' type='submit' disabled>Submit</SubmitBtn>
         </li>
         <li>
-          <CancelBtn to={`/`} >Cancel</CancelBtn>
+          <CancelBtn to={`/story/${storyID}`} >Cancel</CancelBtn>
         </li>
       </FormBtnList>
     </Form>
   );
 }
 
-export default CreateStoryForm;
+export default EditStoryForm;

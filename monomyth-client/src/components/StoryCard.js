@@ -7,7 +7,7 @@ import LikeButton from './LikeButton';
 
 const Card = styled(Link)`
   background-color: #222;
-  border: gray solid 2px;
+  border: gray solid 1px;
   color: white;
   text-decoration: none;
   min-width: 350px;
@@ -44,7 +44,7 @@ const BottomContainer = styled.div`
   grid-area: 2 / 1 / span 1 / span 3;
   display: flex;
   flex-flow: row nowrap;
-  border-top: gray solid 2px;
+  border-top: gray solid 1px;
 `
 
 const Title = styled.h1`
