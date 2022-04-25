@@ -20,6 +20,11 @@ const ErrorMsg = styled.p`
 
 function UpdateUserPage(props) {
 
+  // Scroll to top of page on render
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const userID = useParams().userID;
 
   const [user, setUser] = useState({

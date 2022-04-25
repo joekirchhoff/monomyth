@@ -25,6 +25,11 @@ const CardList = styled.div`
 
 function Home(props) {
 
+  // Scroll to top of page on render
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   // Error messaging
   const [errorMessage, setErrorMessage] = useState('');
 

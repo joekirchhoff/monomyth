@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DeleteStoryForm from '../components/DeleteStoryForm';
 import EditStoryForm from "../components/EditStoryForm";
 import DeleteStoryReceipt from '../components/DeleteStoryReceipt';
@@ -9,6 +9,11 @@ const PageContainer = styled.div`
 `
 
 function EditStoryPage(props) {
+
+  // Scroll to top of page on render
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   // After successful story delete, shows receipt dialogue and blurs forms in background 
   const [showDeleteReceipt, setShowDeleteReceipt] = useState(false)

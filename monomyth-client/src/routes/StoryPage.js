@@ -30,6 +30,11 @@ const RevealCommentFormBtn = styled.button`
 
 function StoryPage(props) {
 
+  // Scroll to top of page on render
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const storyID = useParams().storyID;
 
   // Comments

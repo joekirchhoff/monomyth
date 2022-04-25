@@ -38,8 +38,12 @@ const CardList = styled.div`
 
 function UserPage(props) {
 
-  const [error, setError] = useState('');
+  // Scroll to top of page on render
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
+  const [error, setError] = useState('');
 
   // Get user info to pass to UserInfo component
   const userID = useParams().userID;

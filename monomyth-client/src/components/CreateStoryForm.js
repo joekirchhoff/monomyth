@@ -84,8 +84,8 @@ const FormBtnList = styled.ul`
 
 const SubmitBtn = styled.button`
   border: none;
-  background-color: palevioletred;
-  color: white;
+  background-color: #eee;
+  color: #111;
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
@@ -95,8 +95,9 @@ const SubmitBtn = styled.button`
 `
 
 const CancelBtn = styled(Link)`
-  border: none;
-  background-color: palevioletred;
+  text-decoration: none;
+  border: gray solid 1px;
+  background-color: #111;
   color: white;
   padding: 1rem;
   margin: 1rem;
@@ -104,7 +105,7 @@ const CancelBtn = styled(Link)`
 `
 
 const ErrorPrompt = styled.p`
-  color: red;
+  color: firebrick;
   margin-top: 1rem;
 `
 
