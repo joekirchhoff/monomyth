@@ -87,7 +87,12 @@ function StoryPage(props) {
       <CommentSorter setCommentSortMethod={setCommentSortMethod} />
       {(comments) ?
         comments.map((comment) => {
-          return <Comment key={comment._id} comment={comment} currentUser={props.currentUser} storyID={storyID}/>
+          return <Comment
+            key={comment._id}
+            comment={comment}
+            currentUser={props.currentUser}
+            storyID={storyID}
+          />
         })
       : null
       }

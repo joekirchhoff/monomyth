@@ -83,38 +83,47 @@ exports.comment_update = [
 
     // If not logged in, return error
     if (!req.user) {
-      res.status(401).json('message', 'Must be logged in to update comment');
+      res.status(401).json({'message': 'Must be logged in to update comment'});
+      next();
     }
     
-    // If logged in but not as comment author, return error
+    // User is logged in; check if user is author
     Comment.findById(req.params.commentID, (err, comment) => {
       if (err) res.json(err);
-      if (comment.author !== req.user.id) {
-        res.status(403).json('message', 'Must be logged in as comment author to update');
+
+      if (comment.author.valueOf() !== req.user.id) {
+
+        // User is logged in but not as author
+        res.status(403).json({'message': 'Must be logged in as comment author to update'});
+
+      } else { // User is logged in as author
+        
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+          // There are errors. Render form again with sanitized values/errors messages.
+          res.json(errors);
+          return;
+        }
+        else {
+          // Data from form is valid.
+          const newComment = new Comment(
+            {
+              text: req.body.text,
+              likes: [...comment.likes],
+              _id: req.params.commentID
+            });
+          Comment.findByIdAndUpdate(req.params.commentID, newComment, (err) => {
+            if (err) { return next(err); }
+            res.status(200).json('Update successful');
+          })
+        };
       }
-    });
+      }
+    );
 
-    // Extract the validation errors from a request.
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      // There are errors. Render form again with sanitized values/errors messages.
-      res.json(errors);
-      return;
-    }
-    else {
-
-      // Data from form is valid.
-      const comment = new Comment(
-        {
-          text: req.body.text,
-          _id: req.params.commentID
-        });
-      Comment.findByIdAndUpdate(req.params.commentID, comment, (err) => {
-        if (err) { return next(err); }
-        res.status(200).json('Update successful');
-      })
-    };
+    
   }
 ]
 

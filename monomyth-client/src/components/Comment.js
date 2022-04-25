@@ -1,5 +1,5 @@
-import { React, useRef, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { React, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import DateTag from './DateTag';
 import LikeButton from './LikeButton';
@@ -31,16 +31,71 @@ const DateContainer = styled.div`
 `
 
 const CommentText = styled.p`
+  white-space: pre-line;
   grid-area: 2/2/span 1/span 2;
   padding: 1rem;
+`
+
+const EditBtn = styled.button`
+  color: lightblue;
+  background-color: #222;
+  border: none;
+  padding-right: 1rem;
+  grid-area: 3/3/span 1/span 1;
+  text-align: right;
+  cursor: pointer;
+`
+
+const EditForm = styled.form`
+  grid-area: 2/2/span 2/span 2;
+`
+
+const EditTextarea = styled.textarea`
+  resize: vertical;
+  background-color: #111;
+  color: white;
+  border: gray solid 1px;
+  padding: .5rem;
+  margin: .5rem .5rem 0 .5rem;
+  width: calc(100% - 1rem);
+  min-height: 5rem;
+`
+
+const EditBtnContainer = styled.ul`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+`
+
+const SubmitBtn = styled.button`
+  border: none;
+  background-color: #eee;
+  color: #111;
+  padding: 1rem;
+  margin: 1rem;
+  cursor: pointer;
+`
+
+const CancelBtn = styled.button`
+  text-decoration: none;
+  border: gray solid 1px;
+  background-color: #111;
+  color: white;
+  padding: 1rem;
+  margin: 1rem;
+  cursor: pointer;
+`
+
+const ErrorMsg = styled.p`
+  color: firebrick;
+  text-align: center;
 `
 
 function Comment(props) {
 
   // Like button toggle state
   const [commentLiked, setCommentLiked] = useState(false);
-  // Like button error shown (true) if not logged in; links to log in page
-  const [likeBtnError, setLikeBtnError] = useState(false);
 
   // Check if user has liked story already
   useEffect(() => {
@@ -61,7 +116,6 @@ function Comment(props) {
     if (!props.currentUser) {
       window.location.replace('/login');
     }
-    console.log('storyID: ', props.storyID, ' commentID: ', props.comment._id);
     // Comment not liked; send like request to API
     if (props.currentUser && !commentLiked) {
       fetch(`http://localhost:8080/api/stories/${props.storyID}/comments/${props.comment._id}/likes`, {
@@ -90,6 +144,52 @@ function Comment(props) {
     }
   }
 
+  // Edit comment form handling; if editable === true, show edit form in place of comment
+  const [editable, setEditable] = useState(false);
+
+  const onEditClick = (e) => {
+    setEditable(true);
+  }
+
+  const onCancelClick = (e) => {
+    setEditable(false);
+  }
+
+  // Editable textarea handling; set initial value to comment text
+  const [commentEditValue, setCommentEditValue] = useState(props.comment.text);
+
+  const onEditValueChange = (e) => {
+    setCommentEditValue(e.target.value);
+  }
+
+  // Edit form error messaging
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // Edit form submit handling
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    // Attempt to update comment
+    fetch(`http://localhost:8080/api/stories/${props.storyID}/comments/${props.comment._id}`, {
+      method: "PUT",
+      headers: {'Content-Type': 'application/json'}, 
+      body: JSON.stringify({
+        'text': commentEditValue,
+      }),
+      credentials: 'include'
+    })
+    .then(res => {
+      return res.json();
+    })
+    .then(res => {
+      if (!res.message) { // Successfully saved to database, refresh page
+        window.location.reload();
+      } else { // Something went wrong; update error message
+        setErrorMessage(res.message);
+      }
+    });
+  }
+
   return (
     <Card>
       <LikeButton isOnComment onClick={onLikeButtonClick} isLiked={commentLiked} />
@@ -97,7 +197,21 @@ function Comment(props) {
       <DateContainer >
         <DateTag date={props.comment.date} />
       </DateContainer>
-      <CommentText >{props.comment.text}</CommentText>
+      {(editable) ?
+        <EditForm>
+          <EditTextarea value={commentEditValue} onChange={onEditValueChange} />
+          <EditBtnContainer>
+            <SubmitBtn onClick={onSubmit} >Submit</SubmitBtn>
+            <CancelBtn onClick={onCancelClick} type='button' >Cancel</CancelBtn>
+          </EditBtnContainer>
+          {(errorMessage) ? <ErrorMsg>{errorMessage}</ErrorMsg> : null}
+        </EditForm>
+        : <CommentText >{props.comment.text}</CommentText>
+      }
+      {(props.currentUser && props.comment.author._id === props.currentUser._id && !editable) ?
+        <EditBtn onClick={onEditClick} >Edit</EditBtn>
+        : null
+      }
     </Card>
   );
 }
