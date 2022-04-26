@@ -16,6 +16,13 @@ const Card = styled.div`
   grid-template-rows: 2.5rem 1fr;
 `
 
+const ErrorMsg = styled.p`
+  color: firebrick;
+  text-align: center;
+`
+
+// COMMENT STYLING ==============================
+
 const Byline = styled(Link)`
   color: white;
   text-decoration: none;
@@ -35,6 +42,8 @@ const CommentText = styled.p`
   grid-area: 2/2/span 1/span 2;
   padding: 1rem;
 `
+
+// EDIT COMMENT FORM STYLING ====================
 
 const EditBtn = styled.button`
   color: lightblue;
@@ -87,12 +96,51 @@ const CancelBtn = styled.button`
   cursor: pointer;
 `
 
-const ErrorMsg = styled.p`
+// DELETE FORM STYLING ==========================
+
+const DeleteMenuBtn = styled.button`
+  color: lightblue;
+  background-color: #222;
+  border: none;
+  padding-right: 1rem;
+  grid-area: 4/3/span 1/span 1;
+  text-align: right;
+  cursor: pointer;
+`
+
+const DeleteForm = styled.form`
+  grid-area: 4/3/span 1/span 1;
+`
+
+const DeletePrompt = styled.p`
+
+`
+
+const DeleteBtnContainer = styled.ul`
+  padding: .5rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+`
+
+const ConfirmDeleteBtn = styled.button`
   color: firebrick;
-  text-align: center;
+  background-color: #222;
+  border: none;
+  cursor: pointer;
+`
+
+const CancelDeleteBtn = styled.button`
+  color: lightblue;
+  background-color: #222;
+  border: none;
+  cursor: pointer;
 `
 
 function Comment(props) {
+
+  // COMMENT LIKE ===============================
 
   // Like button toggle state
   const [commentLiked, setCommentLiked] = useState(false);
@@ -144,6 +192,8 @@ function Comment(props) {
     }
   }
 
+  // COMMENT EDIT ===============================
+
   // Edit comment form handling; if editable === true, show edit form in place of comment
   const [editable, setEditable] = useState(false);
 
@@ -153,6 +203,7 @@ function Comment(props) {
 
   const onCancelClick = (e) => {
     setEditable(false);
+    setShowDeleteForm(false);
   }
 
   // Editable textarea handling; set initial value to comment text
@@ -190,6 +241,44 @@ function Comment(props) {
     });
   }
 
+  // COMMENT DELETE =============================
+
+  // Comment delete form handling
+  const [showDeleteForm, setShowDeleteForm] = useState(false);
+
+  const onInitialDeleteClick = (e) => {
+    e.preventDefault();
+    setShowDeleteForm(true);
+  }
+
+  const onCancelDeleteClick = (e) => {
+    e.preventDefault();
+    setShowDeleteForm(false);
+  }
+
+  // Handle delete form submission
+  const onDeleteSubmit = (e) => {
+    e.preventDefault();
+
+    // Attempt to delete comment
+    fetch(`http://localhost:8080/api/stories/${props.storyID}/comments/${props.comment._id}`, {
+      method: "DELETE",
+      headers: {'Content-Type': 'application/json'}, 
+      credentials: 'include'
+    })
+    .then(res => {
+      return res.json();
+    })
+    .then(res => {
+      if (!res.message) { // Successfully deleted, refresh page
+        window.location.reload();
+      } else { // Something went wrong; update error message
+        setErrorMessage(res.message);
+      }
+    });
+  }
+
+
   return (
     <Card>
       <LikeButton isOnComment onClick={onLikeButtonClick} isLiked={commentLiked} />
@@ -210,6 +299,17 @@ function Comment(props) {
       }
       {(props.currentUser && props.comment.author._id === props.currentUser._id && !editable) ?
         <EditBtn onClick={onEditClick} >Edit</EditBtn>
+        : null
+      }
+      {(editable && !showDeleteForm) ? <DeleteMenuBtn onClick={onInitialDeleteClick} >Delete</DeleteMenuBtn> : null}
+      {(showDeleteForm) ?
+        <DeleteForm>
+          <DeletePrompt>Are you sure you want to delete this comment?</DeletePrompt>
+          <DeleteBtnContainer>
+            <ConfirmDeleteBtn onClick={onDeleteSubmit} >Delete</ConfirmDeleteBtn>
+            <CancelDeleteBtn onClick={onCancelDeleteClick} >Cancel</CancelDeleteBtn>
+          </DeleteBtnContainer>
+        </DeleteForm>
         : null
       }
     </Card>

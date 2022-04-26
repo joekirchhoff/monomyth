@@ -129,16 +129,22 @@ exports.comment_update = [
 
 exports.comment_delete = (req, res, next) => {
 
-  // If not logged in, return error
+  // User not logged in; respond with error
   if (!req.user) {
-    res.status(401).json('message', 'Must be logged in to delete comment');
+    res.status(401).json({'message': 'Must be logged in to delete comment'});
+    return next();
   }
   
-  // If logged in but not as comment author, return error
+  // User logged in; check if user is comment author
   Comment.findById(req.params.commentID, (err, comment) => {
-    if (err) res.json(err);
-    if (comment.author !== req.user.id) {
-      res.status(403).json('message', 'Must be logged in as comment author to delete');
+    if (err) {
+      res.json(err);
+      return next();
+    }
+    if (comment.author.valueOf() !== req.user.id) {
+      // User logged in but not comment author
+      res.status(403).json({'message': 'Must be logged in as comment author to delete'});
+      return next();
     }
   });
 
