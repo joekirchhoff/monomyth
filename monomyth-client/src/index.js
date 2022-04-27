@@ -13,6 +13,7 @@ import StoryPage from "./routes/StoryPage";
 import UserPage from "./routes/UserPage";
 import UpdateUserPage from "./routes/UpdateUserPage";
 import EditStoryPage from "./routes/EditStoryPage";
+import SearchPage from "./routes/SearchPage";
 
 // Global CSS reset
 const GlobalStyle = createGlobalStyle`
@@ -86,6 +87,7 @@ const App = () => {
         <Route path={'/create'} element={<CreateStoryPage />} />
         <Route path={'/signup'} element={<SignUpPage />} />
         <Route path={'/login'} element={<LogInPage />} />
+        <Route path={'/search/:query'} element={<SearchPage currentUser={currentUser} />} />
       </Routes>
       <Footer />
     </BrowserRouter>

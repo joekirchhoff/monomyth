@@ -1,6 +1,6 @@
 const async = require('async');
 const Comment = require('../models/comment');
-const { body,check,validationResult } = require('express-validator');
+const { body,validationResult } = require('express-validator');
 
 // COMMENTS -------------------------------------
 

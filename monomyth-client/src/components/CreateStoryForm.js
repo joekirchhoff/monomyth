@@ -266,7 +266,7 @@ function CreateStoryForm() {
             editorState={editorState}
             handleKeyCommand={handleKeyCommand}
             onChange={onChange} 
-            placeholder="Once upon a time..."
+            placeholder="It was a dark and stormy night..."
             ref={draftEditor}
           />
         </EditorWrapper>

@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
-const SortForm = styled.form`
+const FieldSwitch = styled.form`
   width: 90%;
   max-width: 450px;
   margin: 0 auto 2rem auto;
@@ -21,44 +21,44 @@ const TabBtn = styled.button`
   cursor: pointer;
 `
 
-function ProfileStorySorter(props) {
+function SearchFieldSwitch(props) {
 
   // Button highlight handlers
-  const [topHighlight, setTopHighlight] = useState(true);
-  const [newHighlight, setNewHighlight] = useState(false);
+  const [titleHighlight, setTitleHighlight] = useState(true);
+  const [textHighlight, setTextHighlight] = useState(false);
 
   // Clear all highlighting (to prevent even more highlighting code repetition)
   const clearHighlights = () => {
-    setTopHighlight(false);
-    setNewHighlight(false);
+    setTitleHighlight(false);
+    setTextHighlight(false);
   }
 
   // Button handlers -- sort by score (top) vs. date (new)
-  const onTopClick = ((e) => {
+  const onTitleClick = ((e) => {
     e.preventDefault();
 
-    props.setStorySortMethod('score');
+    props.setField('title');
 
     clearHighlights();
-    setTopHighlight(true);
+    setTitleHighlight(true);
   })
 
   // Sort by new button handler
-  const onNewClick = ((e) => {
+  const onTextClick = ((e) => {
     e.preventDefault();
 
-    props.setStorySortMethod('date');
+    props.setField('text');
     
     clearHighlights();
-    setNewHighlight(true);
+    setTextHighlight(true);
   })
 
   return (
-    <SortForm>
-      <TabBtn left highlight={topHighlight} onClick={onTopClick} >Top</TabBtn>
-      <TabBtn right highlight={newHighlight} onClick={onNewClick}>New</TabBtn>
-    </SortForm>
+    <FieldSwitch>
+      <TabBtn left highlight={titleHighlight} onClick={onTitleClick} >Title</TabBtn>
+      <TabBtn right highlight={textHighlight} onClick={onTextClick}>Text</TabBtn>
+    </FieldSwitch>
   );
 }
 
-export default ProfileStorySorter;
+export default SearchFieldSwitch;

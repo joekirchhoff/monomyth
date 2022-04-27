@@ -14,7 +14,7 @@ const PageNumber = styled.p`
 `
 
 const PageBtn = styled.button`
-  border: gray solid 2px;
+  border: gray solid 1px;
   border-radius: 50%;
   font-size: 1.5rem;
   line-height: 1.5rem;

@@ -22,7 +22,7 @@ const UserHeader = styled.h1`
 const Subheader = styled.h2`
   font-size: 1.5rem;
   text-align: center;
-  border-bottom: gray solid 2px;
+  border-bottom: gray solid 1px;
 `
 
 const UserBio = styled.p`

@@ -360,7 +360,7 @@ exports.story_search = (req, res, next) => {
   let field = req.query.field || 'title';
 
   // Sanitize query field to whitelisted options; default to 'title'
-  if (field !== 'title' || field !== 'text') {
+  if (field !== 'title' && field !== 'text') {
     field = 'title';
   }
 
@@ -375,11 +375,13 @@ exports.story_search = (req, res, next) => {
   })
   .skip(page * limit)
   .limit(limit)
+  .lookup({ from: 'users', localField: 'author', foreignField: '_id', as: 'author' })
+  .lookup({ from: 'genres', localField: 'genres', foreignField: '_id', as: 'genres' })
   .exec((err, stories) => {
     if (err) {
       res.status(500).json(err);
-      return;
+    } else {
+      res.json(stories);
     }
-    res.json(stories);
   })
 }

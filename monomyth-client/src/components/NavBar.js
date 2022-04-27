@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import SearchBar from './SearchBar';
 
 const Nav = styled.nav`
   background-color: #222;
@@ -26,27 +27,6 @@ const LogoContainer = styled.div`
 // SEARCH BAR ===================================
 const SearchContainer = styled.div`
   flex: 1;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-`
-
-const SearchBar = styled.input`
-  flex: 1;
-  padding: .25rem .75rem;
-  border-radius: 10rem;
-  margin-right: .5rem;
-  max-width: 20rem;
-  border: gray solid 1px;
-  background-color: #111;
-  color: white;
-`
-
-const SearchBtn = styled.button`
-  border: none;
-  background-color: #222;
-  cursor: pointer;
-  font-size: 1.5rem;
 `
 
 // MENU BUTTONS =================================
@@ -142,8 +122,7 @@ function NavBar(props) {
         <Link to='/'>Home Logo</Link>
       </LogoContainer>
       <SearchContainer>
-        <SearchBar type='text' placeholder='Search' />
-        <SearchBtn >🔍</SearchBtn>
+        <SearchBar />
       </SearchContainer>
       { (props.currentUser) ?
         // User logged in; show logout and profile buttons
