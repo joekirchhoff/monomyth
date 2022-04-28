@@ -13,7 +13,7 @@ const Card = styled.div`
   margin: 1rem auto;
   display: grid;
   grid-template-columns: 4rem 1fr 10rem;
-  grid-template-rows: 2.5rem 1fr;
+  grid-template-rows: 4rem 1fr;
 `
 
 const ErrorMsg = styled.p`
@@ -27,19 +27,25 @@ const Byline = styled(Link)`
   color: white;
   text-decoration: none;
   font-size: 1.5rem;
+  line-height: 1.5rem;
   padding: 1rem;
   grid-area: 1/2/span 1/span 1;
+  display: flex;
+  align-items: center;
 `
 
 const DateContainer = styled.div`
   grid-area: 1/3/span 1/span 1;
   padding: 1rem;
   text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 `
 
 const CommentText = styled.p`
   white-space: pre-line;
-  grid-area: 2/2/span 1/span 2;
+  grid-area: 2/1/span 1/span 3;
   padding: 1rem;
 `
 

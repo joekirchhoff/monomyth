@@ -26,8 +26,11 @@ const EditorWrapper = styled.div`
   color: white;
 `
 
-const DateContainer = styled.div`
-  text-align: right;
+const DateContainer = styled.span`
+  text-align: center;
+  display: grid;
+  grid-template-columns: 8rem;
+  justify-content: end;
 `
 
 const Title = styled.h1`
