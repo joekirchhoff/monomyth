@@ -18,7 +18,6 @@ const TooltipText = styled.span`
   border: gray solid 1px;
   top: 1rem;
   z-index: 5;
-  color: white;
 
   // Tooltip arrow
   ::before {

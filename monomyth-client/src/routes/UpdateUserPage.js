@@ -5,7 +5,6 @@ import UpdateUserForm from '../components/UpdateUserForm';
 
 const PageContainer = styled.div`
   flex: 1;
-  color: white;
 `
 
 const PageHeader = styled.h1`

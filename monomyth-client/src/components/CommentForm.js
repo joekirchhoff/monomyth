@@ -2,7 +2,8 @@ import { React, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Form = styled.form`
-  background-color: slategray;
+  background-color: #222;
+  border: gray solid 1px;
   max-width: 550px;
   width: 90%;
   display: flex;
@@ -19,10 +20,6 @@ const Header = styled.h1`
   margin-bottom: 1rem;
 `
 
-const Label = styled.label`
-  color: white;
-`
-
 const Input = styled.textarea`
   min-width: 90%;
   max-width: 90%;
@@ -32,6 +29,9 @@ const Input = styled.textarea`
   margin-bottom: 1rem;
   padding: 1rem;
   width: 90%;
+  background-color: #111;
+  color: #eee;
+  border: solid gray 1px;
 `
 
 const BtnContainer = styled.div`
@@ -42,8 +42,8 @@ const BtnContainer = styled.div`
 
 const SubmitBtn = styled.button`
   border: none;
-  background-color: palevioletred;
-  color: white;
+  background-color: #eee;
+  color: #111;
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
@@ -53,9 +53,10 @@ const SubmitBtn = styled.button`
 `
 
 const CancelBtn = styled.button`
-  border: none;
-  background-color: palevioletred;
-  color: white;
+  text-decoration: none;
+  border: gray solid 1px;
+  background-color: #111;
+  color: #eee;
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
@@ -117,7 +118,7 @@ function CommentForm(props) {
   return (
     <Form onSubmit={handleSubmit}>
       <Header >Add Comment as {props.currentUser.username}</Header>
-      <Input name='commentText' placeholder='What are your thoughts?' value={commentText} onChange={onCommentTextChange}/>
+      <Input name='commentText' placeholder='What did you think of this story?' value={commentText} onChange={onCommentTextChange}/>
       {(errorMessage) ? <ErrorPrompt >{errorMessage}</ErrorPrompt> : null }
       <BtnContainer>
         <SubmitBtn id='submit' type='submit' disabled>Submit</SubmitBtn>

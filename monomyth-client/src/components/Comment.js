@@ -44,6 +44,7 @@ const DateContainer = styled.div`
 `
 
 const CommentText = styled.p`
+  border-top: gray solid 1px;
   white-space: pre-line;
   grid-area: 2/1/span 1/span 3;
   padding: 1rem;

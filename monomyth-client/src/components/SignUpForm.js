@@ -3,26 +3,25 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Form = styled.form`
-  background-color: slategray;
+  background-color: #222;
   max-width: 750px;
   width: 90%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
   padding: 2rem;
   margin: 2rem auto;
 `
 
 const Header = styled.h1`
   font-size: 2rem;
-  color: white;
+  color: #eee;
   margin-bottom: 2rem;
 `
 
 const Label = styled.label`
-  color: white;
+  color: #eee;
 `
 
 const Input = styled.input`
@@ -33,28 +32,31 @@ const Input = styled.input`
   border: none;
   margin-bottom: 1rem;
   padding-left: 1rem;
+  background-color: #111;
+  color: #eee;
+  border: solid gray 1px;
 `
 
 const SubmitBtn = styled.button`
   border: none;
-  background-color: palevioletred;
-  color: white;
+  background-color: #eee;
+  color: #111;
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
 `
 
 const ErrorMessage = styled.p`
-  color: red;
+  color: firebrick;
 `
 
 const RedirectPrompt = styled.p`
-  color: white;
+  color: #eee;
   margin-top: 2rem;
 `
 
 const RedirectLink = styled(Link)`
-  color: white;
+  color: #eee;
 `
 
 function SignUpForm() {

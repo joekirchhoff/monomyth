@@ -24,7 +24,6 @@ const Receipt = styled.div`
 `
 
 const ReceiptMsg = styled.p`
-  color: white;
   padding: 2rem;
 `
 

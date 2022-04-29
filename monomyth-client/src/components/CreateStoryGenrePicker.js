@@ -17,13 +17,12 @@ const Fieldset = styled.fieldset`
 
 const Legend = styled.legend`
   font-size: 1.5rem;
-  color: white;
   margin: 1rem auto 0 auto;
   padding: 0 .5rem;
 `
 
 const Label = styled.label`
-  color: white;
+
 `
 
 const Input = styled.input`

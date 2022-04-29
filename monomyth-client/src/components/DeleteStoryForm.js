@@ -13,7 +13,6 @@ const DeleteForm = styled.form`
   align-items: center;
   padding: 2rem;
   margin: 2rem auto;
-  color: white;
 `
 
 const Header = styled.h1`
@@ -31,7 +30,7 @@ const FormBtnList = styled.ul`
 const DeleteBtn = styled.button`
   border: none;
   background-color: firebrick;
-  color: white;
+  color: #eee;
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
@@ -41,7 +40,7 @@ const CancelBtn = styled(Link)`
   text-decoration: none;
   border: gray solid 1px;
   background-color: #111;
-  color: white;
+  color: #eee;
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;

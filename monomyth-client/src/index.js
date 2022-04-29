@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { createGlobalStyle } from 'styled-components'
-import Footer from "./components/Footer";
+import { createGlobalStyle } from 'styled-components';
+import './fonts/Montserrat/Montserrat-VariableFont_wght.ttf';
+import './fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf';
 
+import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 import CreateStoryPage from "./routes/CreateStoryPage";
 import Home from "./routes/Home";
@@ -15,7 +17,7 @@ import UpdateUserPage from "./routes/UpdateUserPage";
 import EditStoryPage from "./routes/EditStoryPage";
 import SearchPage from "./routes/SearchPage";
 
-// Global CSS reset
+// Global styling and CSS reset
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -34,20 +36,34 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     border: 0;
     font-size: 100%;
-    font: inherit;
     vertical-align: baseline;
   }
   *, *::before, *::after {
     box-sizing: border-box;
+    font-family: 'Montserrat';
   }
   body {
     background-color: #111;
+    color: #eee;
   }
   #root { // Keeps the footer to bottom of page without "position: fixed"; all page containers have "flex: 1"
     min-height: 100vh;
     display: flex;
     flex-flow: column nowrap;
   }
+  @font-face {
+    font-family: 'MontserratItalic';
+    src: local("MontserratItalic"),
+      url('./fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf') format('truetype');
+    font-style: italic;
+  }
+  @font-face {
+    font-family: 'Montserrat';
+    src: local("Montserrat"),
+      url('./fonts/Montserrat/Montserrat-VariableFont_wght.ttf') format('truetype');
+      font-style: normal;
+  }
+
 `
 
 const App = () => {

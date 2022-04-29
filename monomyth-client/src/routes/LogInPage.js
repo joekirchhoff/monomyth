@@ -16,8 +16,8 @@ function LogInPage() {
 
   return (
     <PageContainer>
-      <LogInForm />
       <GuestLogIn />
+      <LogInForm />
     </PageContainer>
   );
 }

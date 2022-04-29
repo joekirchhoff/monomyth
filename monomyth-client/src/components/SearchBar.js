@@ -16,7 +16,7 @@ const SearchInput = styled.input`
   max-width: 20rem;
   border: gray solid 1px;
   background-color: #111;
-  color: white;
+  color: #eee;
 `
 
 const SearchBtn = styled.button`

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const UserForm = styled.form`
   background-color: #222;
-  color: white;
   padding: 2rem;
   max-width: 750px;
   width: 90%;
@@ -22,7 +21,7 @@ const Label = styled.label`
 const BioInput = styled.textarea`
   border: #333 solid 2px;
   background-color: #111;
-  color: white;
+  color: #eee;
   margin-bottom: 2rem;
   min-width: 75%;
   min-height: 5rem;
@@ -33,7 +32,7 @@ const LinkInput = styled.input`
   padding: .5rem;
   border: #333 solid 2px;
   background-color: #111;
-  color: white;
+  color: #eee;
   margin-bottom: 2rem;
   min-width: 50%;
 `

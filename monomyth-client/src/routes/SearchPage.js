@@ -11,7 +11,6 @@ const PageContainer = styled.div`
 
 const ErrorMessage = styled.p`
   text-align: center;
-  color: white;
   margin: 2rem;
   font-size: 1.5rem;
 `
@@ -19,7 +18,6 @@ const ErrorMessage = styled.p`
 const Header = styled.h1`
   padding: 2rem;
   font-size: 2rem;
-  color: white;
   text-align: center;
 `
 

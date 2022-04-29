@@ -16,14 +16,14 @@ const PageContainer = styled.div`
 const CommentsHeader = styled.h1`
   font-size: 1.5rem;
   text-align: center;
-  color: white;
 `
 
 const RevealCommentFormBtn = styled.button`
   padding: 1rem;
   margin: 1rem auto;
-  background-color: palevioletred;
-  color: white;
+  background-color: #eee;
+  color: #111;
+  border-radius: 5rem;
   border-style: none;
   cursor: pointer;
 ` 
@@ -62,11 +62,15 @@ function StoryPage(props) {
     getComments();
   }, [commentSortMethod])
 
-  // Show / hide add comment form
+  // Show / hide add comment form, if logged in; else redirect to login form
   const [commentFormOpen, setCommentFormOpen] = useState(false);
 
   const revealCommentFormClick = (e) => {
-    setCommentFormOpen(true);
+    if (props.currentUser) {
+      setCommentFormOpen(true);
+    } else {
+      window.location.assign('/login');
+    }
   }
 
   const hideCommentFormClick = (e) => {

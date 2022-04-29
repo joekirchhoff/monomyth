@@ -9,7 +9,6 @@ import DateTag from './DateTag';
 
 const Article = styled.article`
   background-color: #222;
-  color: white;
   padding: 1rem;
   max-width: 750px;
   width: 90%;
@@ -23,7 +22,6 @@ const EditorWrapper = styled.div`
   padding: 1rem;
   min-height: 15rem;
   background-color: #222;
-  color: white;
 `
 
 const DateContainer = styled.span`
@@ -41,7 +39,7 @@ const Title = styled.h1`
 const AuthorLink = styled(Link)`
   font-size: 1.5rem;
   text-align: center;
-  color: white;
+  color: #eee;
   text-decoration: none;
 `
 
@@ -58,12 +56,14 @@ const GenresContainer = styled.div`
 const LikeBtnErrorMessage = styled(Link)`
   font-size: 1rem;
   text-align: center;
-  color: white;
+  color: #eee;
   margin: .5rem;
 `
 
 const EditLink = styled(Link)`
   padding: .5rem;
+  color: #eee;
+  text-decoration: none;
   text-align: right;
 `
 

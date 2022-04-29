@@ -9,7 +9,6 @@ const ControllerForm = styled.form`
 `
 
 const PageNumber = styled.p`
-  color: white;
   padding: 1rem;
 `
 
@@ -21,7 +20,7 @@ const PageBtn = styled.button`
   height: 3rem;
   width: 3rem;
   background-color: #333;
-  color: white;
+  color: #eee;
   cursor: pointer;
   visibility: ${props => props.shown ? 'visible' : 'hidden'}; // 'Previous' btn hidden on first page
 `

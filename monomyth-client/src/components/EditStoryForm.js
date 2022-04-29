@@ -21,12 +21,11 @@ const Form = styled.form`
 
 const Header = styled.h1`
   font-size: 2rem;
-  color: white;
   margin-bottom: 2rem;
 `
 
 const Label = styled.label`
-  color: white;
+
 `
 
 const Input = styled.input`
@@ -37,7 +36,6 @@ const Input = styled.input`
   border: gray solid 1px;
   margin-bottom: 1rem;
   padding-left: .5rem;
-  color: white;
 `
 
 const StickyWrapper = styled.div`
@@ -49,7 +47,6 @@ const EditorWrapper = styled.div`
   padding: 1rem;
   min-height: 15rem;
   background-color: #111;
-  color: white;
   border: gray solid 1px;
   border-top: none;
 `
@@ -69,7 +66,7 @@ const StyleButton = styled.button`
   width: 2rem;
   border: gray solid 1px;
   background-color: ${props => props.highlight ? '#444' : '#222'};
-  color: white;
+  color: #eee;
   margin-right: .5rem;
   font-weight: ${props => props.bold ? '1000' : 'inherit'};
   font-style: ${props => props.italic ? 'italic' : 'none'};
@@ -99,7 +96,7 @@ const CancelBtn = styled(Link)`
   text-decoration: none;
   border: gray solid 1px;
   background-color: #111;
-  color: white;
+  color: #eee;
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
@@ -111,7 +108,6 @@ const ErrorPrompt = styled.p`
 `
 
 const RequiredPrompt = styled.p`
-  color: white;
   margin-top: 1rem;
   font-size: 1rem;
 `

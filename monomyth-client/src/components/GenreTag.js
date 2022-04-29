@@ -4,17 +4,15 @@ import Tooltip from './Tooltip';
 
 const Tag = styled.button`
   background-color: none;
+  color: #eee;
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: .25rem;
-  background-color: #222;
+  background-color: transparent;
   border: none;
   cursor: pointer;
-  :hover {
-    background-color: #333;
-  }
 `
 
 const Dot = styled.div`
@@ -31,6 +29,8 @@ const GenreNameContainer = styled.div`
 `
 
 const GenreName = styled.span`
+  display: inline-block;
+  padding-bottom: .1rem;
   color: white;
   font-size: .8rem;
   border: none;

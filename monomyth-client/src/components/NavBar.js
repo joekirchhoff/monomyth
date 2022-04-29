@@ -5,7 +5,6 @@ import SearchBar from './SearchBar';
 
 const Nav = styled.nav`
   background-color: #222;
-  color: white;
   font-size: 1rem;
   padding: 1rem;
   display: flex;
@@ -17,6 +16,7 @@ const Nav = styled.nav`
   width: 100%;
   z-index: 10;
   height: 3rem;
+  border-bottom: gray solid 1px;
 `
 
 // LOGO =========================================
@@ -40,7 +40,7 @@ const MenuContainer = styled.div`
 const MobileMenuBtn = styled.button`
   border: none;
   background-color: #222;
-  color: white;
+  color: #eee;
   font-size: 2rem;
   line-height: 1rem;
   cursor: pointer;
@@ -73,12 +73,11 @@ const DesktopMenu = styled.div`
 const NavBtn = styled.button`
   border: none;
   background-color: ${props => props.specialBtn ? '#eee' : '#222'};
-  color: ${props => props.specialBtn ? '#000' : 'white'};
+  color: ${props => props.specialBtn ? '#111' : '#eee'};
   border-radius: ${props => props.specialBtn ? '50rem' : 'none'};
   padding: .5rem 1rem;
   margin: 0 .5rem;
   text-decoration: none;
-  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 1rem;
   cursor: pointer;
 `

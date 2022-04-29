@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 const Container = styled.section`
   background-color: #222;
-  color: white;
   padding: 2rem;
   max-width: 750px;
   width: 90%;
@@ -45,6 +44,7 @@ const LinkList = styled.ul`
 
 const UserLink = styled.a`
   text-align: center;
+  color: lightblue;
 `
 
 const MissingFieldMsg = styled.p`
@@ -53,6 +53,7 @@ const MissingFieldMsg = styled.p`
 
 const UpdateLink = styled(Link)`
   text-align: right;
+  color: lightblue;
 `
 
 const UserInfo = (props) => {

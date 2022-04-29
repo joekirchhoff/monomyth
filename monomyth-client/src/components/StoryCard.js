@@ -8,7 +8,7 @@ import LikeButton from './LikeButton';
 const Card = styled(Link)`
   background-color: #222;
   border: gray solid 1px;
-  color: white;
+  color: #eee;
   text-decoration: none;
   min-width: 350px;
   max-width: 750px;
@@ -50,11 +50,13 @@ const BottomContainer = styled.div`
 const Title = styled.h1`
   font-size: 1.5rem;
   text-align: center;
+  font-weight: 700;
 `
 
 const Byline = styled.h2`
-  font-size: 1.2rem;
+  font-size: 1rem;
   text-align: center;
+  font-weight: 100;
 `
 
 function StoryCard(props) {

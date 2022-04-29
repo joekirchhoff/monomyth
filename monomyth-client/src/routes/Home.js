@@ -11,7 +11,6 @@ const HomeContainer = styled.div`
 
 const ErrorMessage = styled.p`
   text-align: center;
-  color: white;
   margin: 2rem;
   font-size: 1.5rem;
 `

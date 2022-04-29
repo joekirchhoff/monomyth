@@ -10,7 +10,6 @@ const PageContainer = styled.div`
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  color: white;
 `
 
 const ErrorMessage = styled.p`

@@ -16,8 +16,8 @@ function SignUpPage() {
 
   return (
     <PageContainer>
-      <SignUpForm />
       <GuestLogIn />
+      <SignUpForm />
     </PageContainer>
   );
 }

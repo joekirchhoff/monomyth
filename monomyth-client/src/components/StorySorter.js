@@ -18,7 +18,7 @@ const TabBtnContainer = styled.div`
 const TabBtn = styled.button`
   flex: 1;
   background-color: ${props => props.highlight ? '#444' : '#222'};
-  color: white;
+  color: #eee;
   padding: .5rem 0;
   border: none;
   border-right: ${props => props.left ? 'gray solid .5px' : 'none'};
@@ -27,7 +27,7 @@ const TabBtn = styled.button`
 `
 
 const TimeMenu = styled.div`
-  width: 50%;
+  width: calc(50% + .5px); // Keeps right border aligned with tab buttons
   display: flex;
   flex-flow: column nowrap;
   padding: .5rem 1rem;
@@ -39,7 +39,7 @@ const TimeOptionBtn = styled.button`
   padding: .5rem;
   margin-bottom: .25rem;
   background-color: ${props => props.highlight ? '#444' : '#222'};
-  color: white;
+  color: #eee;
   border: gray solid 1px;
   cursor: pointer;
 `

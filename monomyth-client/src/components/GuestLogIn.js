@@ -3,29 +3,29 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Form = styled.form`
-  background-color: slategray;
+  border: gray solid 1px;
+  background-color: #222;
   max-width: 750px;
   width: 90%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
   padding: 2rem;
   margin: 2rem auto;
 `
 
 const Header = styled.h1`
   font-size: 2rem;
-  color: white;
+  color: #eee;
   margin-bottom: 2rem;
   text-align: center;
 `
 
 const SubmitBtn = styled.button`
   border: none;
-  background-color: palevioletred;
-  color: white;
+  background-color: #eee;
+  color: #111;
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;

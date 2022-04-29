@@ -12,7 +12,7 @@ const SortForm = styled.form`
 const OpenMenuBtn = styled.button`
   flex: 1;
   background-color: ${props => props.highlight ? '#444' : '#222' };
-  color: white;
+  color: #eee;
   border: gray solid 1px;
   padding: .5rem 0;
   cursor: pointer;
@@ -31,7 +31,7 @@ const FieldContainer = styled.div`
 `
 
 const CheckboxLabel = styled.label`
-  color: white;
+  color: #eee;
 `
 
 const GenreCheckbox = styled.input`
@@ -39,7 +39,6 @@ const GenreCheckbox = styled.input`
 `
 
 const GenreErrorMessage = styled.p`
-  color: white;
   padding: 1rem;
   grid-column: 1 / 3;
 `

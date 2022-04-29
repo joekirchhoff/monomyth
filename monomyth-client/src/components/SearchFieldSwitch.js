@@ -13,7 +13,7 @@ const FieldSwitch = styled.form`
 const TabBtn = styled.button`
   flex: 1;
   background-color: ${props => props.highlight ? '#444' : '#222'};
-  color: white;
+  color: #eee;
   padding: .5rem 0;
   border: none;
   border-right: ${props => props.left ? 'gray solid .5px' : null};
