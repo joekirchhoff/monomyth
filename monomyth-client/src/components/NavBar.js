@@ -50,7 +50,7 @@ const MobileMenuBtn = styled.button`
 `
 
 const MobileMenu = styled.div`
-  border: gray solid 2px;
+  border: gray solid 1px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;

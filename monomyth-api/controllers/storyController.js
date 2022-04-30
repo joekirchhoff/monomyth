@@ -194,20 +194,21 @@ exports.story_update = [
 
           if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            res.json(errors);
+            res.json({'message': errors});
             return;
           }
           else {
 
             // Data from form is valid.
-            const story = new Story(
+            const newStory = new Story(
               {
                 title: req.body.title,
                 text: req.body.text,
                 genres: req.body.genres,
+                likes: [...story.likes],
                 _id: req.params.storyID
               });
-            Story.findByIdAndUpdate(req.params.storyID, story, (err) => {
+            Story.findByIdAndUpdate(req.params.storyID, newStory, (err) => {
               if (err) {
                 res.status(400).json({'message': 'Sorry, something went wrong while updating. Please try again later.'});
               } else {

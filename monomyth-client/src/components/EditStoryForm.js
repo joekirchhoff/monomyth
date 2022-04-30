@@ -31,6 +31,7 @@ const Label = styled.label`
 const Input = styled.input`
   min-width: 200px;
   background-color: #111;
+  color: #eee;
   width: 90%;
   height: 2rem;
   border: gray solid 1px;
