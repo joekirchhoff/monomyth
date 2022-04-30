@@ -9,10 +9,10 @@ const Card = styled.div`
   color: white;
   padding: 1rem;
   max-width: 750px;
-  width: 90%;
+  width: 100%;
   margin: 1rem auto;
   display: grid;
-  grid-template-columns: 4rem 1fr 10rem;
+  grid-template-columns: 4rem 1fr 8rem;
   grid-template-rows: 4rem 1fr;
 `
 
@@ -48,6 +48,7 @@ const CommentText = styled.p`
   white-space: pre-line;
   grid-area: 2/1/span 1/span 3;
   padding: 1rem;
+  font-weight: 300;
 `
 
 // EDIT COMMENT FORM STYLING ====================
@@ -63,7 +64,7 @@ const EditBtn = styled.button`
 `
 
 const EditForm = styled.form`
-  grid-area: 2/2/span 2/span 2;
+  grid-area: 2/1/span 2/span 3;
 `
 
 const EditTextarea = styled.textarea`
@@ -74,7 +75,7 @@ const EditTextarea = styled.textarea`
   padding: .5rem;
   margin: .5rem .5rem 0 .5rem;
   width: calc(100% - 1rem);
-  min-height: 5rem;
+  min-height: 10rem;
 `
 
 const EditBtnContainer = styled.ul`

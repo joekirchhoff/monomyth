@@ -11,7 +11,7 @@ const Article = styled.article`
   background-color: #222;
   padding: 1rem;
   max-width: 750px;
-  width: 90%;
+  width: 100%;
   margin: 2rem auto;
   display: flex;
   flex-flow: column nowrap;
@@ -22,6 +22,7 @@ const EditorWrapper = styled.div`
   padding: 1rem;
   min-height: 15rem;
   background-color: #222;
+  font-weight: 300;
 `
 
 const DateContainer = styled.span`
@@ -176,7 +177,14 @@ function Story(props) {
           readOnly='true'
         />
       </EditorWrapper>
-      <LikeButton onClick={onLikeButtonClick} isLiked={storyLiked} />
+      {(story) ? 
+        <LikeButton
+          onClick={onLikeButtonClick}
+          isLiked={storyLiked}
+        />
+      : null
+      }
+      
       {likeBtnError ? <LikeBtnErrorMessage to='/login'>Please log in to like stories!</LikeBtnErrorMessage> : null }
       {(story && props.currentUser && story.author._id === props.currentUser._id) ?
         <EditLink to={`/story/${story._id}/edit`} >Edit</EditLink>

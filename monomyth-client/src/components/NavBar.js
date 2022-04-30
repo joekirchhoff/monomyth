@@ -44,7 +44,7 @@ const MobileMenuBtn = styled.button`
   font-size: 2rem;
   line-height: 1rem;
   cursor: pointer;
-  @media (min-width: 918px) {
+  @media (min-width: 947px) {
     display: none;
   }
 `
@@ -60,12 +60,12 @@ const MobileMenu = styled.div`
   position: fixed;
   top: 3.5rem;
   right: .5rem;
-  @media (min-width: 918px) {
+  @media (min-width: 947px) {
       display: none;
     }
 `
 const DesktopMenu = styled.div`
-  @media (max-width: 918px) {
+  @media (max-width: 947px) {
     display: none;
   }
 `

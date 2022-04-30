@@ -3,9 +3,8 @@ import styled from 'styled-components';
 
 const Form = styled.form`
   background-color: #222;
-  border: gray solid 1px;
-  max-width: 550px;
-  width: 90%;
+  max-width: 750px;
+  width: 100%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -16,7 +15,6 @@ const Form = styled.form`
 
 const Header = styled.h1`
   font-size: 1.5rem;
-  color: white;
   margin-bottom: 1rem;
 `
 

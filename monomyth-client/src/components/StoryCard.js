@@ -12,7 +12,7 @@ const Card = styled(Link)`
   text-decoration: none;
   min-width: 350px;
   max-width: 750px;
-  width: 90%;
+  width: 100%;
   margin: 0 auto 2rem auto;
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
