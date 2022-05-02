@@ -61,6 +61,12 @@ const Byline = styled.h2`
 
 function StoryCard(props) {
 
+  // Decode title from escaped user input
+  // Temporary textarea used to interpret HTML entities (e.g. &#x27; becomes ')
+  const decoderTextarea = document.createElement('textarea');
+  decoderTextarea.innerHTML = props.story.title;
+  const decodedTitle = decoderTextarea.value;
+
   // Like button toggle state
   const [storyLiked, setStoryLiked] = useState(false);
 
@@ -117,7 +123,7 @@ function StoryCard(props) {
         <LikeButton onClick={onLikeButtonClick} isLiked={storyLiked} />
       </LeftContainer>
       <CentralContainer>
-        <Title >{props.story.title}</Title>
+        <Title >{decodedTitle}</Title>
         <Byline >by {props.story.author.username}</Byline>
       </CentralContainer>
       <RightContainer>

@@ -10,6 +10,6 @@ const StorySchema = new Schema({
   likes: [{type: Schema.Types.ObjectId, ref: 'User'}],
   score: {type: Number, required: true},
   genres: [{type: Schema.Types.ObjectId, ref: 'Genre'}]
-})
+}, {minimize: false})
 
 module.exports = mongoose.model('Story', StorySchema);

@@ -27,6 +27,7 @@ const Subheader = styled.h2`
 const UserBio = styled.p`
   padding: 1rem 0;
   margin-bottom: 3rem;
+  white-space: pre-line;
 `
 
 const LinkWarning = styled.p`

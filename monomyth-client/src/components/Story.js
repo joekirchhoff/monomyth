@@ -23,6 +23,7 @@ const EditorWrapper = styled.div`
   min-height: 15rem;
   background-color: #222;
   font-weight: 300;
+  margin-bottom: 2rem;
 `
 
 const DateContainer = styled.span`
@@ -72,6 +73,22 @@ function Story(props) {
 
   // On page load, get and store story data in state
   const [story, setStory] = useState(null)
+
+  const [title, setTitle] = useState('')
+  
+  // On story load, title string is decoded from escaped user input
+  const decodeTitle = () => {
+    if (story) {
+      // Temporary textarea used to interpret HTML entities; not added directly to DOM
+      const textarea = document.createElement('textarea');
+      textarea.innerHTML = story.title;
+      setTitle(textarea.value);
+    }
+  }
+
+  useEffect(() => {
+    decodeTitle();
+  }, [story])
   
   // Story text rendered as a read-only Draft.js editor
   // to avoid additional third party dependencies
@@ -95,9 +112,8 @@ function Story(props) {
     })
     .then(data => {
       setStory(data);
-      // Convert stored Draft.js content from raw format
-      const correctedStoryRAW = data.text.replace(/(&quot\;)/g,"\"");
-      const storyJSON = JSON.parse(correctedStoryRAW);
+      // Convert stored Draft.js text content from raw format
+      const storyJSON = JSON.parse(data.text);
       const newContentState = convertFromRaw(storyJSON);
       setEditorState(EditorState.createWithContent(newContentState));
     })
@@ -161,7 +177,7 @@ function Story(props) {
       <DateContainer>
         {(story) ? <DateTag date={story.date} /> : null }
       </DateContainer>
-      {(story) ? <Title >{story.title}</Title> : null }
+      {(story) ? <Title >{title}</Title> : null }
       {(story) ? <AuthorLink to={`/user/${story.author._id}`}>{story.author.username}</AuthorLink> : null }
       <GenresContainer >
         {(story) ? 

@@ -112,7 +112,7 @@ exports.story_create = [
 
   // Validate and sanitize fields.
   body('title').trim().isLength({ min: 1 }).escape().withMessage('Story title must be specified.'),
-  body('text').trim().isLength({ min: 1 }).escape().withMessage('Story text must be specified.'),
+  body('text').trim().isLength({ min: 1 }).withMessage('Story text must be specified.'),
 
   // Process request after validation and sanitization.
   (req, res, next) => {
@@ -169,7 +169,7 @@ exports.story_update = [
 
   // Validate and sanitize fields.
   body('title').trim().isLength({ min: 1 }).escape().withMessage('Story title must be specified.'),
-  body('text').trim().isLength({ min: 1 }).escape().withMessage('Story text must be specified.'),
+  body('text').trim().isLength({ min: 1 }).withMessage('Story text must be specified.'),
 
   // Process request after validation and sanitization.
   (req, res, next) => {

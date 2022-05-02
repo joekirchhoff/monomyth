@@ -196,6 +196,7 @@ function CreateStoryForm() {
   const onBoldClick = (e) => {
     e.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
+    console.log(JSON.stringify(convertToRaw(editorState.getCurrentContent())));
   }
 
   const onItalicClick = (e) => {
