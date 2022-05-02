@@ -59,12 +59,17 @@ const UpdateLink = styled(Link)`
 
 const UserInfo = (props) => {
 
+  // Decode HTML entities in user bio; textarea only used for decoding
+  const decoderTextarea = document.createElement('textarea');
+  decoderTextarea.innerHTML = props.user.bio;
+  const decodedBio = decoderTextarea.value;
+
   return (
     <Container >
       <UserHeader>{props.user.username}</UserHeader>
       <Subheader>Bio</Subheader>
       {(props.user.bio.length) ? 
-        <UserBio>{props.user.bio}</UserBio>
+        <UserBio>{decodedBio}</UserBio>
       : <MissingFieldMsg>User has no bio yet</MissingFieldMsg>
       }
       <Subheader>Personal Links</Subheader>
