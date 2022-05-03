@@ -59,7 +59,7 @@ const Title = styled.h1`
 `
 
 const Byline = styled.h2`
-  font-size: 1rem;
+  font-size: 1.25rem;
   text-align: center;
   font-weight: 100;
   padding-bottom: .75rem;

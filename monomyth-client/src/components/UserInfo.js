@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import DateTag from './DateTag';
 
 const Container = styled.section`
   background-color: #222;
   padding: 2rem;
   max-width: 750px;
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-flow: column nowrap;
@@ -15,10 +16,16 @@ const Container = styled.section`
     0 0 1.5rem rgba(0, 0, 0, .2);
 `
 
+const JoinedDate = styled.span`
+  font-size: .8rem;
+  text-align: right;
+  margin-bottom: 1rem;
+`
+
 const UserHeader = styled.h1`
-  font-size: 2rem;
+  font-size: 3rem;
   text-align: center;
-  margin: 1rem 0 2rem 0;
+  margin: 0.5rem 0 1rem 0;
 `
 
 const Subheader = styled.h2`
@@ -89,6 +96,10 @@ const UserInfo = (props) => {
         </LinkList>
       : <MissingFieldMsg>User has no links yet</MissingFieldMsg>
       }
+      <JoinedDate>
+        Joined
+        <DateTag date={props.user.date}/>
+      </JoinedDate>
       {(props.currentUser && props.user._id === props.currentUser._id) ?
         <UpdateLink to={`/user/${props.user._id}/update`}>Edit profile</UpdateLink>
       : null
