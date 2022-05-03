@@ -46,7 +46,9 @@ const SearchPage = (props) => {
   const [pageSize, setPageSize] = useState(10);
 
   // Get query text from URL param (set by NavBar search element)
-  const query = useParams().query;
+  const URLString = window.location.search;
+  const URLParams = new URLSearchParams(URLString);
+  const query = URLParams.get('q');
 
   // Story field to query (whitelisted by API: 'title' or 'text')
   const [field, setField] = useState('title');
@@ -90,7 +92,7 @@ const SearchPage = (props) => {
 
   return (
     <PageContainer>
-      <Header>Search Results</Header>
+      <Header>Search Results: "{query}"</Header>
       <SearchFieldSwitch setField={setField} />
       {/* {(errorMessage) ? <ErrorMessage>{errorMessage}</ErrorMessage> : null} */}
       {(stories.length) ?

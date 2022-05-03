@@ -45,7 +45,12 @@ const SearchBar = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    window.location.assign(`/search/${searchValue}`);
+
+    // UTF-8 encode query to avoid confusing React Router with "/"
+    const encodedQuery = encodeURIComponent(searchValue);
+
+    // Redirect to search results
+    window.location.assign(`/search/?q=${encodedQuery}`);
   }
 
   return (

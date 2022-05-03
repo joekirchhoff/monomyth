@@ -106,7 +106,7 @@ const App = () => {
         <Route path={'/create'} element={<CreateStoryPage />} />
         <Route path={'/signup'} element={<SignUpPage />} />
         <Route path={'/login'} element={<LogInPage />} />
-        <Route path={'/search/:query'} element={<SearchPage currentUser={currentUser} />} />
+        <Route path={'/search'} element={<SearchPage currentUser={currentUser} />} />
       </Routes>
       <Footer />
     </BrowserRouter>
