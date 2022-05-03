@@ -45,9 +45,10 @@ const Title = styled.h1`
 const AuthorLink = styled(Link)`
   padding: .75rem;
   font-size: 1.5rem;
-  text-align: center;
   color: #eee;
   text-decoration: none;
+  width: fit-content;
+  margin: auto;
 `
 
 const GenresContainer = styled.div`
@@ -71,7 +72,8 @@ const EditLink = styled(Link)`
   padding: .5rem;
   color: #eee;
   text-decoration: none;
-  text-align: right;
+  width: fit-content;
+  margin-left: auto;
 `
 
 function Story(props) {
@@ -183,13 +185,19 @@ function Story(props) {
         {(story) ? <DateTag date={story.date} /> : null }
       </DateContainer>
       {(story) ? <Title >{title}</Title> : null }
-      {(story) ? <AuthorLink to={`/user/${story.author._id}`}>{story.author.username}</AuthorLink> : null }
+      {(story) ?
+        <AuthorLink to={`/user/${story.author._id}`}>
+          {story.author.username}
+        </AuthorLink>
+        : null
+      }
       <GenresContainer >
         {(story) ? 
           story.genres.map((genre) => {
             return <GenreTag key={genre._id} genre={genre} />
           })
-        : null }
+          : null
+        }
       </GenresContainer>
       <EditorWrapper>
         <Editor
@@ -203,13 +211,13 @@ function Story(props) {
           onClick={onLikeButtonClick}
           isLiked={storyLiked}
         />
-      : null
+        : null
       }
       
       {likeBtnError ? <LikeBtnErrorMessage to='/login'>Please log in to like stories!</LikeBtnErrorMessage> : null }
       {(story && props.currentUser && story.author._id === props.currentUser._id) ?
         <EditLink to={`/story/${story._id}/edit`} >Edit</EditLink>
-      : null
+        : null
       }
     </Article>
   );

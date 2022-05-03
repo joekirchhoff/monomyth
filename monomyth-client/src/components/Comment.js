@@ -35,6 +35,7 @@ const Byline = styled(Link)`
   grid-area: 1/2/span 1/span 1;
   display: flex;
   align-items: center;
+  width: fit-content;
 `
 
 const DateContainer = styled.div`
