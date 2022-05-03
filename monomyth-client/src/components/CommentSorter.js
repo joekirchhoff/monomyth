@@ -8,6 +8,9 @@ const SortForm = styled.form`
   display: flex;
   flex-flow: row nowrap;
   border: gray solid 1px;
+  box-shadow:
+    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
+    0 0 1.5rem rgba(0, 0, 0, .2);
 `
 
 const TabBtn = styled.button`

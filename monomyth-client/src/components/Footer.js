@@ -10,6 +10,9 @@ const StyledFooter = styled.footer`
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+  box-shadow:
+    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
+    0 0 1.5rem rgba(0, 0, 0, .2);
 `
 
 const Anchor = styled.a`

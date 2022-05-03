@@ -7,6 +7,9 @@ const SortForm = styled.form`
   margin: 1rem auto 2rem auto;
   display: flex;
   flex-flow: column nowrap;
+  box-shadow:
+    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
+    0 0 1.5rem rgba(0, 0, 0, .2);
 `
 
 const OpenMenuBtn = styled.button`
@@ -24,6 +27,7 @@ const GenreMenu = styled.fieldset`
   padding: .5rem 0;
   border: gray solid 1px;
   border-top: none;
+  background-color: #111;
 `
 
 const FieldContainer = styled.div`

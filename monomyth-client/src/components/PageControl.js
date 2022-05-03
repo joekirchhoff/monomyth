@@ -23,6 +23,9 @@ const PageBtn = styled.button`
   color: #eee;
   cursor: pointer;
   visibility: ${props => props.shown ? 'visible' : 'hidden'}; // 'Previous' btn hidden on first page
+  box-shadow:
+    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
+    0 0 1.5rem rgba(0, 0, 0, .2);
 `
 
 const PageControl = (props) => {

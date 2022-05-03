@@ -13,6 +13,9 @@ const TabBtnContainer = styled.div`
   display: flex;
   flex-flow: row nowrap;
   border: gray solid 1px;
+  box-shadow:
+    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
+    0 0 1.5rem rgba(0, 0, 0, .2);
 `
 
 const TabBtn = styled.button`
@@ -33,6 +36,10 @@ const TimeMenu = styled.div`
   padding: .5rem 1rem;
   border: gray solid 1px;
   border-top: none;
+  background-color: #111;
+  box-shadow:
+    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
+    0 0 1.5rem rgba(0, 0, 0, .2);
 `
 
 const TimeOptionBtn = styled.button`

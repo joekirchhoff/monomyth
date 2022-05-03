@@ -10,6 +10,9 @@ const Container = styled.section`
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+  box-shadow:
+    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
+    0 0 1.5rem rgba(0, 0, 0, .2);
 `
 
 const UserHeader = styled.h1`

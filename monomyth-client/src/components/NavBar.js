@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import LogoLink from './LogoLink';
 import SearchBar from './SearchBar';
 
 const Nav = styled.nav`
@@ -16,7 +17,9 @@ const Nav = styled.nav`
   width: 100%;
   z-index: 10;
   height: 3rem;
-  border-bottom: gray solid 1px;
+  box-shadow:
+    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
+    0 0 1.5rem rgba(0, 0, 0, .2);
 `
 
 // LOGO =========================================
@@ -27,6 +30,9 @@ const LogoContainer = styled.div`
 // SEARCH BAR ===================================
 const SearchContainer = styled.div`
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 // MENU BUTTONS =================================
@@ -118,7 +124,7 @@ function NavBar(props) {
   return (
     <Nav>
       <LogoContainer>
-        <Link to='/'>Home Logo</Link>
+        <LogoLink />
       </LogoContainer>
       <SearchContainer>
         <SearchBar />

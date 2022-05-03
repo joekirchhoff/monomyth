@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createGlobalStyle } from 'styled-components';
 import './fonts/Montserrat/Montserrat-VariableFont_wght.ttf';
 import './fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf';
+import backgroundImg from './images/binding_dark.webp';
 
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
@@ -45,6 +46,8 @@ const GlobalStyle = createGlobalStyle`
   body {
     background-color: #111;
     color: #eee;
+    /* background-image: url('starfield-darkblue.jpg'); */
+    background-image: url(${backgroundImg});
   }
   #root { // Keeps the footer to bottom of page without "position: fixed"; all page containers have "flex: 1"
     min-height: 100vh;

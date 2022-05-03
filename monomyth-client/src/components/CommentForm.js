@@ -11,6 +11,9 @@ const Form = styled.form`
   align-items: center;
   padding: 1rem;
   margin: 1rem auto;
+  box-shadow:
+    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
+    0 0 1.5rem rgba(0, 0, 0, .2);
 `
 
 const Header = styled.h1`

@@ -9,13 +9,16 @@ import DateTag from './DateTag';
 
 const Article = styled.article`
   background-color: #222;
-  padding: 1rem;
+  padding: 2rem 1rem;
   max-width: 750px;
   width: 100%;
   margin: 2rem auto;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+  box-shadow:
+    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
+    0 0 1.5rem rgba(0, 0, 0, .2);
 `
 
 const EditorWrapper = styled.div`
@@ -34,11 +37,13 @@ const DateContainer = styled.span`
 `
 
 const Title = styled.h1`
-  font-size: 2rem;
+  font-size: 3rem;
+  font-weight: 800;
   text-align: center;
 `
 
 const AuthorLink = styled(Link)`
+  padding: .75rem;
   font-size: 1.5rem;
   text-align: center;
   color: #eee;

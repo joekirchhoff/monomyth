@@ -14,6 +14,9 @@ const Card = styled.div`
   display: grid;
   grid-template-columns: 4rem 1fr 8rem;
   grid-template-rows: 4rem 1fr;
+  box-shadow:
+    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
+    0 0 1.5rem rgba(0, 0, 0, .2);
 `
 
 const ErrorMsg = styled.p`

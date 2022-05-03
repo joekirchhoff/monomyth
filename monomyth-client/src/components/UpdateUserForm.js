@@ -11,6 +11,9 @@ const UserForm = styled.form`
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+  box-shadow:
+    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
+    0 0 1.5rem rgba(0, 0, 0, .2);
 `
 
 const Label = styled.label`
@@ -47,11 +50,23 @@ const BtnContainer = styled.div`
   justify-content: center;
 `
 
-const FormBtn = styled.button`
+const SubmitBtn = styled.button`
+  border: none;
+  background-color: #eee;
+  color: #111;
   padding: 1rem;
   margin: 1rem;
-  border-radius: 0;
-  border: none;
+  cursor: pointer;
+`
+
+const CancelBtn = styled.button`
+  text-decoration: none;
+  border: gray solid 1px;
+  background-color: #111;
+  color: #eee;
+  padding: 1rem;
+  margin: 1rem;
+  cursor: pointer;
 `
 
 const ErrorMsg = styled.p`
@@ -133,8 +148,8 @@ const UpdateUserForm = (props) => {
       <LinkInput id='link3' name='link3' defaultValue={initialLinks[2]} />
       <OptionalMsg>All fields are optional</OptionalMsg>
       <BtnContainer>
-        <FormBtn type='submit' onClick={handleSubmit} >Update</FormBtn>
-        <FormBtn type='button' onClick={handleCancel} >Cancel</FormBtn>
+        <SubmitBtn type='submit' onClick={handleSubmit} >Update</SubmitBtn>
+        <CancelBtn type='button' onClick={handleCancel} >Cancel</CancelBtn>
       </BtnContainer>
       {(error) ?
         <ErrorMsg>{error}</ErrorMsg>

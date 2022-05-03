@@ -7,7 +7,7 @@ import LikeButton from './LikeButton';
 
 const Card = styled(Link)`
   background-color: #222;
-  border: gray solid 1px;
+  /* border: gray solid 1px; */
   color: #eee;
   text-decoration: none;
   min-width: 350px;
@@ -16,11 +16,14 @@ const Card = styled(Link)`
   margin: 0 auto 2rem auto;
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
-  grid-template-rows: 1fr 2rem;
+  grid-template-rows: 1fr 3rem;
   :hover {
     background-color: #333;
   }
   align-items: center;
+  box-shadow:
+    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
+    0 0 1.5rem rgba(0, 0, 0, .2);
 `
 
 const LeftContainer = styled.div`
@@ -45,18 +48,21 @@ const BottomContainer = styled.div`
   display: flex;
   flex-flow: row nowrap;
   border-top: gray solid 1px;
+  padding: .5rem 0;
 `
 
 const Title = styled.h1`
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   text-align: center;
-  font-weight: 700;
+  font-weight: 800;
+  padding: .75rem 0;
 `
 
 const Byline = styled.h2`
   font-size: 1rem;
   text-align: center;
   font-weight: 100;
+  padding-bottom: .75rem;
 `
 
 function StoryCard(props) {
