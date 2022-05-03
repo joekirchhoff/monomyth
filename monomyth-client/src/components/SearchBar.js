@@ -54,7 +54,7 @@ const SearchBar = () => {
         value={searchValue}
         onChange={onSearchValueChange}
         type='search'
-        placeholder='Search'
+        placeholder='Search stories'
         size='12'
       />
       <SearchBtn onClick={handleSubmit} >

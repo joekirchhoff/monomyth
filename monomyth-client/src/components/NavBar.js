@@ -55,7 +55,8 @@ const MobileMenuBtn = styled.button`
   }
 `
 
-const MobileMenu = styled.div`
+const MobileMenuList = styled.ul`
+  list-style: none;
   border: gray solid 1px;
   display: flex;
   flex-flow: column nowrap;
@@ -70,7 +71,9 @@ const MobileMenu = styled.div`
       display: none;
     }
 `
-const DesktopMenu = styled.div`
+const DesktopMenuList = styled.ul`
+  list-style: none;
+  display: flex;
   @media (max-width: 947px) {
     display: none;
   }
@@ -86,6 +89,7 @@ const NavBtn = styled.button`
   text-decoration: none;
   font-size: 1rem;
   cursor: pointer;
+  min-width: 6rem;
 `
 
 // ==============================================
@@ -132,54 +136,78 @@ function NavBar(props) {
       { (props.currentUser) ?
         // User logged in; show logout and profile buttons
         <MenuContainer>
-          <DesktopMenu>
-            <NavBtn onClick={logoutBtnHandler}>Log out</NavBtn>
-            <Link to={`/user/${props.currentUser._id}`}>
-              <NavBtn onClick={closeMenu}>{props.currentUser.username}</NavBtn>
-            </Link>
-            <Link to='/create'>
-              <NavBtn specialBtn onClick={closeMenu}>Create</NavBtn>
-            </Link>
-          </DesktopMenu>
-          <MobileMenuBtn onClick={handleMenuBtn}>☰</MobileMenuBtn>
-          {menuOpen ?
-            <MobileMenu>
+          <DesktopMenuList>
+            <li>
               <NavBtn onClick={logoutBtnHandler}>Log out</NavBtn>
+            </li>
+            <li>
               <Link to={`/user/${props.currentUser._id}`}>
                 <NavBtn onClick={closeMenu}>{props.currentUser.username}</NavBtn>
               </Link>
+            </li>
+            <li>
               <Link to='/create'>
                 <NavBtn specialBtn onClick={closeMenu}>Create</NavBtn>
               </Link>
-            </MobileMenu>
+            </li>
+          </DesktopMenuList>
+          <MobileMenuBtn onClick={handleMenuBtn}>☰</MobileMenuBtn>
+          {menuOpen ?
+            <MobileMenuList>
+              <li>
+                <NavBtn onClick={logoutBtnHandler}>Log out</NavBtn>
+              </li>
+              <li>
+                <Link to={`/user/${props.currentUser._id}`}>
+                  <NavBtn onClick={closeMenu}>{props.currentUser.username}</NavBtn>
+                </Link>
+              </li>
+              <li>
+                <Link to='/create'>
+                  <NavBtn specialBtn onClick={closeMenu}>Create</NavBtn>
+                </Link>
+              </li>
+            </MobileMenuList>
             : null}
         </MenuContainer>
         : // User not logged in; show login and signup buttons; create button redirects to login page
         <MenuContainer>
-          <DesktopMenu>
-            <Link to='/login'>
-              <NavBtn onClick={closeMenu}>Log in</NavBtn>
-            </Link>
-            <Link to='/signup'>
-              <NavBtn onClick={closeMenu}>Sign up</NavBtn>
-            </Link>
-            <Link to='/login'>
-              <NavBtn specialBtn onClick={closeMenu}>Create</NavBtn>
-            </Link>
-          </DesktopMenu>
-          <MobileMenuBtn onClick={handleMenuBtn}>☰</MobileMenuBtn>
-          {menuOpen ?
-            <MobileMenu>
+          <DesktopMenuList>
+            <li>
               <Link to='/login'>
                 <NavBtn onClick={closeMenu}>Log in</NavBtn>
               </Link>
+            </li>
+            <li>
               <Link to='/signup'>
                 <NavBtn onClick={closeMenu}>Sign up</NavBtn>
               </Link>
+            </li>
+            <li>
               <Link to='/login'>
                 <NavBtn specialBtn onClick={closeMenu}>Create</NavBtn>
               </Link>
-            </MobileMenu>
+            </li>
+          </DesktopMenuList>
+          <MobileMenuBtn onClick={handleMenuBtn}>☰</MobileMenuBtn>
+          {menuOpen ?
+            <MobileMenuList>
+              <li>
+                <Link to='/login'>
+                  <NavBtn onClick={closeMenu}>Log in</NavBtn>
+                </Link>
+              </li>
+              <li>
+                <Link to='/signup'>
+                  <NavBtn onClick={closeMenu}>Sign up</NavBtn>
+                </Link>
+              </li>
+              <li>
+                <Link to='/login'>
+                  <NavBtn specialBtn onClick={closeMenu}>Create</NavBtn>
+                </Link>
+              </li>
+            </MobileMenuList>
             : null}
         </MenuContainer>
       }
