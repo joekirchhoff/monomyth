@@ -85,7 +85,7 @@ function Home(props) {
     });
   }
   
-  // Genre filtering
+  // Genre filtering; genres stored as MongoDB ObjectID, listed on genre checkbox element ID
   const [selectedGenres, setSelectedGenres] = useState([])
   const [genreError, setGenreError] = useState('');
   
@@ -107,6 +107,20 @@ function Home(props) {
       setGenreError('');
     }
   }
+
+  const clearGenres = (e) => {
+    e.preventDefault(e);
+
+    // Get all genre checkboxes
+    const fieldset = e.target.parentElement.firstChild;
+    const fieldsetDivs = [...fieldset.childNodes];
+    let fieldsetCheckboxes = [];
+    fieldsetDivs.forEach(div => fieldsetCheckboxes.push(div.firstChild));
+
+    // Uncheck all checkboxes and clear genre selection state
+    fieldsetCheckboxes.forEach(checkbox => checkbox.checked = false)
+    setSelectedGenres([]);
+  }
   
   useEffect(() => {
     getStories();
@@ -115,8 +129,18 @@ function Home(props) {
   return (
     <HomeContainer>
       {(errorMessage) ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
-      <StorySorter sortMethod={sortMethod} setSortMethod={setSortMethod} dateLimit={dateLimit} setDateLimit={setDateLimit} />
-      <GenreFilter selectedGenres={selectedGenres} toggleGenre={toggleGenre} genreError={genreError}/>
+      <StorySorter
+        sortMethod={sortMethod}
+        setSortMethod={setSortMethod}
+        dateLimit={dateLimit}
+        setDateLimit={setDateLimit}
+      />
+      <GenreFilter
+        selectedGenres={selectedGenres}
+        toggleGenre={toggleGenre}
+        genreError={genreError}
+        clearGenres={clearGenres}
+      />
       {(stories.length) ?
         <CardList >
           {stories.map((story) => {

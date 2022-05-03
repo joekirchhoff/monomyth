@@ -21,13 +21,21 @@ const OpenMenuBtn = styled.button`
   cursor: pointer;
 `
 
-const GenreMenu = styled.fieldset`
-  display: ${props => props.open ? 'grid' : 'none'};
+const GenreMenu = styled.div`
+  display: ${props => props.open ? 'flex' : 'none'};
+  flex-flow: column nowrap;
+  align-items: center;
+  border: gray solid 1px;
+  background-color: #111;
+
+`
+
+const GenreFieldset = styled.fieldset`
+  display: grid;
   grid-template-columns: repeat(2, 1fr);
   padding: .5rem 0;
-  border: gray solid 1px;
   border-top: none;
-  background-color: #111;
+  width: 100%;
 `
 
 const FieldContainer = styled.div`
@@ -45,6 +53,16 @@ const GenreCheckbox = styled.input`
 const GenreErrorMessage = styled.p`
   padding: 1rem;
   grid-column: 1 / 3;
+`
+
+const ClearBtn = styled.button`
+  margin: auto;
+  border: gray solid 1px;
+  background-color: #111;
+  color: #eee;
+  padding: 1rem;
+  margin: 1rem;
+  cursor: pointer;
 `
 
 function GenreFilter(props) {
@@ -88,13 +106,18 @@ function GenreFilter(props) {
     <SortForm>
       <OpenMenuBtn highlight={props.selectedGenres.length} onClick={onOpenMenuBtnClick} >Genre Filter ˅</OpenMenuBtn>
       <GenreMenu open={menuOpen}>
+        <GenreFieldset>
         {genreOptions.map((genre) => {
-          return <FieldContainer key={genre._id}>
-            <GenreCheckbox type="checkbox" id={genre._id} name={genre._id} onChange={props.toggleGenre}/>
-            <CheckboxLabel htmlFor={genre._id} >{genre.name}</CheckboxLabel>
-          </FieldContainer>
+          return (
+            <FieldContainer key={genre._id}>
+              <GenreCheckbox type="checkbox" id={genre._id} name={genre._id} onChange={props.toggleGenre}/>
+              <CheckboxLabel htmlFor={genre._id} >{genre.name}</CheckboxLabel>
+            </FieldContainer>
+          )
         })}
         {props.genreError ? <GenreErrorMessage>{props.genreError}</GenreErrorMessage> : null}
+        </GenreFieldset>
+        <ClearBtn onClick={props.clearGenres} >Clear Selection</ClearBtn>
       </GenreMenu>
     </SortForm>
   );
