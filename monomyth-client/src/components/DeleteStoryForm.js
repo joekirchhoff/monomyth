@@ -59,7 +59,16 @@ const DeleteStoryForm = (props) => {
 
   const [error, setError] = useState('');
 
-  const onDeleteClick = (e) => {
+  // Handle whether "confirm delete" menu is visible
+  const [confirmMenuOpen, setConfirmMenuOpen] = useState(false);
+
+  // On first delete button click, open confirm menu
+  const onInitialDeleteClick = (e) => {
+    e.preventDefault();
+    setConfirmMenuOpen(true);
+  }
+
+  const onConfirmDeleteClick = (e) => {
 
     fetch(`http://localhost:8080/api/stories/${storyID}`, {
       method: 'GET',
@@ -100,14 +109,17 @@ const DeleteStoryForm = (props) => {
   return (
     <DeleteForm showBlur={props.showBlur} >
       <Header>Delete Story?</Header>
-      <FormBtnList>
-        <li>
-          <DeleteBtn type='button' onClick={onDeleteClick} >Delete</DeleteBtn>
-        </li>
-        <li>
-          <CancelBtn to={`/story/${storyID}`} >Cancel</CancelBtn>
-        </li>
-      </FormBtnList>
+      {confirmMenuOpen ?
+        <FormBtnList>
+          <li>
+            <DeleteBtn type='button' onClick={onConfirmDeleteClick} >Confirm Delete</DeleteBtn>
+          </li>
+          <li>
+            <CancelBtn to={`/story/${storyID}`} >Cancel</CancelBtn>
+          </li>
+        </FormBtnList>
+        : <DeleteBtn onClick={onInitialDeleteClick} >Delete</DeleteBtn>
+      }
       {(error) ? <ErrorMsg>{error}</ErrorMsg> : null}
     </DeleteForm>
   )
