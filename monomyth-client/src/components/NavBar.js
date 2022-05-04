@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoLink from './LogoLink';
@@ -117,8 +117,24 @@ function NavBar(props) {
   // Mobile hamburger menu
   const [menuOpen, setMenuOpen] = useState(false)
 
+  // Store ref to mobile menu to handle focus (closes on clicking anywhere outside)
+  const mobileMenu = useRef();
+
+  // Focus mobile menu when open
+  useEffect(() => {
+    if (menuOpen) mobileMenu.current.focus();
+  }, [menuOpen])
+  
+  // When mobile menu loses focus, check if new focus target is a child of mobile menu;
+  // if not, close mobile menu
+  const onMobileMenuBlur = (e) => {
+    if (!mobileMenu.current.contains(e.relatedTarget)) {
+      setMenuOpen(false);
+    }
+  }
+  
   const handleMenuBtn = () => {
-    setMenuOpen(prev => !prev);
+    setMenuOpen(!menuOpen);
   }
 
   const closeMenu = () => {
@@ -151,20 +167,20 @@ function NavBar(props) {
               </Link>
             </li>
           </DesktopMenuList>
-          <MobileMenuBtn onClick={handleMenuBtn}>☰</MobileMenuBtn>
+          <MobileMenuBtn onMouseDown={handleMenuBtn}>☰</MobileMenuBtn>
           {menuOpen ?
-            <MobileMenuList>
+            <MobileMenuList ref={mobileMenu} onBlur={onMobileMenuBlur} tabIndex='0'>
               <li>
-                <NavBtn onClick={logoutBtnHandler}>Log out</NavBtn>
+                <NavBtn onClick={logoutBtnHandler} tabIndex='0'>Log out</NavBtn>
               </li>
               <li>
                 <Link to={`/user/${props.currentUser._id}`}>
-                  <NavBtn onClick={closeMenu}>{props.currentUser.username}</NavBtn>
+                  <NavBtn onClick={closeMenu} tabIndex='0'>{props.currentUser.username}</NavBtn>
                 </Link>
               </li>
               <li>
                 <Link to='/create'>
-                  <NavBtn specialBtn onClick={closeMenu}>Create</NavBtn>
+                  <NavBtn specialBtn onClick={closeMenu} tabIndex='0'>Create</NavBtn>
                 </Link>
               </li>
             </MobileMenuList>
@@ -189,9 +205,9 @@ function NavBar(props) {
               </Link>
             </li>
           </DesktopMenuList>
-          <MobileMenuBtn onClick={handleMenuBtn}>☰</MobileMenuBtn>
+          <MobileMenuBtn onMouseDown={handleMenuBtn}>☰</MobileMenuBtn>
           {menuOpen ?
-            <MobileMenuList>
+            <MobileMenuList ref={mobileMenu} onBlur={onMobileMenuBlur} tabIndex='0' >
               <li>
                 <Link to='/login'>
                   <NavBtn onClick={closeMenu}>Log in</NavBtn>

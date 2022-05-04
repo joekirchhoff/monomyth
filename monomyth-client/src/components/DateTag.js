@@ -16,9 +16,16 @@ const DateTag = (props) => {
   // Handle tooltip display state
   const [showTooltip, setShowTooltip] = useState(false);
 
-  const onDateClick = (e) => {
+  // Clicking date tag (and tooltip box, if open) will toggle tooltip open / closed
+  const onClick = (e) => {
     e.preventDefault();
     setShowTooltip(!showTooltip);
+  }
+
+  // Clicking anywhere outside tooltip box will close tooltip
+  const onBlur = (e) => {
+    e.preventDefault();
+    setShowTooltip(false)
   }
   
   // Takes ISO date string, returns <p> element describing
@@ -28,7 +35,7 @@ const DateTag = (props) => {
   const dateString = datePosted.toLocaleString(DateTime.DATETIME_SHORT);
   
   return (
-    <DateButton onClick={onDateClick} >
+    <DateButton onClick={onClick} onBlur={onBlur} >
       {durationString}
       {(showTooltip) ? <Tooltip tooltipString={dateString} /> : null }
     </DateButton>

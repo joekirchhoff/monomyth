@@ -47,8 +47,13 @@ function GenreTag(props) {
     setShowTooltip(!showTooltip);
   }
 
+  const onGenreBlur = (e) => {
+    e.preventDefault();
+    setShowTooltip(false);
+  }
+
   return (
-    <Tag onClick={onGenreClick} >
+    <Tag onClick={onGenreClick} onBlur={onGenreBlur} >
       <Dot genreColor={props.genre.color} />
       <GenreNameContainer>
         <GenreName >{props.genre.name}</GenreName>
