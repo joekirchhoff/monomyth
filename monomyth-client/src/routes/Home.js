@@ -84,6 +84,52 @@ function Home(props) {
       if (err) setErrorMessage(err);
     });
   }
+
+  // Store the number of next page's stories in state (used for pagination)
+  const [nextStoriesCount, setNextStoriesCount] = useState([])
+
+  // Preloads the next page of stories, if any; used to determine page control display
+  const getNextStoriesCount = () => {
+
+    // Initialize query string params object
+    const URLParamsObject = {
+      sort: sortMethod,
+      date: dateLimit,
+      page: page + 1,
+      limit: pageSize,
+    }
+
+    // Add up to three genre filters to params if selected
+    if (selectedGenres[0]) {
+      URLParamsObject.firstGenre = selectedGenres[0];
+    }
+    if (selectedGenres[1]) {
+      URLParamsObject.secondGenre = selectedGenres[1];
+    }
+    if (selectedGenres[2]) {
+      URLParamsObject.thirdGenre = selectedGenres[2];
+    }
+
+    // Convert params object to valid URL string query
+    const URLParamsString = new URLSearchParams(URLParamsObject);
+
+    // Get stories with complete set of string queries
+    fetch('http://localhost:8080/api/stories?' + URLParamsString, { 
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(response) {
+      setNextStoriesCount(response.length);
+    })
+    .catch(function(err) {
+      if (err) setErrorMessage(err);
+    });
+  }
   
   // Genre filtering; genres stored as MongoDB ObjectID, listed on genre checkbox element ID
   const [selectedGenres, setSelectedGenres] = useState([])
@@ -122,9 +168,18 @@ function Home(props) {
     setSelectedGenres([]);
   }
   
+  // Reset page to 1 if genre filter or sorters change
+  useEffect(() => {
+    setPage(0);
+    getStories();
+    getNextStoriesCount();
+  }, [selectedGenres, sortMethod, dateLimit]);
+  
+  // GET stories with fresh query if parameters change
   useEffect(() => {
     getStories();
-  }, [selectedGenres, page, pageSize, sortMethod, dateLimit])
+    getNextStoriesCount();
+  }, [page, pageSize]);
 
   return (
     <HomeContainer>
@@ -147,9 +202,13 @@ function Home(props) {
             return <StoryCard key={story._id} story={story} currentUser={props.currentUser} />
           })}
         </CardList>
-      : <ErrorMessage>Sorry, no stories found! Try adjusting filters or returning to an earlier page.</ErrorMessage>
+        : <ErrorMessage>Sorry, no stories found! Try adjusting filters.</ErrorMessage>
       }
-      <PageControl page={page} setPage={setPage} />
+      <PageControl
+        page={page}
+        setPage={setPage}
+        nextStoriesCount={nextStoriesCount}
+      />
     </HomeContainer>
   );
 }

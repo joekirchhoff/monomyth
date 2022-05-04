@@ -32,23 +32,21 @@ const PageControl = (props) => {
 
   const onNextPageClick = (e) => {
     e.preventDefault();
-
-    const newPage = props.page + 1;
-    props.setPage(newPage);
+    props.setPage(props.page + 1);
+    window.scrollTo(0, 0)
   }
 
   const onPreviousPageClick = (e) => {
     e.preventDefault();
-
-    const newPage = props.page - 1;
-    props.setPage(newPage);
+    props.setPage(props.page - 1);
+    window.scrollTo(0, 0)
   }
 
   return (
     <ControllerForm>
       <PageBtn shown={props.page} onClick={onPreviousPageClick}>ᐊ</PageBtn>
       <PageNumber>Page {props.page + 1}</PageNumber>
-      <PageBtn shown={true} onClick={onNextPageClick}>ᐅ</PageBtn>
+      <PageBtn shown={props.nextStoriesCount} onClick={onNextPageClick}>ᐅ</PageBtn>
     </ControllerForm>
   )
 }

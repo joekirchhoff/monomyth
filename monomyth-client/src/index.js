@@ -94,7 +94,7 @@ const App = () => {
   }, [])
 
   return (
-    <BrowserRouter>
+    <BrowserRouter forceRefresh={true}>
       <GlobalStyle />
       <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser} />
       <Routes>
