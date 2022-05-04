@@ -53,6 +53,7 @@ const CommentText = styled.p`
   grid-area: 2/1/span 1/span 3;
   padding: 1rem;
   font-weight: 300;
+  line-height: 1.5rem;
 `
 
 // EDIT COMMENT FORM STYLING ====================

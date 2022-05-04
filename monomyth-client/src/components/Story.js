@@ -27,6 +27,7 @@ const EditorWrapper = styled.div`
   background-color: #222;
   font-weight: 300;
   margin-bottom: 2rem;
+  line-height: 1.5rem;
 `
 
 const DateContainer = styled.span`
