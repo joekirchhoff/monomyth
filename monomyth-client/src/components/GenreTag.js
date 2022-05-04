@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import { React, useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import Tooltip from './Tooltip';
 
@@ -13,6 +13,9 @@ const Tag = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
+  :focus {
+    outline: none;
+  }
 `
 
 const Dot = styled.div`
@@ -21,7 +24,6 @@ const Dot = styled.div`
   height: .5rem;
   width: .5rem;
   margin: .5rem;
-
 `
 
 const GenreNameContainer = styled.div`
@@ -41,23 +43,24 @@ function GenreTag(props) {
 
   // Handle tooltip display state
   const [showTooltip, setShowTooltip] = useState(false);
+  const genreTagRef = useRef();
 
   const onGenreClick = (e) => {
     e.preventDefault();
     setShowTooltip(!showTooltip);
+    genreTagRef.current.focus();
   }
 
   const onGenreBlur = (e) => {
-    e.preventDefault();
     setShowTooltip(false);
   }
 
   return (
-    <Tag onClick={onGenreClick} onBlur={onGenreBlur} >
+    <Tag onMouseDown={onGenreClick} onBlur={onGenreBlur} ref={genreTagRef} >
       <Dot genreColor={props.genre.color} />
       <GenreNameContainer>
         <GenreName >{props.genre.name}</GenreName>
-        {(showTooltip) ? <Tooltip tooltipString={props.genre.description} /> : null }
+        {(showTooltip && props.includeTooltip) ? <Tooltip tooltipString={props.genre.description} /> : null }
       </GenreNameContainer>
 
     </Tag>

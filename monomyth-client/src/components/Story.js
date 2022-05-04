@@ -194,7 +194,7 @@ function Story(props) {
       <GenresContainer >
         {(story) ? 
           story.genres.map((genre) => {
-            return <GenreTag key={genre._id} genre={genre} />
+            return <GenreTag key={genre._id} genre={genre} includeTooltip />
           })
           : null
         }
