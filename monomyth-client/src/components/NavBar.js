@@ -5,7 +5,7 @@ import LogoLink from './LogoLink';
 import SearchBar from './SearchBar';
 
 const Nav = styled.nav`
-  background-color: #222;
+  background-color: ${props => props.theme.bgMainColor};
   font-size: 1rem;
   padding: 1rem;
   display: flex;
@@ -17,9 +17,7 @@ const Nav = styled.nav`
   width: 100%;
   z-index: 10;
   height: 3rem;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 // LOGO =========================================
@@ -45,8 +43,8 @@ const MenuContainer = styled.div`
 
 const MobileMenuBtn = styled.button`
   border: none;
-  background-color: #222;
-  color: #eee;
+  background-color: transparent;
+  color: ${props => props.theme.textMainColor};
   font-size: 2rem;
   line-height: 1rem;
   cursor: pointer;
@@ -57,11 +55,11 @@ const MobileMenuBtn = styled.button`
 
 const MobileMenuList = styled.ul`
   list-style: none;
-  border: gray solid 1px;
+  border: ${props => props.theme.borderMain};
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
-  background-color: #222;
+  background-color: ${props => props.theme.bgMainColor};
   padding: 1rem;
   min-height: 10rem;
   position: fixed;
@@ -81,12 +79,11 @@ const DesktopMenuList = styled.ul`
 
 const NavBtn = styled.button`
   border: none;
-  background-color: ${props => props.specialBtn ? '#eee' : '#222'};
-  color: ${props => props.specialBtn ? '#111' : '#eee'};
+  background-color: ${props => props.specialBtn ? props.theme.btnPrimaryBgColor : 'transparent'};
+  color: ${props => props.specialBtn ? props.theme.btnPrimaryTextColor : props.theme.textMainColor};
   border-radius: ${props => props.specialBtn ? '50rem' : 'none'};
   padding: .5rem 1rem;
   margin: 0 .5rem;
-  text-decoration: none;
   font-size: 1rem;
   cursor: pointer;
   min-width: 6rem;

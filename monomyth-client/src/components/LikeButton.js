@@ -9,7 +9,7 @@ const Button = styled.button`
   margin: auto;
   border-radius: 50%;
   border: none;
-  background: ${props => props.isLiked ? '#eee' : 'gray'};
+  background: ${props => props.isLiked ? props.theme.unlikeBtnStrokeColor : props.theme.likeBtnStrokeColor};
   grid-area: ${props => props.isOnComment ? '1/1/span 1/span 1' : null};
   cursor: pointer;
   display: flex;

@@ -6,10 +6,8 @@ import GenreTag from './GenreTag';
 import LikeButton from './LikeButton';
 
 const Card = styled(Link)`
-  background-color: #222;
-  /* border: gray solid 1px; */
-  color: #eee;
-  text-decoration: none;
+  background-color: ${props => props.theme.bgMainColor};
+  color: ${props => props.theme.textMainColor};
   min-width: 350px;
   max-width: 750px;
   width: 100%;
@@ -18,12 +16,10 @@ const Card = styled(Link)`
   grid-template-columns: 1fr 4fr 1fr;
   grid-template-rows: 1fr 3rem;
   :hover {
-    background-color: #333;
+    background-color: ${props => props.theme.bgHighlightColor};
   }
   align-items: center;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const LeftContainer = styled.div`
@@ -39,7 +35,6 @@ const CentralContainer = styled.div`
 const RightContainer = styled.div`
   grid-area: 1 / 3 / span 1 / span 1;
   text-align: right;
-  /* align-self: start; */
   padding-right: 1rem;
 `
 
@@ -47,7 +42,7 @@ const BottomContainer = styled.div`
   grid-area: 2 / 1 / span 1 / span 3;
   display: flex;
   flex-flow: row nowrap;
-  border-top: gray solid 1px;
+  border-top: ${props => props.theme.borderMain};
   padding: .5rem 0;
 `
 

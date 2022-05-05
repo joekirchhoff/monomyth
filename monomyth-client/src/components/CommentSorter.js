@@ -7,16 +7,14 @@ const SortForm = styled.form`
   margin: 1rem auto;
   display: flex;
   flex-flow: row nowrap;
-  border: gray solid 1px;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  border: ${props => props.theme.borderMain};
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const TabBtn = styled.button`
   flex: 1;
-  background-color: ${props => props.highlight ? '#444' : '#222'};
-  color: #eee;
+  background-color: ${props => props.highlight ? props.theme.bgHighlightColor : props.theme.bgMainColor};
+  color: ${props => props.theme.textMainColor};
   padding: .5rem 0;
   border: none;
   border-right: ${props => props.left ? 'gray solid .5px' : 'none'};

@@ -5,8 +5,7 @@ import DateTag from './DateTag';
 import LikeButton from './LikeButton';
 
 const Card = styled.div`
-  background-color: #222;
-  color: white;
+  background-color: ${props => props.theme.bgMainColor};
   padding: 1rem;
   max-width: 750px;
   width: 100%;
@@ -14,21 +13,18 @@ const Card = styled.div`
   display: grid;
   grid-template-columns: 4rem 1fr 8rem;
   grid-template-rows: 4rem 1fr;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const ErrorMsg = styled.p`
-  color: firebrick;
+  color: ${props => props.theme.textErrorColor};
   text-align: center;
 `
 
 // COMMENT STYLING ==============================
 
 const Byline = styled(Link)`
-  color: white;
-  text-decoration: none;
+  color: ${props => props.theme.textLinkColor};
   font-size: 1.5rem;
   line-height: 1.5rem;
   padding: 1rem;
@@ -59,8 +55,8 @@ const CommentText = styled.p`
 // EDIT COMMENT FORM STYLING ====================
 
 const EditBtn = styled.button`
-  color: lightblue;
-  background-color: #222;
+  color: ${props => props.theme.textLinkColor};
+  background-color: transparent;
   border: none;
   padding-right: 1rem;
   grid-area: 3/3/span 1/span 1;
@@ -74,8 +70,8 @@ const EditForm = styled.form`
 
 const EditTextarea = styled.textarea`
   resize: vertical;
-  background-color: #111;
-  color: white;
+  background-color: ${props => props.theme.inputBgColor};
+  color: ${props => props.theme.inputTextColor};
   border: gray solid 1px;
   padding: .5rem;
   margin: .5rem .5rem 0 .5rem;
@@ -92,18 +88,17 @@ const EditBtnContainer = styled.ul`
 
 const SubmitBtn = styled.button`
   border: none;
-  background-color: #eee;
-  color: #111;
+  background-color: ${props => props.theme.btnPrimaryBgColor};
+  color: ${props => props.theme.btnPrimaryTextColor};
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
 `
 
 const CancelBtn = styled.button`
-  text-decoration: none;
-  border: gray solid 1px;
-  background-color: #111;
-  color: white;
+  border: ${props => props.theme.borderMain};
+  background-color: ${props => props.theme.btnCancelBgColor};
+  color: ${props => props.theme.btnCancelTextColor};
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
@@ -112,8 +107,8 @@ const CancelBtn = styled.button`
 // DELETE FORM STYLING ==========================
 
 const DeleteMenuBtn = styled.button`
-  color: lightblue;
-  background-color: #222;
+  color: ${props => props.theme.textLinkColor};
+  background-color: transparent;
   border: none;
   padding-right: 1rem;
   grid-area: 4/3/span 1/span 1;
@@ -138,16 +133,20 @@ const DeleteBtnContainer = styled.ul`
 `
 
 const ConfirmDeleteBtn = styled.button`
-  color: firebrick;
-  background-color: #222;
+  padding: .5rem;
+  margin: .5rem;
+  color: ${props => props.theme.textMainColor};
+  background-color: ${props => props.theme.bgWarningColor};
   border: none;
   cursor: pointer;
 `
 
 const CancelDeleteBtn = styled.button`
-  color: lightblue;
-  background-color: #222;
-  border: none;
+  padding: .5rem;
+  margin: .5rem;
+  color: ${props => props.theme.btnCancelTextColor};
+  background-color: ${props => props.theme.btnCancelBgColor};
+  border: ${props => props.theme.borderMain};
   cursor: pointer;
 `
 

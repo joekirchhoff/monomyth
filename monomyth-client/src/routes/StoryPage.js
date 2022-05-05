@@ -21,14 +21,12 @@ const CommentsHeader = styled.h1`
 const RevealCommentFormBtn = styled.button`
   padding: 1rem;
   margin: 1rem auto;
-  background-color: #eee;
-  color: #111;
+  background-color: ${props => props.theme.btnPrimaryBgColor};
+  color: ${props => props.theme.btnPrimaryTextColor};
   border-radius: 5rem;
   border-style: none;
   cursor: pointer;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 ` 
 
 function StoryPage(props) {

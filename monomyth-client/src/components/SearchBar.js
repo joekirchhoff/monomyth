@@ -9,8 +9,8 @@ const SearchForm = styled.form`
   align-items: center;
   border-radius: 10rem;
   max-width: 20rem;
-  border: gray solid 1px;
-  background-color: #111;
+  border: ${props => props.theme.borderMain};
+  background-color: ${props => props.theme.inputBgColor};
   padding: 0 .5rem 0 1rem;
   :focus-within {
     outline: #eee solid 1px;
@@ -21,7 +21,7 @@ const SearchInput = styled.input`
   flex: 1;
   border: none;
   background: transparent;
-  color: #eee;
+  color: ${props => props.theme.inputTextColor};
   :focus {
     outline: none;
   }

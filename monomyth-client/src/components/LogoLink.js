@@ -2,8 +2,7 @@ import styled from "styled-components";
 import { Link } from 'react-router-dom'
 
 const Logo = styled(Link)`
-  color: #eee;
-  text-decoration: none;
+  color: ${props => props.theme.logoColor};
   font-weight: 900;
   font-size: 1.5rem;
 `

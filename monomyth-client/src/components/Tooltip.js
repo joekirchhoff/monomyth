@@ -13,9 +13,10 @@ const TooltipText = styled.span`
   min-width: 8rem;
   width: 15vw;
   max-width: 20rem;
-  background-color: #333;
+  background-color: ${props => props.theme.tooltipBgColor};
+  color: ${props => props.theme.tooltipTextColor};
   padding: .35rem;
-  border: gray solid 1px;
+  border: ${props => props.theme.borderMain};
   top: 1rem;
   z-index: 5;
 
@@ -28,10 +29,10 @@ const TooltipText = styled.span`
     margin-left: -.75rem;
     border-width: .75rem;
     border-style: solid;
-    border-color: transparent transparent #333 transparent;
+    border-color: transparent transparent ${props => props.theme.tooltipBgColor} transparent;
     z-index: 5;
   }
-  // Tooltip arrow outline
+  // Tooltip arrow outline; outline formed by slightly second, oversized arrow positioned underneath first
   ::after {
     content: "";
     position: absolute;
@@ -40,7 +41,7 @@ const TooltipText = styled.span`
     margin-left: calc(-.75rem - 1.5px);
     border-width: calc(.75rem + 1.5px);
     border-style: solid;
-    border-color: transparent transparent gray transparent;
+    border-color: transparent transparent ${props => props.theme.tooltipBorderColor} transparent;
     z-index: 4;
   }
 `

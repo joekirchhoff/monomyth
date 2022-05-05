@@ -7,16 +7,14 @@ const SortForm = styled.form`
   margin: 1rem auto 2rem auto;
   display: flex;
   flex-flow: column nowrap;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const OpenMenuBtn = styled.button`
   flex: 1;
-  background-color: ${props => props.highlight ? '#444' : '#222' };
-  color: #eee;
-  border: gray solid 1px;
+  background-color: ${props => props.highlight ? props.theme.bgHighlightColor : props.theme.bgMainColor };
+  color: ${props => props.theme.textMainColor};
+  border: ${props => props.theme.borderMain};
   padding: .5rem 0;
   cursor: pointer;
 `
@@ -25,8 +23,8 @@ const GenreMenu = styled.div`
   display: ${props => props.open ? 'flex' : 'none'};
   flex-flow: column nowrap;
   align-items: center;
-  border: gray solid 1px;
-  background-color: #111;
+  border: ${props => props.theme.borderMain};
+  background-color: ${props => props.theme.bgDarkColor};
 
 `
 
@@ -43,7 +41,7 @@ const FieldContainer = styled.div`
 `
 
 const CheckboxLabel = styled.label`
-  color: #eee;
+
 `
 
 const GenreCheckbox = styled.input`
@@ -57,9 +55,9 @@ const GenreErrorMessage = styled.p`
 
 const ClearBtn = styled.button`
   margin: auto;
-  border: gray solid 1px;
-  background-color: #111;
-  color: #eee;
+  border: ${props => props.theme.borderMain};
+  background-color: ${props => props.theme.btnCancelBgColor};
+  color: ${props => props.theme.btnCancelTextColor};
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;

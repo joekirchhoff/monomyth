@@ -1,41 +1,37 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const Form = styled.form`
-  border: gray solid 1px;
-  background-color: #222;
+  border: ${props => props.theme.borderMain};
+  background-color: ${props => props.theme.bgMainColor};
   max-width: 750px;
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
   padding: 2rem;
   margin: 2rem auto;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const Header = styled.h1`
   font-size: 2rem;
-  color: #eee;
   margin-bottom: 2rem;
   text-align: center;
 `
 
 const SubmitBtn = styled.button`
   border: none;
-  background-color: #eee;
-  color: #111;
+  background-color: ${props => props.theme.btnPrimaryBgColor};
+  color: ${props => props.theme.btnPrimaryTextColor};
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
 `
 
 const ErrorMessage = styled.p`
-  color: red;
+  color: ${props => props.theme.textWarningColor};
 `
 
 function GuestLogIn() {

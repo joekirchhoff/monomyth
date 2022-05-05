@@ -13,19 +13,17 @@ const PageNumber = styled.p`
 `
 
 const PageBtn = styled.button`
-  border: gray solid 1px;
+  border: ${props => props.theme.borderMain};
   border-radius: 50%;
   font-size: 1.5rem;
   line-height: 1.5rem;
   height: 3rem;
   width: 3rem;
-  background-color: #333;
-  color: #eee;
+  background-color: ${props => props.theme.bgMainColor};
+  color: ${props => props.theme.textMainColor};
   cursor: pointer;
   visibility: ${props => props.shown ? 'visible' : 'hidden'}; // 'Previous' btn hidden on first page
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const PageControl = (props) => {

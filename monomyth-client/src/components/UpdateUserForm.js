@@ -2,18 +2,16 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 const UserForm = styled.form`
-  background-color: #222;
+  background-color: ${props => props.theme.bgMainColor};
   padding: 2rem;
   max-width: 750px;
-  width: 90%;
+  width: 100%;
   margin: 2rem auto;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const Label = styled.label`
@@ -22,9 +20,9 @@ const Label = styled.label`
 `
 
 const BioInput = styled.textarea`
-  border: #333 solid 2px;
-  background-color: #111;
-  color: #eee;
+  border: ${props => props.theme.borderMain};
+  background-color: ${props => props.theme.inputBgColor};
+  color: ${props => props.theme.inputTextColor};
   margin-bottom: 2rem;
   min-width: 75%;
   min-height: 5rem;
@@ -33,9 +31,9 @@ const BioInput = styled.textarea`
 
 const LinkInput = styled.input`
   padding: .5rem;
-  border: #333 solid 2px;
-  background-color: #111;
-  color: #eee;
+  border: ${props => props.theme.borderMain};
+  background-color: ${props => props.theme.inputBgColor};
+  color: ${props => props.theme.inputTextColor};
   margin-bottom: 2rem;
   min-width: 50%;
 `
@@ -52,25 +50,24 @@ const BtnContainer = styled.div`
 
 const SubmitBtn = styled.button`
   border: none;
-  background-color: #eee;
-  color: #111;
+  background-color: ${props => props.theme.btnPrimaryBgColor};
+  color: ${props => props.theme.btnPrimaryTextColor};
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
 `
 
 const CancelBtn = styled.button`
-  text-decoration: none;
-  border: gray solid 1px;
-  background-color: #111;
-  color: #eee;
+  border: ${props => props.theme.borderMain};
+  background-color: ${props => props.theme.btnCancelBgColor};
+  color: ${props => props.theme.btnCancelTextColor};
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
 `
 
 const ErrorMsg = styled.p`
-  color: darkred;
+  color: ${props => props.theme.textWarningColor};
 `
 
 const UpdateUserForm = (props) => {

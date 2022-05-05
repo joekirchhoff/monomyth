@@ -4,7 +4,7 @@ import Tooltip from './Tooltip';
 import { useState } from 'react';
 
 const DateButton = styled.button`
-  color: #eee;
+  color: ${props => props.theme.textMainColor};
   border: none;
   background-color: transparent;
   cursor: pointer;

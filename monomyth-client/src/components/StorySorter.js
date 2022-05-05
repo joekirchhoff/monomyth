@@ -12,16 +12,14 @@ const SortForm = styled.form`
 const TabBtnContainer = styled.div`
   display: flex;
   flex-flow: row nowrap;
-  border: gray solid 1px;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  border: ${props => props.theme.borderMain};
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const TabBtn = styled.button`
   flex: 1;
-  background-color: ${props => props.highlight ? '#444' : '#222'};
-  color: #eee;
+  background-color: ${props => props.highlight ? props.theme.bgHighlightColor : props.theme.bgMainColor};
+  color: ${props => props.theme.textMainColor};
   padding: .5rem 0;
   border: none;
   border-right: ${props => props.left ? 'gray solid .5px' : 'none'};
@@ -34,20 +32,18 @@ const TimeMenu = styled.div`
   display: flex;
   flex-flow: column nowrap;
   padding: .5rem 1rem;
-  border: gray solid 1px;
+  border: ${props => props.theme.borderMain};
   border-top: none;
-  background-color: #111;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  background-color: ${props => props.theme.bgDarkColor};
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const TimeOptionBtn = styled.button`
   padding: .5rem;
   margin-bottom: .25rem;
-  background-color: ${props => props.highlight ? '#444' : '#222'};
-  color: #eee;
-  border: gray solid 1px;
+  background-color: ${props => props.highlight ? props.theme.bgHighlightColor : props.theme.bgMainColor};
+  color: ${props => props.theme.textMainColor};
+  border: ${props => props.theme.borderMain};
   cursor: pointer;
 `
 

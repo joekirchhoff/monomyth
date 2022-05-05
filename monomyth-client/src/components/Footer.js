@@ -4,19 +4,18 @@ const StyledFooter = styled.footer`
   height: 2rem;
   width: 100%;
   margin-top: 3rem;
-  background-color: #222;
-  color: lightgray;
+  background-color: ${props => props.theme.bgMainColor};
+  margin-top: 1rem;;
+  color: ${props => props.theme.textMainColor};
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const Anchor = styled.a`
-  color: lightblue;
+  color: ${props => props.theme.textLinkColor};
 `
 
 const Dot = styled.span`

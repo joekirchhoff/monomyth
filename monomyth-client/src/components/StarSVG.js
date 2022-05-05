@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 const StarIcon = styled.svg`
   height: 3rem;
-  fill: ${props => props.isLiked ? '#111' : '#222'};
+  fill: ${props => props.isLiked ? props.theme.unlikeBtnBgColor : props.theme.likeBtnBgColor};
 `
 
 const StarSVG = (props) => {

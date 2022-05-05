@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import DateTag from './DateTag';
 
 const Container = styled.section`
-  background-color: #222;
+  background-color: ${props => props.theme.bgMainColor};
   padding: 2rem;
   max-width: 750px;
   width: 100%;
@@ -11,9 +11,7 @@ const Container = styled.section`
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const JoinedDate = styled.span`
@@ -31,7 +29,7 @@ const UserHeader = styled.h1`
 const Subheader = styled.h2`
   font-size: 1.5rem;
   text-align: center;
-  border-bottom: gray solid 1px;
+  border-bottom: ${props => props.theme.borderMain};
 `
 
 const UserBio = styled.p`
@@ -55,7 +53,7 @@ const LinkList = styled.ul`
 
 const UserLink = styled.a`
   text-align: center;
-  color: lightblue;
+  color: ${props => props.theme.textLinkColor};
 `
 
 const MissingFieldMsg = styled.p`
@@ -64,7 +62,7 @@ const MissingFieldMsg = styled.p`
 
 const UpdateLink = styled(Link)`
   text-align: right;
-  color: lightblue;
+  color: ${props => props.theme.textLinkColor};
 `
 
 const UserInfo = (props) => {

@@ -1,37 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Form = styled.form`
-  background-color: #222;
+  background-color: ${props => props.theme.bgMainColor};
   max-width: 750px;
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
   padding: 2rem;
   margin: 2rem auto;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const Header = styled.h1`
   font-size: 2rem;
-  color: #eee;
   margin-bottom: 1rem;
 `
 
 const Subheader = styled.h2`
   font-size: 1.5rem;
-  color: #eee;
   margin-bottom: 2rem;
   text-align: center;
 `
 
 const Label = styled.label`
-  color: #eee;
+
 `
 
 const Input = styled.input`
@@ -42,31 +38,30 @@ const Input = styled.input`
   border: none;
   margin-bottom: 1rem;
   padding-left: 1rem;
-  background-color: #111;
-  color: #eee;
-  border: solid gray 1px;
+  background-color: ${props => props.theme.inputBgColor};
+  color: ${props => props.theme.inputTextColor};
+  border: ${props => props.theme.borderMain};
 `
 
 const SubmitBtn = styled.button`
   border: none;
-  background-color: #eee;
-  color: #111;
+  background-color: ${props => props.theme.btnSubmitBgColor};
+  color: ${props => props.theme.btnSubmitTextColor};
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
 `
 
 const ErrorMessage = styled.p`
-  color: red;
+  color: ${props => props.theme.textWarningColor};
 `
 
 const RedirectPrompt = styled.p`
-  color: #eee;
   margin-top: 2rem;
 `
 
 const RedirectLink = styled(Link)`
-  color: #eee;
+  color: ${props => props.theme.textLinkColor};
 `
 
 function LogInForm() {

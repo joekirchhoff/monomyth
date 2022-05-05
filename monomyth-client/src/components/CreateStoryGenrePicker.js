@@ -5,7 +5,7 @@ const Fieldset = styled.fieldset`
   width: 90%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border: solid gray 1px;
+  border: ${props => props.theme.borderMain};
   padding: 1rem;
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -30,7 +30,7 @@ const Input = styled.input`
 `
 
 const ErrorMessage = styled.p`
-  color: red;
+  color: ${props => props.theme.textWarningColor};
 `
 
 function CreateStoryGenrePicker(props) {
@@ -62,9 +62,7 @@ function CreateStoryGenrePicker(props) {
 
   useEffect(() => {
     getGenres();
-  }, [])
-
-  
+  }, [])  
 
   return (
     <Fieldset>

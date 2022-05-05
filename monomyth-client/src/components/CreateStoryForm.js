@@ -7,18 +7,16 @@ import 'draft-js/dist/Draft.css';
 import CreateStoryGenrePicker from './CreateStoryGenrePicker';
 
 const Form = styled.form`
-  background-color: #222;
+  background-color: ${props => props.theme.bgMainColor};
   max-width: 750px;
-  width: 95%;
+  width: 100%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
   padding: 2rem;
   margin: 2rem auto;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const Header = styled.h1`
@@ -32,13 +30,13 @@ const Label = styled.label`
 
 const Input = styled.input`
   min-width: 200px;
-  background-color: #111;
+  background-color: ${props => props.theme.inputBgColor};
+  color: ${props => props.theme.inputTextColor};
+  border: ${props => props.theme.borderMain};
   width: 90%;
   height: 2rem;
-  border: gray solid 1px;
   margin-bottom: 1rem;
   padding-left: .5rem;
-  color: #eee;
 `
 
 const StickyWrapper = styled.div`
@@ -49,8 +47,8 @@ const StickyWrapper = styled.div`
 const EditorWrapper = styled.div`
   padding: 1rem;
   min-height: 15rem;
-  background-color: #111;
-  border: gray solid 1px;
+  background-color: ${props => props.theme.inputBgColor};
+  border: ${props => props.theme.borderMain};
   border-top: none;
 `
 
@@ -59,17 +57,17 @@ const EditorToolbar = styled.ul`
   position: sticky;
   top: 3rem; // This value should match NavBar height
   padding: .5rem;
-  background-color: #111;
-  border: gray solid 1px;
+  background-color: ${props => props.theme.inputBgColor};
+  border: ${props => props.theme.borderMain};
   z-index: 5;
 `
 
 const StyleButton = styled.button`
   height: 2rem;
   width: 2rem;
-  border: gray solid 1px;
-  background-color: ${props => props.highlight ? '#444' : '#222'};
-  color: #eee;
+  border: ${props => props.theme.borderMain};
+  background-color: ${props => props.highlight ? props.theme.bgHighlightColor : props.theme.bgMainColor};
+  color: ${props => props.theme.textMainColor};
   margin-right: .5rem;
   font-weight: ${props => props.bold ? '1000' : 'inherit'};
   font-style: ${props => props.italic ? 'italic' : 'none'};
@@ -85,28 +83,28 @@ const FormBtnList = styled.ul`
 
 const SubmitBtn = styled.button`
   border: none;
-  background-color: #eee;
-  color: #111;
+  background-color: ${props => props.theme.btnPrimaryBgColor};
+  color: ${props => props.theme.btnPrimaryTextColor};
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
   :disabled {
-    background-color: darkgray;
+    background-color: ${props => props.theme.btnDisabledBgColor};
+    color: ${props => props.theme.btnDisabledTextColor};
   }
 `
 
 const CancelBtn = styled(Link)`
-  text-decoration: none;
-  border: gray solid 1px;
-  background-color: #111;
-  color: #eee;
+  border: ${props => props.theme.borderMain};
+  background-color: ${props => props.theme.btnCancelBgColor};
+  color: ${props => props.theme.btnCancelTextColor};
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
 `
 
 const ErrorPrompt = styled.p`
-  color: firebrick;
+  color: ${props => props.theme.textWarningColor};
   margin-top: 1rem;
 `
 

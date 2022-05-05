@@ -8,7 +8,7 @@ import GenreTag from './GenreTag';
 import DateTag from './DateTag';
 
 const Article = styled.article`
-  background-color: #222;
+  background-color: ${props => props.theme.bgMainColor};
   padding: 2rem 1rem;
   max-width: 750px;
   width: 100%;
@@ -16,15 +16,13 @@ const Article = styled.article`
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const EditorWrapper = styled.div`
   padding: 1rem;
   min-height: 15rem;
-  background-color: #222;
+  background-color: ${props => props.theme.bgMainColor};
   font-weight: 300;
   margin-bottom: 2rem;
   line-height: 1.5rem;
@@ -41,13 +39,13 @@ const Title = styled.h1`
   font-size: 3rem;
   font-weight: 800;
   text-align: center;
+  margin-top: .5rem;
 `
 
 const AuthorLink = styled(Link)`
   padding: .75rem;
   font-size: 1.5rem;
-  color: #eee;
-  text-decoration: none;
+  color: ${props => props.theme.textLinkColor};
   width: fit-content;
   margin: auto;
 `
@@ -57,22 +55,21 @@ const GenresContainer = styled.div`
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  border-top: gray solid 1px;
-  border-bottom: gray solid 1px;
+  border-top: ${props => props.theme.borderMain};
+  border-bottom: ${props => props.theme.borderMain};
   margin: 1rem 0;
 `
 
 const LikeBtnErrorMessage = styled(Link)`
   font-size: 1rem;
   text-align: center;
-  color: #eee;
+  color: ${props => props.theme.textErrorColor};
   margin: .5rem;
 `
 
 const EditLink = styled(Link)`
   padding: .5rem;
-  color: #eee;
-  text-decoration: none;
+  color: ${props => props.theme.textLinkColor};
   width: fit-content;
   margin-left: auto;
 `

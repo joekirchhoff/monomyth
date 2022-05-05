@@ -1,10 +1,10 @@
-import { React, useEffect, useState, useRef } from 'react';
+import { React, useState, useRef } from 'react';
 import styled from 'styled-components';
 import Tooltip from './Tooltip';
 
 const Tag = styled.button`
   background-color: none;
-  color: #eee;
+  color: ${props => props.theme.textMainColor};
   flex: 1;
   display: flex;
   justify-content: center;
@@ -33,7 +33,6 @@ const GenreNameContainer = styled.div`
 const GenreName = styled.span`
   display: inline-block;
   padding-bottom: .1rem;
-  color: white;
   font-size: .8rem;
   border: none;
   background-color: transparent;

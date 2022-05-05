@@ -15,15 +15,13 @@ const ReceiptDimScreen = styled.div`
 const Receipt = styled.div`
   margin-top: 10rem;
   padding: 3rem;
-  background-color: #222;
-  border: gray solid 1px;
+  background-color: ${props => props.theme.bgMainColor};
+  border: ${props => props.theme.borderMain};
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-evenly;
   align-items: center;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const ReceiptMsg = styled.p`
@@ -31,7 +29,7 @@ const ReceiptMsg = styled.p`
 `
 
 const HomeLink = styled(Link)`
-
+  color: ${props => props.theme.textLinkColor};
 `
 
 const DeleteStoryReceipt = () => {

@@ -2,7 +2,7 @@ import { React, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Form = styled.form`
-  background-color: #222;
+  background-color: ${props => props.theme.bgMainColor};
   max-width: 750px;
   width: 100%;
   display: flex;
@@ -11,9 +11,7 @@ const Form = styled.form`
   align-items: center;
   padding: 1rem;
   margin: 1rem auto;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const Header = styled.h1`
@@ -30,9 +28,9 @@ const Input = styled.textarea`
   margin-bottom: 1rem;
   padding: 1rem;
   width: 90%;
-  background-color: #111;
-  color: #eee;
-  border: solid gray 1px;
+  background-color: ${props => props.theme.inputBgColor};
+  color: ${props => props.theme.inputTextColor};
+  border: ${props => props.theme.borderMain}
 `
 
 const BtnContainer = styled.div`
@@ -43,28 +41,28 @@ const BtnContainer = styled.div`
 
 const SubmitBtn = styled.button`
   border: none;
-  background-color: #eee;
-  color: #111;
+  background-color: ${props => props.theme.btnPrimaryBgColor};
+  color: ${props => props.theme.btnPrimaryTextColor};
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
   :disabled {
-    background-color: darkgray;
+    background-color: ${props => props.theme.btnDisabledBgColor};
+    color: ${props => props.theme.btnDisabledTextColor};
   }
 `
 
 const CancelBtn = styled.button`
-  text-decoration: none;
-  border: gray solid 1px;
-  background-color: #111;
-  color: #eee;
+  border: ${props => props.theme.borderMain};
+  background-color: ${props => props.theme.btnCancelBgColor};
+  color: ${props => props.theme.btnCancelTextColor};
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
 `
 
 const ErrorPrompt = styled.p`
-  color: red;
+  color: ${props => props.theme.textWarningColor};
   margin-top: 1rem;
 `
 

@@ -4,18 +4,16 @@ import { useState } from 'react';
 
 const DeleteForm = styled.form`
   filter: ${props => props.showBlur ? 'blur(3px)' : 'none'};
-  background-color: #222;
+  background-color: ${props => props.theme.bgMainColor};
   max-width: 750px;
-  width: 95%;
+  width: 100%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
   padding: 2rem;
   margin: 2rem auto;
-  box-shadow:
-    .25rem .5rem 1rem rgba(0, 0, 0, 0.3),
-    0 0 1.5rem rgba(0, 0, 0, .2);
+  box-shadow: ${props => props.theme.boxShadowMain};
 `
 
 const Header = styled.h1`
@@ -32,25 +30,24 @@ const FormBtnList = styled.ul`
 
 const DeleteBtn = styled.button`
   border: none;
-  background-color: firebrick;
-  color: #eee;
+  background-color: ${props => props.theme.bgWarningColor};
+  color: ${props => props.theme.textMainColor};
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
 `
 
 const CancelBtn = styled(Link)`
-  text-decoration: none;
   border: gray solid 1px;
-  background-color: #111;
-  color: #eee;
+  background-color: ${props => props.theme.btnCancelBgColor};
+  color: ${props => props.theme.btnCancelTextColor};
   padding: 1rem;
   margin: 1rem;
   cursor: pointer;
 `
 
 const ErrorMsg = styled.p`
-  color: firebrick;
+  color: ${props => props.theme.textWarningColor};
 `
 
 const DeleteStoryForm = (props) => {
