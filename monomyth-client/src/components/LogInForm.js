@@ -27,7 +27,9 @@ const Subheader = styled.h2`
 `
 
 const Label = styled.label`
-
+  font-size: 1.25rem;
+  padding-bottom: .25rem;
+  user-select: none;
 `
 
 const Input = styled.input`

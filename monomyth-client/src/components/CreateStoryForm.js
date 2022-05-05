@@ -1,5 +1,4 @@
 import { React, useRef, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
@@ -25,7 +24,9 @@ const Header = styled.h1`
 `
 
 const Label = styled.label`
-
+  font-size: 1.25rem;
+  padding-bottom: .25rem;
+  user-select: none;
 `
 
 const Input = styled.input`
@@ -114,8 +115,6 @@ const RequiredPrompt = styled.p`
 `
 
 function CreateStoryForm() {
-
-  const storyID = useParams().storyID;
 
   const [errorMessage, setErrorMessage] = useState('')
 

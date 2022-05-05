@@ -15,8 +15,11 @@ const UserForm = styled.form`
 `
 
 const Label = styled.label`
+  user-select: none;
+  cursor: pointer;
   text-align: center;
-  padding: 0;
+  font-size: 1.25rem;
+  padding-bottom: .25rem;
 `
 
 const BioInput = styled.textarea`
@@ -39,7 +42,7 @@ const LinkInput = styled.input`
 `
 
 const OptionalMsg = styled.p`
-
+  padding: .5rem;
 `
 
 const BtnContainer = styled.div`

@@ -26,10 +26,6 @@ const Dot = styled.div`
   margin: .5rem;
 `
 
-const GenreNameContainer = styled.div`
-  // Needed to keep tooltip centered on text
-`
-
 const GenreName = styled.span`
   display: inline-block;
   padding-bottom: .1rem;
@@ -57,10 +53,10 @@ function GenreTag(props) {
   return (
     <Tag onMouseDown={onGenreClick} onBlur={onGenreBlur} ref={genreTagRef} >
       <Dot genreColor={props.genre.color} />
-      <GenreNameContainer>
+      <div>
         <GenreName >{props.genre.name}</GenreName>
         {(showTooltip && props.includeTooltip) ? <Tooltip tooltipString={props.genre.description} /> : null }
-      </GenreNameContainer>
+      </div>
 
     </Tag>
   );

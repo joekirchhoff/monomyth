@@ -25,6 +25,7 @@ const Legend = styled.legend`
 const Label = styled.label`
   padding-left: .25rem;
   user-select: none;
+  cursor: pointer;
 `
 
 const Input = styled.input`

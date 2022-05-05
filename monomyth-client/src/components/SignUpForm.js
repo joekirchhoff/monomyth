@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const Form = styled.form`
   background-color: ${props => props.theme.bgMainColor};
   max-width: 750px;
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -21,6 +21,9 @@ const Header = styled.h1`
 `
 
 const Label = styled.label`
+  font-size: 1.25rem;
+  padding-bottom: .25rem;
+  user-select: none;
 `
 
 const Input = styled.input`

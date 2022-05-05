@@ -121,7 +121,7 @@ const DeleteForm = styled.form`
 `
 
 const DeletePrompt = styled.p`
-
+  text-align: center;
 `
 
 const DeleteBtnContainer = styled.ul`

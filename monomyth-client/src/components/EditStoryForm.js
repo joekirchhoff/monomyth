@@ -26,7 +26,9 @@ const Header = styled.h1`
 `
 
 const Label = styled.label`
-
+  font-size: 1.25rem;
+  padding-bottom: .25rem;
+  user-select: none;
 `
 
 const Input = styled.input`
@@ -157,7 +159,6 @@ function EditStoryForm(props) {
   const onChange = (editorState) => setEditorState(editorState);
 
   // Get initial story data for populating form
-  const [story, setStory] = useState();
   const getStory = () => {
     fetch(`http://localhost:8080/api/stories/${storyID}`, {
       method: 'GET',
@@ -168,10 +169,8 @@ function EditStoryForm(props) {
       return res.json();
     })
     .then(data => {
-      setStory(data);
       // Convert stored Draft.js content from raw format
-      const correctedStoryRAW = data.text.replace(/(&quot\;)/g,"\"");
-      const storyJSON = JSON.parse(correctedStoryRAW);
+      const storyJSON = JSON.parse(data.text);
       const newContentState = convertFromRaw(storyJSON);
       // Populate editor with story text
       setEditorState(EditorState.createWithContent(newContentState));

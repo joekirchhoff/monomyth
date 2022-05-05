@@ -45,6 +45,7 @@ const FieldContainer = styled.div`
 const CheckboxLabel = styled.label`
   padding-left: .25rem;
   user-select: none;
+  cursor: pointer;
 `
 
 const GenreCheckbox = styled.input`

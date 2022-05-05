@@ -10,7 +10,7 @@ const Form = styled.form`
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  margin: 1rem auto;
+  margin: 2rem auto;
   box-shadow: ${props => props.theme.boxShadowMain};
 `
 
@@ -30,7 +30,7 @@ const Input = styled.textarea`
   width: 90%;
   background-color: ${props => props.theme.inputBgColor};
   color: ${props => props.theme.inputTextColor};
-  border: ${props => props.theme.borderMain}
+  border: ${props => props.theme.borderMain};
 `
 
 const BtnContainer = styled.div`
