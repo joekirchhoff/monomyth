@@ -1,9 +1,9 @@
 import { React, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import DateTag from './DateTag';
 import GenreTag from './GenreTag';
 import LikeButton from './LikeButton';
+import StoryCardDateTag from './StoryCardDateTag';
 
 const Card = styled(Link)`
   background-color: ${props => props.theme.bgMainColor};
@@ -51,6 +51,9 @@ const Title = styled.h1`
   text-align: center;
   font-weight: 800;
   padding: .75rem 0;
+  @media (max-width: 415px) {
+    font-size: 1.5rem;
+  }
 `
 
 const Byline = styled.h2`
@@ -128,7 +131,7 @@ function StoryCard(props) {
         <Byline >by {props.story.author.username}</Byline>
       </CentralContainer>
       <RightContainer>
-        <DateTag date={props.story.date} />
+        <StoryCardDateTag date={props.story.date} />
       </RightContainer>
       <BottomContainer >
         {props.story.genres.map((genre) => {

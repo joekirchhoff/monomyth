@@ -24,9 +24,9 @@ const theme = {
   inputTextColor: '#eee',
 
   // Like / Unlike Button Colors
-  likeBtnStrokeColor: 'gray',
+  likeBtnStrokeColor: 'gray', // ("Not yet liked" button)
   likeBtnBgColor: '#222',
-  unlikeBtnStrokeColor: '#eee',
+  unlikeBtnStrokeColor: '#eee', // ("Already liked" button)
   unlikeBtnBgColor: '#222',
 
   // Tooltip Colors

@@ -24,6 +24,9 @@ const UserHeader = styled.h1`
   font-size: 3rem;
   text-align: center;
   margin: 0.5rem 0 1rem 0;
+  @media (max-width: 415px) {
+    font-size: 2rem;
+  }
 `
 
 const Subheader = styled.h2`

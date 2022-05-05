@@ -76,6 +76,7 @@ const EditTextarea = styled.textarea`
   padding: .5rem;
   margin: .5rem .5rem 0 .5rem;
   width: calc(100% - 1rem);
+  line-height: 1.5rem;
   min-height: 10rem;
 `
 

@@ -27,8 +27,8 @@ const BioInput = styled.textarea`
   background-color: ${props => props.theme.inputBgColor};
   color: ${props => props.theme.inputTextColor};
   margin-bottom: 2rem;
-  min-width: 75%;
-  min-height: 5rem;
+  width: 100%;
+  min-height: 10rem;
   padding: .5rem;
 `
 
@@ -38,7 +38,8 @@ const LinkInput = styled.input`
   background-color: ${props => props.theme.inputBgColor};
   color: ${props => props.theme.inputTextColor};
   margin-bottom: 2rem;
-  min-width: 50%;
+  width: 100%;
+  max-width: 20rem;
 `
 
 const OptionalMsg = styled.p`

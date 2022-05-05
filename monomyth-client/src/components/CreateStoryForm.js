@@ -34,14 +34,14 @@ const Input = styled.input`
   background-color: ${props => props.theme.inputBgColor};
   color: ${props => props.theme.inputTextColor};
   border: ${props => props.theme.borderMain};
-  width: 90%;
+  width: 100%;
   height: 2rem;
   margin-bottom: 1rem;
   padding-left: .5rem;
 `
 
 const StickyWrapper = styled.div`
-  width: 90%;
+  width: 100%;
   margin: auto;
 `
 

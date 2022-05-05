@@ -17,17 +17,17 @@ const Form = styled.form`
 const Header = styled.h1`
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  padding: 1rem;
 `
 
 const Input = styled.textarea`
-  min-width: 90%;
-  max-width: 90%;
-  min-height: 3rem;
+  width: calc(100% - 1rem);
+  line-height: 1.5rem;
+  min-height: 6rem;
   height: 2rem;
   border: none;
   margin-bottom: 1rem;
   padding: 1rem;
-  width: 90%;
   background-color: ${props => props.theme.inputBgColor};
   color: ${props => props.theme.inputTextColor};
   border: ${props => props.theme.borderMain};

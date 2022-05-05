@@ -36,10 +36,13 @@ const DateContainer = styled.span`
 `
 
 const Title = styled.h1`
-  font-size: 3rem;
   font-weight: 800;
   text-align: center;
   margin-top: .5rem;
+  font-size: 3rem;
+  @media (max-width: 415px) {
+    font-size: 2rem;
+  }
 `
 
 const AuthorLink = styled(Link)`

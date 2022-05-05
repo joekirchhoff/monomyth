@@ -35,7 +35,7 @@ const Input = styled.input`
   min-width: 200px;
   background-color: ${props => props.theme.inputBgColor};
   color: ${props => props.theme.inputTextColor};
-  width: 90%;
+  width: 100%;
   height: 2rem;
   border: ${props => props.theme.borderMain};
   margin-bottom: 1rem;
@@ -43,7 +43,7 @@ const Input = styled.input`
 `
 
 const StickyWrapper = styled.div`
-  width: 90%;
+  width: 100%;
   margin: auto;
 `
 
