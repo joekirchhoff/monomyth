@@ -7,6 +7,7 @@ const Fieldset = styled.fieldset`
   grid-template-columns: repeat(3, 1fr);
   border: ${props => props.theme.borderMain};
   padding: 1rem;
+  gap: .25rem;
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -22,11 +23,14 @@ const Legend = styled.legend`
 `
 
 const Label = styled.label`
-
+  padding-left: .25rem;
+  user-select: none;
 `
 
 const Input = styled.input`
-
+  accent-color: ${props => props.genreColor};
+  height: 1.25rem;
+  width: 1.25rem;
 `
 
 const ErrorMessage = styled.p`
@@ -70,7 +74,13 @@ function CreateStoryGenrePicker(props) {
 
       {genres.map((genre) => {
         return <div key={genre._id}>
-          <Input type="checkbox" id={genre._id} name={genre._id} onChange={props.toggleCheck}/>
+          <Input
+            type="checkbox"
+            id={genre._id}
+            name={genre._id}
+            onChange={props.toggleCheck}
+            genreColor={genre.color}
+          />
           <Label htmlFor={genre._id} >{genre.name}</Label>
         </div>
       })}

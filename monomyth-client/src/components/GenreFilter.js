@@ -37,20 +37,26 @@ const GenreFieldset = styled.fieldset`
 `
 
 const FieldContainer = styled.div`
-  padding-left: 1.5rem;
+  padding: .25rem 0 0 1rem;
+  display: flex;
+  align-items: center;
 `
 
 const CheckboxLabel = styled.label`
-
+  padding-left: .25rem;
+  user-select: none;
 `
 
 const GenreCheckbox = styled.input`
-
+  accent-color: ${props => props.genreColor};
+  height: 1.25rem;
+  width: 1.25rem;
 `
 
 const GenreErrorMessage = styled.p`
   padding: 1rem;
   grid-column: 1 / 3;
+  color: ${props => props.theme.textWarningColor};
 `
 
 const ClearBtn = styled.button`
@@ -108,7 +114,13 @@ function GenreFilter(props) {
         {genreOptions.map((genre) => {
           return (
             <FieldContainer key={genre._id}>
-              <GenreCheckbox type="checkbox" id={genre._id} name={genre._id} onChange={props.toggleGenre}/>
+              <GenreCheckbox
+                type="checkbox"
+                id={genre._id}
+                name={genre._id}
+                genreColor={genre.color}
+                onChange={props.toggleGenre}
+              />
               <CheckboxLabel htmlFor={genre._id} >{genre.name}</CheckboxLabel>
             </FieldContainer>
           )

@@ -2,7 +2,7 @@ const theme = {
 
   // Text Colors
   textMainColor: '#eee',
-  textWarningColor: 'firebrick',
+  textWarningColor: 'tomato',
   textLinkColor: 'lightskyblue',
 
   // Background Colors
