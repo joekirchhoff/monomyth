@@ -22,6 +22,12 @@ const Legend = styled.legend`
   padding: 0 .5rem;
 `
 
+const FieldContainer = styled.div`
+  padding: .25rem 0 0 1rem;
+  display: flex;
+  align-items: center;
+`
+
 const Label = styled.label`
   padding-left: .25rem;
   user-select: none;
@@ -74,7 +80,7 @@ function CreateStoryGenrePicker(props) {
       <Legend >Please select three (3) genres</Legend>
 
       {genres.map((genre) => {
-        return <div key={genre._id}>
+        return <FieldContainer key={genre._id}>
           <Input
             type="checkbox"
             id={genre._id}
@@ -83,7 +89,7 @@ function CreateStoryGenrePicker(props) {
             genreColor={genre.color}
           />
           <Label htmlFor={genre._id} >{genre.name}</Label>
-        </div>
+        </FieldContainer>
       })}
 
       {(showError) ? <ErrorMessage >Please select exactly three (3) genres</ErrorMessage> : null }

@@ -38,13 +38,13 @@ const Input = styled.input`
   width: 100%;
   height: 2rem;
   border: ${props => props.theme.borderMain};
-  margin-bottom: 1rem;
   padding-left: .5rem;
 `
 
 const StickyWrapper = styled.div`
   width: 100%;
   margin: auto;
+  margin-top: .5rem;
 `
 
 const EditorWrapper = styled.div`
@@ -106,12 +106,12 @@ const CancelBtn = styled(Link)`
   cursor: pointer;
 `
 
-const ErrorPrompt = styled.p`
+const ErrorMessage = styled.span`
   color: ${props => props.theme.textWarningColor};
-  margin-top: 1rem;
+  padding: .25rem 0 1rem 0;
 `
 
-const RequiredPrompt = styled.p`
+const RequiredPrompt = styled.span`
   margin-top: 1rem;
   font-size: 1rem;
 `
@@ -120,12 +120,23 @@ function EditStoryForm(props) {
 
   const storyID = useParams().storyID;
 
-  const [errorMessage, setErrorMessage] = useState('')
+  // Error messaging
+  const [titleError, setTitleError] = useState('')
+  // Submit error can be either string (custom error) or array of error objects (from express-validator)
+  const [submitError, setSubmitError] = useState()
 
   // Title handling
   const [title, setTitle] = useState('');
   const onTitleChange = (e) => {
     setTitle(e.target.value);
+  }
+
+  const onTitleBlur = () => {
+    if (!title.length) {
+      setTitleError('Please enter a title')
+    } else {
+      setTitleError('');
+    }
   }
 
   // Track genre selections as array of Genre IDs
@@ -140,7 +151,7 @@ function EditStoryForm(props) {
         newGenres.push(e.target.id);
         setGenres(newGenres);
       } else { // Max genres already selected, set error message
-        setGenreError('Maximum of three genres selected; please unselect a genre first');
+        setGenreError('Maximum of three genres already selected');
         e.target.checked = false;
       }
     }
@@ -266,7 +277,8 @@ function EditStoryForm(props) {
       body: JSON.stringify({
         'title': titleToSave,
         'text': editorJSON,
-        'genres': genresToSave
+        'genres': genresToSave,
+        'editorIsValid': editorState.getCurrentContent().hasText().toString()
       }),
       credentials: 'include'
     })
@@ -274,10 +286,19 @@ function EditStoryForm(props) {
       return res.json();
     })
     .then(res => {
-      if (!res.message) { // Successfully updated to database, redirect to story page
+      if (res.validationErrors) {
+
+        // Server returned validation error array; set error messages
+        setSubmitError(res.validationErrors.errors);
+
+      } else if (res.authError) {
+
+        // Server returned user auth error
+        setSubmitError(res.authError);
+
+      } else {
+        // Successfully saved to database, redirect to new story page
         window.location.replace(`/story/${storyID}`);
-      } else { // Something went wrong; update error message
-        setErrorMessage(res.message);
       }
     });
   }
@@ -286,7 +307,16 @@ function EditStoryForm(props) {
     <Form onSubmit={handleSubmit} showBlur={props.showBlur} >
       <Header >Edit Story</Header>
       <Label htmlFor='title' >Title</Label>
-      <Input id='title' type='text' name='title' value={title} onChange={onTitleChange}/>
+      <Input
+        id='title'
+        type='text'
+        name='title'
+        value={title}
+        onChange={onTitleChange}
+        onBlur={onTitleBlur}
+        required
+        />
+      <ErrorMessage>{titleError}</ErrorMessage>
       <StickyWrapper>
         <EditorToolbar onMouseDown={onEditorToolbarClick} >
           <StyleButton highlight={boldHighlight} bold type='button' onMouseDown={ onBoldClick } >B</StyleButton>
@@ -304,8 +334,7 @@ function EditStoryForm(props) {
         </EditorWrapper>
       </StickyWrapper>
       <CreateStoryGenrePicker toggleCheck={toggleCheck} />
-      {(genreError) ? <ErrorPrompt >{genreError}</ErrorPrompt> : null }
-      {(errorMessage) ? <ErrorPrompt >{errorMessage}</ErrorPrompt> : null }
+      <ErrorMessage >{genreError}</ErrorMessage>
       <RequiredPrompt>All fields required</RequiredPrompt>
       <FormBtnList>
         <li>
@@ -315,6 +344,12 @@ function EditStoryForm(props) {
           <CancelBtn to={`/story/${storyID}`} >Cancel</CancelBtn>
         </li>
       </FormBtnList>
+      {(Array.isArray(submitError)) ?
+        submitError.map(error => {
+          return <ErrorMessage key={error.msg}>{error.msg}</ErrorMessage>
+        })
+        : <ErrorMessage >{submitError}</ErrorMessage>
+      }
     </Form>
   );
 }

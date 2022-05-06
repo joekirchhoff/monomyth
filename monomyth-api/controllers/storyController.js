@@ -111,8 +111,15 @@ exports.stories_get = (req, res, next) => {
 exports.story_create = [
 
   // Validate and sanitize fields.
-  body('title').trim().isLength({ min: 1 }).escape().withMessage('Story title must be specified.'),
-  body('text').trim().isLength({ min: 1 }).withMessage('Story text must be specified.'),
+  body('title').trim().isLength({ min: 1 }).escape().withMessage('Story title cannot be blank'),
+  body('editorIsValid').equals('true').withMessage('Story text cannot be blank'),
+  body('genres').custom((value, {req}) => {
+    if (Array.isArray(value) && value.length === 3) {
+      return true;
+    } else {
+      throw new Error('Please select exactly three genres');
+    }
+  }),
 
   // Process request after validation and sanitization.
   (req, res, next) => {
@@ -122,11 +129,11 @@ exports.story_create = [
 
     if (!errors.isEmpty()) {
       // There are errors.
-      res.json(errors);
+      res.status(400).json({'validationErrors': errors});
       return;
     } else if (!req.user) {
       // User not logged in; send error message
-      res.status(401).json({'message': 'Must be logged in to post story'});
+      res.status(401).json({'authError': 'Must be logged in to post story'});
       return;
     }
     else {
@@ -168,38 +175,37 @@ exports.story_get = (req, res, next) => {
 exports.story_update = [
 
   // Validate and sanitize fields.
-  body('title').trim().isLength({ min: 1 }).escape().withMessage('Story title must be specified.'),
-  body('text').trim().isLength({ min: 1 }).withMessage('Story text must be specified.'),
+  body('title').trim().isLength({ min: 1 }).escape().withMessage('Story title cannot be blank'),
+  body('editorIsValid').equals('true').withMessage('Story text cannot be blank'),
+  body('genres').custom((value, {req}) => {
+    if (Array.isArray(value) && value.length === 3) {
+      return true;
+    } else {
+      throw new Error('Please select exactly three genres');
+    }
+  }),
 
   // Process request after validation and sanitization.
   (req, res, next) => {
 
-    // If not logged in, return error
-    if (!req.user) {
-      res.status(401).json({'message': 'Must be logged in as author to update story'});
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({'validationError': errors})
     } else {
-    // User logged in, GET story to check author identity
-      Story.findById(req.params.storyID, (err, story) => {
-
-        if (err) return next(err);
-
-        // Compare story author to request author
-        if (story.author.valueOf() !== req.user.id) {
-          // User is not the author, return error
-          res.status(403).json({'message': 'Must be logged in as author to update story'});
-        } else {
-          // User is logged in as author
-          // Extract the validation errors from the request
-          const errors = validationResult(req);
-
-          if (!errors.isEmpty()) {
-            // There are errors. Render form again with sanitized values/errors messages.
-            res.json({'message': errors});
-            return;
-          }
-          else {
-
-            // Data from form is valid.
+      // If not logged in, return error
+      if (!req.user) {
+        res.status(401).json({'authError': 'Must be logged in as author to update story'});
+      } else {
+        // User logged in, GET story to check author identity
+        Story.findById(req.params.storyID, (err, story) => {
+          if (err) return next(err);
+  
+          // Compare story author to request author
+          if (story.author.valueOf() !== req.user.id) {
+            // User is not the author, return error
+            res.status(403).json({'authError': 'Must be logged in as author to update story'});
+          } else {
+            // User is logged in as author
             const newStory = new Story(
               {
                 title: req.body.title,
@@ -210,14 +216,14 @@ exports.story_update = [
               });
             Story.findByIdAndUpdate(req.params.storyID, newStory, (err) => {
               if (err) {
-                res.status(400).json({'message': 'Sorry, something went wrong while updating. Please try again later.'});
+                res.status(400).json({'authError': 'Sorry, something went wrong while updating. Please try again later.'});
               } else {
                 res.status(200).json('Update successful');
               }
             })
-          };
-        }
-      });
+          }
+        });
+      }
     }
   }
 ]

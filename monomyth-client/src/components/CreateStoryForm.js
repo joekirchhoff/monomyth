@@ -104,19 +104,22 @@ const CancelBtn = styled(Link)`
   cursor: pointer;
 `
 
-const ErrorPrompt = styled.p`
+const ErrorMessage = styled.span`
   color: ${props => props.theme.textWarningColor};
   margin-top: 1rem;
 `
 
-const RequiredPrompt = styled.p`
+const RequiredPrompt = styled.span`
   margin-top: 1rem;
   font-size: 1rem;
 `
 
 function CreateStoryForm() {
 
-  const [errorMessage, setErrorMessage] = useState('')
+  // Error messaging
+  const [titleError, setTitleError] = useState('')
+  // Submit error can be either string (custom error) or array of error objects (from express-validator)
+  const [submitError, setSubmitError] = useState()
 
   const handleSubmit = (e) => {
     
@@ -134,7 +137,8 @@ function CreateStoryForm() {
       body: JSON.stringify({
         'title': titleToSave,
         'text': editorJSON,
-        'genres': genresToSave
+        'genres': genresToSave,
+        'editorIsValid': editorState.getCurrentContent().hasText().toString()
       }),
       credentials: 'include'
     })
@@ -142,10 +146,19 @@ function CreateStoryForm() {
       return res.json();
     })
     .then(res => {
-      if (!res.message) { // Successfully saved to database, redirect to new story page
+      if (res.validationErrors) {
+
+        // Server returned validation error array; set error messages
+        setSubmitError(res.validationErrors.errors);
+
+      } else if (res.authError) {
+
+        // Server returned auth error; user not logged in
+        setSubmitError(res.authError);
+
+      } else {
+        // Successfully saved to database, redirect to new story page
         window.location.replace(`/story/${res}`);
-      } else { // Something went wrong; update error message
-        setErrorMessage(res.message);
       }
     });
   }
@@ -221,7 +234,7 @@ function CreateStoryForm() {
         newGenres.push(e.target.id);
         setGenres(newGenres);
       } else { // Max genres already selected, set error message
-        setGenreError('Maximum of three genres selected; please unselect a genre first');
+        setGenreError('Maximum of three genres already selected');
         e.target.checked = false;
       }
     }
@@ -232,10 +245,20 @@ function CreateStoryForm() {
     }
   }
 
+  // Title validation and tracking
+
   const [title, setTitle] = useState('');
 
   const onTitleChange = (e) => {
     setTitle(e.target.value);
+  }
+
+  const onTitleBlur = () => {
+    if (!title.length) {
+      setTitleError('Please enter a title')
+    } else {
+      setTitleError('');
+    }
   }
 
   // Disable submit button until all fields complete
@@ -252,7 +275,15 @@ function CreateStoryForm() {
     <Form onSubmit={handleSubmit}>
       <Header >Create New Story</Header>
       <Label htmlFor='title' >Title</Label>
-      <Input id='title' type='text' name='title' value={title} onChange={onTitleChange}/>
+      <Input
+        id='title'
+        type='text'
+        name='title'
+        value={title}
+        onChange={onTitleChange}
+        onBlur={onTitleBlur}
+        required
+      />
       <StickyWrapper>
         <EditorToolbar onMouseDown={onEditorToolbarClick} >
           <StyleButton highlight={boldHighlight} bold type='button' onMouseDown={ onBoldClick } >B</StyleButton>
@@ -270,8 +301,7 @@ function CreateStoryForm() {
         </EditorWrapper>
       </StickyWrapper>
       <CreateStoryGenrePicker toggleCheck={toggleCheck} />
-      {(genreError) ? <ErrorPrompt >{genreError}</ErrorPrompt> : null }
-      {(errorMessage) ? <ErrorPrompt >{errorMessage}</ErrorPrompt> : null }
+      <ErrorMessage >{genreError}</ErrorMessage>
       <RequiredPrompt>All fields required</RequiredPrompt>
       <FormBtnList>
         <li>
@@ -281,6 +311,12 @@ function CreateStoryForm() {
           <CancelBtn to={`/`} >Cancel</CancelBtn>
         </li>
       </FormBtnList>
+      {(Array.isArray(submitError)) ?
+        submitError.map(error => {
+          return <ErrorMessage key={error.msg}>{error.msg}</ErrorMessage>
+        })
+        : <ErrorMessage >{submitError}</ErrorMessage>
+      }
     </Form>
   );
 }
