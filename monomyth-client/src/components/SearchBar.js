@@ -60,12 +60,14 @@ const SearchBar = () => {
         onChange={onSearchValueChange}
         type='search'
         placeholder='Search stories'
+        aria-label='search stories'
         size='12'
       />
-      <SearchBtn onClick={handleSubmit} >
+      <SearchBtn aria-label='search submit' type='submit' onClick={handleSubmit} >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
+          aria-hidden={true}
         >
           <title>Search</title>
           <path

@@ -12,6 +12,7 @@ const StarSVG = (props) => {
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       viewBox="0 0 500 500"
+      aria-hidden={true}
       isLiked={props.isLiked}
     >
       <g transform="matrix(0.9 0 0 0.9 250 250)" id="chww9jSu_1DVGKtlsI0kM"  >

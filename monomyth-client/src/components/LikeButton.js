@@ -19,11 +19,14 @@ const Button = styled.button`
 
 function LikeButton(props) {
 
+  const ariaLabel = props.isLiked ? 'unlike' : 'like';
+
   return (
     <Button
       onClick={props.onClick}
       isOnComment={props.isOnComment}
       isLiked={props.isLiked}
+      aria-label={ariaLabel}
     >
       <StarSVG isLiked={props.isLiked}/>
     </Button>
