@@ -90,10 +90,12 @@ function CommentForm(props) {
       return res.json();
     })
     .then(res => {
-      if (!res.message) { // Successfully saved to database, refresh page
+      if (res.authError) { // Authentication error; user not logged in
+        setErrorMessage(res.authError);
+      } else if (res.validationError) { // Validation error; text-area blank
+        setErrorMessage(res.validationError)
+      } else {  // Successful comment post
         window.location.reload();
-      } else { // Something went wrong; update error message
-        setErrorMessage(res.message);
       }
     });
   }
@@ -117,7 +119,13 @@ function CommentForm(props) {
   return (
     <Form onSubmit={handleSubmit}>
       <Header >Add Comment as {props.currentUser.username}</Header>
-      <Input name='commentText' placeholder='What did you think of this story?' value={commentText} onChange={onCommentTextChange}/>
+      <Input
+        name='commentText'
+        placeholder='What did you think of this story?'
+        value={commentText}
+        onChange={onCommentTextChange}
+        required
+      />
       {(errorMessage) ? <ErrorPrompt >{errorMessage}</ErrorPrompt> : null }
       <BtnContainer>
         <SubmitBtn id='submit' type='submit' disabled>Submit</SubmitBtn>

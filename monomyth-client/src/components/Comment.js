@@ -283,10 +283,10 @@ function Comment(props) {
       return res.json();
     })
     .then(res => {
-      if (!res.message) { // Successfully deleted, refresh page
+      if (!res.error) { // Successfully deleted, refresh page
         window.location.reload();
       } else { // Something went wrong; update error message
-        setErrorMessage(res.message);
+        setErrorMessage(res.error);
       }
     });
   }
@@ -300,10 +300,10 @@ function Comment(props) {
         <DateTag date={props.comment.date} />
       </DateContainer>
       {(editable) ?
-        <EditForm>
-          <EditTextarea value={commentEditValue} onChange={onEditValueChange} />
+        <EditForm onSubmit={onSubmit} >
+          <EditTextarea value={commentEditValue} onChange={onEditValueChange} required />
           <EditBtnContainer>
-            <SubmitBtn onClick={onSubmit} >Submit</SubmitBtn>
+            <SubmitBtn type='submit' >Submit</SubmitBtn>
             <CancelBtn onClick={onCancelClick} type='button' >Cancel</CancelBtn>
           </EditBtnContainer>
           {(errorMessage) ? <ErrorMsg>{errorMessage}</ErrorMsg> : null}
