@@ -40,7 +40,7 @@ const TimeMenu = styled.div`
 
 const TimeOptionBtn = styled.button`
   padding: .5rem;
-  margin-bottom: .25rem;
+  margin: .5rem 0;
   background-color: ${props => props.highlight ? props.theme.bgHighlightColor : props.theme.bgMainColor};
   color: ${props => props.theme.textMainColor};
   border: ${props => props.theme.borderMain};

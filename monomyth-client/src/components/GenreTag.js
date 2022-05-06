@@ -55,7 +55,7 @@ function GenreTag(props) {
       <Dot genreColor={props.genre.color} />
       <div>
         <GenreName >{props.genre.name}</GenreName>
-        {(showTooltip && props.includeTooltip) ? <Tooltip tooltipString={props.genre.description} /> : null }
+        {(showTooltip) ? <Tooltip tooltipString={props.genre.description} /> : null }
       </div>
 
     </Tag>

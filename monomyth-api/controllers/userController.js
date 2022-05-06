@@ -11,7 +11,7 @@ exports.user_create = [
   // Validate and sanitize fields.
   body('username').trim().isLength({ min: 1 }).escape().withMessage('Username must be specified.'),
   body('email').trim().isLength({ min: 1 }).escape().withMessage('Email must be specified.'),
-  check('password').isLength({ min: 8 }).escape().withMessage('Password must contain at least 8 characters'),
+  check('password').isLength({ min: 5 }).escape().withMessage('Password must contain at least 5 characters'),
 
   // Process request after validation and sanitization.
   (req, res, next) => {
@@ -20,8 +20,8 @@ exports.user_create = [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      // There are errors. Render form again with sanitized values/errors messages.
-      res.json(errors.array());
+      // There are errors; return array of errors
+      res.status(400).json({'validateErrors': errors.array()});
       return;
     }
     else {
@@ -32,11 +32,11 @@ exports.user_create = [
       ], function(err, result) {
         if (err) return next(err);
         if (result[0]) {
-          res.json({'error' : 'An account with that email already exists'})
+          res.status(400).json({'duplicationError' : 'An account with that email already exists'})
           return;
         }
         else if (result[1]) {
-          res.json({'error' : 'An account with that username already exists'})
+          res.status(400).json({'duplicationError' : 'An account with that username already exists'})
           return;
         }
         else {
@@ -57,11 +57,9 @@ exports.user_create = [
             user.save(function (err, user) {
               if (err) { return next(err); }
               // User created successfully; attempt automatic log in
-              console.log('user info :', user)
               req.login(user, function(err) {
                 if (err) { return next(err); }
                 // Log in successful
-                console.log('post login: ', user)
                 res.status(200).json({user: user});
               });
             });

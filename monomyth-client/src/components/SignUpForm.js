@@ -24,6 +24,7 @@ const Label = styled.label`
   font-size: 1.25rem;
   padding-bottom: .25rem;
   user-select: none;
+  margin-top: 1rem;
 `
 
 const Input = styled.input`
@@ -32,7 +33,6 @@ const Input = styled.input`
   width: 90%;
   height: 2rem;
   border: none;
-  margin-bottom: 1rem;
   padding-left: 1rem;
   background-color: ${props => props.theme.inputBgColor};
   color: ${props => props.theme.inputTextColor};
@@ -48,11 +48,13 @@ const SubmitBtn = styled.button`
   cursor: pointer;
 `
 
-const ErrorMessage = styled.p`
+const ErrorMessage = styled.span`
   color: ${props => props.theme.textWarningColor};
+  padding: .25rem;
+  font-size: .8rem;
 `
 
-const RedirectPrompt = styled.p`
+const RedirectPrompt = styled.span`
   margin-top: 2rem;
 `
 
@@ -62,7 +64,44 @@ const RedirectLink = styled(Link)`
 
 function SignUpForm() {
 
-  const [showError, setShowError] = useState(false)
+  // Inline Error Messages
+  const [emailError, setEmailError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  // Submission errors; express-validator errors return an array of error objects;
+  // Duplication error (i.e. username already in use) return as single error object
+  const [submitErrors, setSubmitErrors] = useState();
+
+  // Validation Checks
+  const onEmailBlur = () => {
+    const emailInput = document.getElementById('email');
+    if (emailInput.validity.typeMismatch || emailInput.validity.valueMissing) {
+      setEmailError('Please enter a valid email address');
+    } else {
+      setEmailError('');
+    }
+  }
+
+  const onUsernameBlur = () => {
+    const usernameInput = document.getElementById('username');
+    if (usernameInput.validity.valueMissing) {
+      setUsernameError('Please enter a username');
+    } else {
+      setUsernameError('');
+    }
+  }
+
+  const onPasswordBlur = () => {
+    const passwordInput = document.getElementById('password');
+    if (passwordInput.validity.valueMissing || passwordInput.validity.tooShort) {
+      setPasswordError('Please enter a password at least five (5) characters long');
+    } else {
+      setPasswordError('');
+    }
+  }
+
+  // Form Submission
 
   const handleSubmit = (e) => {
     
@@ -84,8 +123,10 @@ function SignUpForm() {
       // Successful sign up; log in and redirect to account
       if (res.user) {
         window.location.assign(`/user/${res.user._id}`);
-      } else { // Bad sign up; show error message
-        setShowError(true);
+      } else if (res.validateErrors) { // Validation errors server-side; show error message array
+        setSubmitErrors(res.validateErrors);
+      } else if (res.duplicationError) { // Email or username already exist; show error message
+        setSubmitErrors(res.duplicationError);
       }
     });
   }
@@ -93,14 +134,27 @@ function SignUpForm() {
   return (
     <Form>
       <Header >Sign up</Header>
+
       <Label htmlFor='email' >Email</Label>
-      <Input id='email' type='email' name='email'/>
+      <Input id='email' type='email' name='email' required onBlur={onEmailBlur} />
+      <ErrorMessage>{emailError}</ErrorMessage>
+
       <Label htmlFor='username' >Username</Label>
-      <Input id='username' type='text' name='username'/>
+      <Input id='username' type='text' name='username' required onBlur={onUsernameBlur} />
+      <ErrorMessage>{usernameError}</ErrorMessage>
+
       <Label htmlFor='password' >Password</Label>
-      <Input id='password' type='password' name='password'/>
-      {(showError) ? <ErrorMessage >Incorrect email and/or password</ErrorMessage> : null }
+      <Input id='password' type='password' name='password' minLength='5' required onBlur={onPasswordBlur} />
+      <ErrorMessage>{passwordError}</ErrorMessage>
+
       <SubmitBtn type='submit' onClick={handleSubmit}>Submit</SubmitBtn>
+      {(Array.isArray(submitErrors)) ?
+        submitErrors.map(error => {
+          return <ErrorMessage key={error.msg} >{error.msg}</ErrorMessage>
+        })
+        : <ErrorMessage>{submitErrors}</ErrorMessage>
+      }
+
       <RedirectPrompt>Already have an account?</RedirectPrompt>
       <RedirectLink to='/login'>Log in here</RedirectLink>
     </Form>

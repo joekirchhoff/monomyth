@@ -10,6 +10,7 @@ const ControllerForm = styled.form`
 
 const PageNumber = styled.p`
   padding: 1rem;
+  user-select: none;
 `
 
 const PageBtn = styled.button`
