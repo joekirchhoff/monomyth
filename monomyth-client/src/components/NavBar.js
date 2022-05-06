@@ -20,12 +20,10 @@ const Nav = styled.nav`
   box-shadow: ${props => props.theme.boxShadowMain};
 `
 
-// LOGO =========================================
 const LogoContainer = styled.div`
   flex: 1;
 `
 
-// SEARCH BAR ===================================
 const SearchContainer = styled.div`
   flex: 1;
   display: flex;
@@ -33,7 +31,6 @@ const SearchContainer = styled.div`
   align-items: center;
 `
 
-// MENU BUTTONS =================================
 const MenuContainer = styled.div`
   flex: 1;
   display: flex;
@@ -94,8 +91,6 @@ const NavBtn = styled.button`
   cursor: pointer;
   min-width: 6rem;
 `
-
-// ==============================================
 
 function NavBar(props) {
 

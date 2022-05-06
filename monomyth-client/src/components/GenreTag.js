@@ -14,7 +14,7 @@ const Tag = styled.button`
   border: none;
   cursor: pointer;
   :focus {
-    outline: none;
+    outline: ${props => props.theme.textMainColor} 1px solid;
   }
 `
 
@@ -40,7 +40,7 @@ function GenreTag(props) {
   const [showTooltip, setShowTooltip] = useState(false);
   const genreTagRef = useRef();
 
-  const onGenreClick = (e) => {
+  const onGenreFocus = (e) => {
     e.preventDefault();
     setShowTooltip(!showTooltip);
     genreTagRef.current.focus();
@@ -51,7 +51,7 @@ function GenreTag(props) {
   }
 
   return (
-    <Tag onMouseDown={onGenreClick} onBlur={onGenreBlur} ref={genreTagRef} >
+    <Tag onFocus={onGenreFocus} onBlur={onGenreBlur} ref={genreTagRef} >
       <Dot genreColor={props.genre.color} />
       <div>
         <GenreName >{props.genre.name}</GenreName>

@@ -9,6 +9,9 @@ const DateButton = styled.button`
   background-color: transparent;
   cursor: pointer;
   text-align: right;
+  :focus {
+    outline: ${props => props.theme.textMainColor} 1px solid;
+  }
 `
 
 const DateTag = (props) => {
@@ -17,7 +20,7 @@ const DateTag = (props) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
   // Clicking date tag (and tooltip box, if open) will toggle tooltip open / closed
-  const onClick = (e) => {
+  const onFocus = (e) => {
     e.preventDefault();
     setShowTooltip(!showTooltip);
   }
@@ -35,7 +38,7 @@ const DateTag = (props) => {
   const dateString = datePosted.toLocaleString(DateTime.DATETIME_SHORT);
   
   return (
-    <DateButton onClick={onClick} onBlur={onBlur} >
+    <DateButton onFocus={onFocus} onBlur={onBlur} >
       {durationString}
       {(showTooltip) ? <Tooltip tooltipString={dateString} /> : null }
     </DateButton>

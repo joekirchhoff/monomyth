@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import GenreTag from './GenreTag';
+import StoryCardGenreTag from './StoryCardGenreTag';
 import LikeButton from './LikeButton';
 import StoryCardDateTag from './StoryCardDateTag';
 
@@ -135,7 +135,7 @@ function StoryCard(props) {
       </RightContainer>
       <BottomContainer >
         {props.story.genres.map((genre) => {
-            return <GenreTag key={genre._id} genre={genre} />
+            return <StoryCardGenreTag key={genre._id} genre={genre} />
         })}
       </BottomContainer>
     </Card>
