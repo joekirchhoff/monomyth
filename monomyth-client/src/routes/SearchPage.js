@@ -23,6 +23,7 @@ const Header = styled.h1`
 `
 
 const CardList = styled.div`
+  width: 100%;
   max-width: 750px;
   display: flex;
   flex-flow: column nowrap;
