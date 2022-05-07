@@ -61,13 +61,7 @@ const MobileMenuList = styled.ul`
   min-height: 10rem;
   position: fixed;
   top: 3.5rem;
-  // On click, animated slide in from right
-  right: -5rem;
-  transition-property: right;
-  transition-duration: .15s;
-  :focus {
-    right: .5rem;
-  }
+  right: .5rem;
   @media (min-width: 947px) {
       display: none;
     }
@@ -165,7 +159,7 @@ function NavBar(props) {
               </Link>
             </li>
           </DesktopMenuList>
-          <MobileMenuBtn onMouseDown={handleMenuBtn}>☰</MobileMenuBtn>
+          <MobileMenuBtn onClick={handleMenuBtn}>☰</MobileMenuBtn>
           {menuOpen ?
             <MobileMenuList ref={mobileMenu} onBlur={onMobileMenuBlur} tabIndex='0'>
               <li>
@@ -203,7 +197,7 @@ function NavBar(props) {
               </Link>
             </li>
           </DesktopMenuList>
-          <MobileMenuBtn onMouseDown={handleMenuBtn}>☰</MobileMenuBtn>
+          <MobileMenuBtn onClick={handleMenuBtn}>☰</MobileMenuBtn>
           {menuOpen ?
             <MobileMenuList ref={mobileMenu} onBlur={onMobileMenuBlur} tabIndex='0' >
               <li>
