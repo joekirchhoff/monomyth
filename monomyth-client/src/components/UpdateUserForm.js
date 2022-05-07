@@ -127,7 +127,11 @@ const UpdateUserForm = (props) => {
     })
     .then(res => {
       // Error (continued); set error message for display
-      if (res) setError(res.message);
+      if (res.authError) {
+        setError(res.authError)
+      } else if (res.validationErrors) {
+        setError(res.validationErrors[0].msg);
+      }
     });
   }
 

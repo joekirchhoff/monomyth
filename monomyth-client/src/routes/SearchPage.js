@@ -1,17 +1,18 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
 import StoryCard from '../components/StoryCard';
 import PageControl from '../components/PageControl';
 import SearchFieldSwitch from '../components/SearchFieldSwitch';
 
 const PageContainer = styled.div`
   flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
 `
 
-const ErrorMessage = styled.p`
+const ErrorMessage = styled.span`
   text-align: center;
-  margin: 2rem;
   font-size: 1.5rem;
 `
 
@@ -71,19 +72,20 @@ const SearchPage = (props) => {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     })
-    .then(function(response) {
-      return response.json();
+    .then(res => {
+      return res.json();
     })
-    .then(function(stories) {
-      // Format author field; search method returns author as one-length array
-      stories.forEach((story) => {
-        story.author = story.author[0];
-      })
-      setStories(stories);
+    .then(data => {
+      if (data.error) {
+        setErrorMessage(data.error);
+      } else {
+        // Format author field; search method returns author as one-length array
+        data.forEach((story) => {
+          story.author = story.author[0];
+        })
+        setStories(data);
+      }
     })
-    .catch(function(err) {
-      if (err) setErrorMessage(err);
-    });
   }
 
   useEffect(() => {
@@ -94,7 +96,7 @@ const SearchPage = (props) => {
     <PageContainer>
       <Header>Search Results: "{query}"</Header>
       <SearchFieldSwitch setField={setField} />
-      {/* {(errorMessage) ? <ErrorMessage>{errorMessage}</ErrorMessage> : null} */}
+      <ErrorMessage>{errorMessage}</ErrorMessage>
       {(stories.length) ?
         <CardList>
           {stories.map((story) => {

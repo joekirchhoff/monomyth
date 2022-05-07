@@ -16,9 +16,9 @@ exports.comments_get = (req, res, next) => {
   .exec((err, comments) => {
     if (err) {
       res.status(500).json(err);
-      return;
+    } else {
+      res.status(200).json(comments);
     }
-    res.json(comments);
   })
 }
 
@@ -67,9 +67,8 @@ exports.comment_get = (req, res, next) => {
   .exec((err, comment) => {
     if (err) {
       res.status(500).json(err);
-      return;
     }
-    res.json(comment);
+    res.status(200).json(comment);
   })
 }
 
@@ -130,7 +129,7 @@ exports.comment_delete = (req, res, next) => {
 
   // User not logged in; respond with error
   if (!req.user) {
-    res.status(401).json({'message': 'Must be logged in to delete comment'});
+    res.status(401).json({'error': 'Must be logged in to delete comment'});
     return next();
   }
   
@@ -142,7 +141,7 @@ exports.comment_delete = (req, res, next) => {
     }
     if (comment.author.valueOf() !== req.user.id) {
       // User logged in but not comment author
-      res.status(403).json({'message': 'Must be logged in as comment author to delete'});
+      res.status(403).json({'error': 'Must be logged in as comment author to delete'});
       return next();
     }
   });
@@ -160,7 +159,7 @@ exports.comment_like = (req, res, next) => {
 
   // If not logged in, return error
   if (!req.user) {
-    res.status(401).json('message', 'Must be logged in to like comment');
+    res.status(401).json({'error': 'Must be logged in to like comment'});
   } else {
     // Get comment likes
     Comment.findById(req.params.commentID)
@@ -181,7 +180,7 @@ exports.comment_like = (req, res, next) => {
 
       if (alreadyLiked) {
         // User has already liked comment, return error
-        res.status(400).json('User has already liked comment');
+        res.status(400).json({'error': 'User has already liked comment'});
       } else {
         // Add user like from comment, increment
         commentLikes.push(req.user._id);
@@ -206,7 +205,7 @@ exports.comment_unlike = (req, res, next) => {
 
   // If not logged in, return error
   if (!req.user) {
-    res.status(401).json('message', 'Must be logged in to like comment');
+    res.status(401).json({'error': 'Must be logged in to like comment'});
   } else {
     // Get comment likes
     Comment.findById(req.params.commentID)
@@ -229,7 +228,7 @@ exports.comment_unlike = (req, res, next) => {
 
       if (!alreadyLiked) {
         // User has not already liked comment, return error
-        res.status(400).json('User has already liked comment');
+        res.status(400).json({'error': 'User has already liked comment'});
       } else {
         // Add user like to comment, decrement
         commentLikes.splice(likedIndex, 1);
@@ -239,7 +238,6 @@ exports.comment_unlike = (req, res, next) => {
           likes: commentLikes,
           score: commentScore
         };
-        console.log('Comment info: ', commentInfo);
         Comment.findByIdAndUpdate(req.params.commentID, commentInfo, (err) => {
           if (err) return next(err);
           res.status(200).json('Comment unlike successful');

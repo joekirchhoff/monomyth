@@ -36,9 +36,9 @@ exports.stories_get = (req, res, next) => {
     .exec((err, stories) => {
       if (err) {
         res.status(500).json(err);
-        return;
+      } else {
+        res.json(stories);
       }
-      res.json(stories);
     })
   } else if (firstGenre && secondGenre && thirdGenre) { // Three genre filters specified
     Story.find()
@@ -53,9 +53,9 @@ exports.stories_get = (req, res, next) => {
     .exec((err, stories) => {
       if (err) {
         res.status(500).json(err);
-        return;
+      } else {
+        res.json(stories);
       }
-      res.json(stories);
     })
   } else if (firstGenre && secondGenre) { // Two genre filters specified
     Story.find()
@@ -70,9 +70,9 @@ exports.stories_get = (req, res, next) => {
     .exec((err, stories) => {
       if (err) {
         res.status(500).json(err);
-        return;
+      } else {
+        res.json(stories);
       }
-      res.json(stories);
     })
   } else if (firstGenre) { // One genre filter specified
     Story.find()
@@ -86,9 +86,9 @@ exports.stories_get = (req, res, next) => {
     .exec((err, stories) => {
       if (err) {
         res.status(500).json(err);
-        return;
+      } else {
+        res.json(stories);
       }
-      res.json(stories);
     })
   } else { // Default: no genre filtering
     Story.find()
@@ -101,9 +101,9 @@ exports.stories_get = (req, res, next) => {
     .exec((err, stories) => {
       if (err) {
         res.status(500).json(err);
-        return;
+      } else {
+        res.json(stories);
       }
-      res.json(stories);
     })
   }
 }
@@ -166,9 +166,9 @@ exports.story_get = (req, res, next) => {
   .exec((err, story) => {
     if (err) {
       res.status(500).json(err);
-      return;
+    } else {
+      res.json(story);
     }
-    res.json(story);
   })
 }
 
@@ -232,14 +232,14 @@ exports.story_delete = (req, res, next) => {
   
   // User is not logged in at all; return error
   if (!req.user) {
-    res.status(401).json({'message': 'Must be logged in as author to delete story'});
+    res.status(401).json({'error': 'Must be logged in as author to delete story'});
   } else {
     // User is logged in; check if user is author
     Story.findById(req.params.storyID, (err, story) => {
       if (err) return next(err);
       if (story.author.valueOf() !== req.user.id) {
         // User is not author; respond with error message
-        res.status(403).json({'message': 'Must be logged in as author to delete story'});
+        res.status(403).json({'error': 'Must be logged in as author to delete story'});
       } else {
         // User is author; attempt delete
         Story.findByIdAndDelete(req.params.storyID, (err) => {
@@ -256,104 +256,110 @@ exports.story_delete = (req, res, next) => {
 
 exports.story_like = (req, res, next) => {
 
-  // If not logged in, return error
   if (!req.user) {
-    res.status(401).json('message', 'Must be logged in to like story');
+    // User not logged in, return error
+    res.status(401).json({'error': 'Must be logged in to like story'});
+  } else {
+    // User logged in. Get story likes and score
+    Story.findById(req.params.storyID)
+    .select('likes score')
+    .exec((err, story) => {
+      if (err) {
+        // Error retrieving story from database
+        res.status(404).json({'error': 'Sorry, something went wrong on our end!'});
+      } else {
+
+        if (!story) {
+          // Requested story not found in database
+          res.status(400).json({'error': 'Story not found'});
+        } else {
+
+          // Check if user has already liked story
+          const storyLikes = [...story.likes];
+          let alreadyLiked = false;
+          for (let i = 0; i < storyLikes.length; i++) {
+            if (storyLikes[i].toString() === req.user.id) {
+              alreadyLiked = true;
+              break;
+            };
+          }
+      
+          if (alreadyLiked) {
+            // User has already liked story, return error
+            res.status(400).json({'error': 'User has already liked story'});
+          } else {
+            // Add user like from story, increment
+            storyLikes.push(req.user._id);
+      
+            const storyScore = story.score + 1;
+      
+            const storyInfo = {
+              likes: storyLikes,
+              score: storyScore
+            };
+            Story.findByIdAndUpdate(req.params.storyID, storyInfo, (err) => {
+              if (err) return next(err);
+              res.status(200).json('Story like successful');
+            })
+          }
+        }
+      }
+    })
   }
-
-  // Get story likes
-  Story.findById(req.params.storyID)
-  .select('likes score')
-  .exec((err, story) => {
-    if (err) return next(err);
-
-    if (!story) {
-      res.status(400).json('message', 'Story not found!');
-    }
-
-    const storyLikes = [...story.likes];
-
-    // Check if user has already liked story
-    let alreadyLiked = false;
-    for (let i = 0; i < storyLikes.length; i++) {
-      if (storyLikes[i].toString() === req.user.id) {
-        alreadyLiked = true;
-        break;
-      };
-    }
-
-    if (alreadyLiked) {
-      // User has already liked story, return error
-      res.status(400).json('User has already liked story');
-    } else {
-      // Add user like from story, increment
-      storyLikes.push(req.user._id);
-
-      const storyScore = story.score + 1;
-
-      const storyInfo = {
-        likes: storyLikes,
-        score: storyScore
-      };
-      console.log('Story info: ', storyInfo);
-      Story.findByIdAndUpdate(req.params.storyID, storyInfo, (err) => {
-        if (err) return next(err);
-        res.status(200).json('Story like successful');
-      })
-    }
-  })
 }
 
 exports.story_unlike = (req, res, next) => {
 
-  // If not logged in, return error
   if (!req.user) {
-    res.status(401).json('message', 'Must be logged in to like story');
+    // User not logged in; throw error
+    res.status(401).json({'error': 'Must be logged in to like story'});
+  } else {
+
+    // User logged in; get story likes and score
+    Story.findById(req.params.storyID)
+    .select('likes score')
+    .exec((err, story) => {
+      if (err) {
+        // Error retrieving story from database
+        res.status(404).json({'error': 'Sorry, something went wrong on our end!'});
+
+      } else if (!story) {
+          // Story not found in database
+          res.status(400).json({'error': 'Story not found!'});
+
+      } else {
+        // Check if user has already liked story
+        const storyLikes = [...story.likes];
+        let alreadyLiked = false;
+        let likedIndex = -1;
+        for (let i = 0; i < storyLikes.length; i++) {
+          if (storyLikes[i].toString() === req.user.id) {
+            alreadyLiked = true;
+            likedIndex = i;
+            break;
+          };
+        }
+    
+        if (!alreadyLiked) {
+          // User has not already liked story, return error
+          res.status(400).json({'error': 'User has not liked story'});
+        } else {
+          // User has liked story; remove user like from story, decrement
+          storyLikes.splice(likedIndex, 1);
+          const storyScore = story.score - 1;
+    
+          const storyInfo = {
+            likes: storyLikes,
+            score: storyScore
+          };
+          Story.findByIdAndUpdate(req.params.storyID, storyInfo, (err) => {
+            if (err) return next(err);
+            res.status(200).json('Story unlike successful');
+          })
+        }
+      } 
+    })
   }
-
-  // Get story likes
-  Story.findById(req.params.storyID)
-  .select('likes score')
-  .exec((err, story) => {
-    if (err) return next(err);
-
-    if (!story) {
-      res.status(400).json('message', 'Story not found!');
-    }
-
-    const storyLikes = [...story.likes];
-
-    // Check if user has already liked story
-    let alreadyLiked = false;
-    let likedIndex = -1;
-    for (let i = 0; i < storyLikes.length; i++) {
-      if (storyLikes[i].toString() === req.user.id) {
-        alreadyLiked = true;
-        likedIndex = i;
-        break;
-      };
-    }
-
-    if (!alreadyLiked) {
-      // User has not already liked story, return error
-      res.status(400).json('User has not liked story');
-    } else {
-      // Remove user like from story, decrement
-      storyLikes.splice(likedIndex, 1);
-
-      const storyScore = story.score - 1;
-
-      const storyInfo = {
-        likes: storyLikes,
-        score: storyScore
-      };
-      console.log('Story info: ', storyInfo);
-      Story.findByIdAndUpdate(req.params.storyID, storyInfo, (err) => {
-        if (err) return next(err);
-        res.status(200).json('Story unlike successful');
-      })
-    }
-  })
 }
 
 // STORY SEARCH ---------------------------------
@@ -386,9 +392,9 @@ exports.story_search = (req, res, next) => {
   .lookup({ from: 'genres', localField: 'genres', foreignField: '_id', as: 'genres' })
   .exec((err, stories) => {
     if (err) {
-      res.status(500).json(err);
+      res.status(500).json({'error': err});
     } else {
-      res.json(stories);
+      res.status(200).json(stories);
     }
   })
 }

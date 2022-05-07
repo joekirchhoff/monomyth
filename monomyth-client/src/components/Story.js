@@ -163,7 +163,11 @@ function Story(props) {
         return res.json();
       })
       .then(res => {
-        setStoryLiked(true);
+        if (res.error) {
+          setLikeBtnError(true);
+        } else {
+          setStoryLiked(true);
+        }
       });
     } else if (props.currentUser &&  storyLiked) { // Story already liked; send unlike request to API
       fetch(`http://localhost:8080/api/stories/${props.storyID}/likes`, {
@@ -175,7 +179,11 @@ function Story(props) {
         return res.json();
       })
       .then(res => {
-        setStoryLiked(false);
+        if (res.error) {
+          setLikeBtnError(true);
+        } else {
+          setStoryLiked(false);
+        }
       });
     }
   }

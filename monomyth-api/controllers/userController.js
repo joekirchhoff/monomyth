@@ -77,10 +77,10 @@ exports.user_get = (req, res, next) => {
     User.findById(req.params.userID)
     .exec((err, user) => {
       if (err) {
-        res.status(500).json(err);
-        return;
+        res.status(500).json({'error': err});
+      } else {
+        res.json(user);
       }
-      res.json(user);
     })
   }
   // User is not target user; limit data exposed
@@ -89,10 +89,10 @@ exports.user_get = (req, res, next) => {
     .select('-email -password')
     .exec((err, user) => {
       if (err) {
-        res.status(500).json(err);
-        return;
+        res.status(500).json({'error': err});
+      } else {
+        res.json(user);
       }
-      res.json(user);
     })
   }  
 }
@@ -100,10 +100,8 @@ exports.user_get = (req, res, next) => {
 exports.user_update = [
 
   // TODO: validate / sanitize links
-  // TODO: optional update fields
 
   // Validate and sanitize fields.
-  // body('email').trim().isLength({ min: 1 }).escape().withMessage('Email must be specified.'),
   body('bio').trim().isLength({ max: 1000 }).escape().withMessage('Bio must not exceed 1000 characters.'),
 
   // Process request after validation and sanitization.
@@ -112,23 +110,20 @@ exports.user_update = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    // If not logged in, return error
     if (!req.user) {
-      res.status(401).json('message', 'Must be logged in to update user');
-    }
+      // User not logged in
+      res.status(401).json({'authError': 'Must be logged in to update user'});
 
-    // If logged in but not as target user, return error
-    if (req.user.id !== req.params.userID) {
-      res.status(403).json('message', 'Must be logged in as this user to update');
-    }
+    } else if (req.user.id !== req.params.userID) {
+      // User logged in but not as author
+      res.status(403).json({'authError': 'Must be logged in as this user to update'});
 
-    if (!errors.isEmpty()) {
-      // There are errors. Render form again with sanitized values/errors messages.
-      res.json(errors.array());
-      return;
-    }
-    else {
-      // Data from form is valid.
+    } else if (!errors.isEmpty()) {
+      // Validation errors
+      res.status(400).json({'validationErrors': errors.array()});
+
+    } else {
+      // Data from form is valid
       const user = new User(
         {
           bio: req.body.bio,
@@ -137,7 +132,7 @@ exports.user_update = [
         });
       User.findByIdAndUpdate(req.params.userID, user, (err) => {
         if (err) {
-          res.status(400).json({'message': err})
+          res.status(400).json({'authError': err})
         } else {
           // Successful
           res.status(200).json('User update successful');
@@ -149,21 +144,25 @@ exports.user_update = [
 
 exports.user_delete = (req, res, next) => {
 
-  // If not logged in, return error
   if (!req.user) {
-    res.status(401).json('message', 'Must be logged in to delete user');
-  }
-  
-  // If logged in but not as target user, return error
-  if (req.user.id !== req.params.userID) {
-    res.status(403).json('message', 'Must be logged in as this user to delete');
-  }
+    // User not logged in
+    res.status(401).json({'error': 'Must be logged in to delete user'});
 
-  User.findByIdAndDelete(req.params.userID, (err) => {
-    if (err) { return next(err) };
-    // Delete successful
-    res.status(200).json('Delete successful')
-  })
+  } else if (req.user.id !== req.params.userID) {
+    // User logged in but not as story author
+    res.status(403).json({'error': 'Must be logged in as this user to delete'});
+
+  } else {
+    // User is author; attempt delete
+    User.findByIdAndDelete(req.params.userID, (err) => {
+      if (err) {
+        res.status(404).json({'error': 'Something went wrong on our end!'});
+      } else {
+        // Delete successful
+        res.status(200).json('Delete successful');
+      }
+    })
+  }
 }
 
 // USER SEARCH ----------------------------------
@@ -189,9 +188,9 @@ exports.user_search = (req, res, next) => {
   .limit(limit)
   .exec((err, users) => {
     if (err) {
-      res.status(500).json(err);
-      return;
+      res.status(500).json({'error': err});
+    } else {
+      res.json(users);
     }
-    res.json(users);
   })
 }

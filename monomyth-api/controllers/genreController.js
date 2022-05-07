@@ -9,7 +9,6 @@ exports.genres_get = (req, res, next) => {
   .exec((err, genres) => {
     if (err) {
       res.status(500).json(err);
-      return;
     }
     res.status(200).json(genres);
   })

@@ -90,9 +90,9 @@ const DeleteStoryForm = (props) => {
           return res.json();
         })
         .then(res => {
-          if (res.message) {
+          if (res.error) {
             // Error occurred on backend; set error
-            setError(res.message);
+            setError(res.error);
           } else {
             // Story deleted successfully; show DeleteReceipt on EditStoryPage and blur background
             props.setShowBlur(true);
