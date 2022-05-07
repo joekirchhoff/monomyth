@@ -18,6 +18,7 @@ const Card = styled(Link)`
   :hover {
     background-color: ${props => props.theme.bgHighlightColor};
   }
+  transition: background-color .1s;
   align-items: center;
   box-shadow: ${props => props.theme.boxShadowMain};
 `
