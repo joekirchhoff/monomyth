@@ -39,6 +39,7 @@ const theme = {
 
   // Box-shadows
   boxShadowMain: '.25rem .5rem 1rem rgba(0, 0, 0, 0.3), 0 0 1.5rem rgba(0, 0, 0, .2)',
+  boxShadowHigh: '.45rem .7rem 2rem rgba(0, 0, 0, 0.3), .2rem .2rem 1.5rem rgba(0, 0, 0, .2)',
 
   // Monomyth Logo
   logoColor: '#eee',
