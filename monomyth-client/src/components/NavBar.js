@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoLink from './LogoLink';
 import SearchBar from './SearchBar';
+import MobileMenuBtn from './MobileMenuBtn';
 
 const Nav = styled.nav`
   background-color: ${props => props.theme.bgMainColor};
@@ -38,17 +39,17 @@ const MenuContainer = styled.div`
   justify-content: flex-end;
 `
 
-const MobileMenuBtn = styled.button`
-  border: none;
-  background-color: transparent;
-  color: ${props => props.theme.textMainColor};
-  font-size: 2rem;
-  line-height: 1rem;
-  cursor: pointer;
-  @media (min-width: 947px) {
-    display: none;
-  }
-`
+// const MobileMenuBtn = styled.button`
+//   border: none;
+//   background-color: transparent;
+//   color: ${props => props.theme.textMainColor};
+//   font-size: 2rem;
+//   line-height: 1rem;
+//   cursor: pointer;
+//   @media (min-width: 947px) {
+//     display: none;
+//   }
+// `
 
 const MobileMenuList = styled.ul`
   list-style: none;
@@ -159,7 +160,7 @@ function NavBar(props) {
               </Link>
             </li>
           </DesktopMenuList>
-          <MobileMenuBtn onClick={handleMenuBtn}>☰</MobileMenuBtn>
+          <MobileMenuBtn handleMenuBtn={handleMenuBtn} menuOpen={menuOpen} />
           {menuOpen ?
             <MobileMenuList ref={mobileMenu} onBlur={onMobileMenuBlur} tabIndex='0'>
               <li>
@@ -197,7 +198,7 @@ function NavBar(props) {
               </Link>
             </li>
           </DesktopMenuList>
-          <MobileMenuBtn onClick={handleMenuBtn}>☰</MobileMenuBtn>
+          <MobileMenuBtn handleMenuBtn={handleMenuBtn} menuOpen={menuOpen} />
           {menuOpen ?
             <MobileMenuList ref={mobileMenu} onBlur={onMobileMenuBlur} tabIndex='0' >
               <li>
