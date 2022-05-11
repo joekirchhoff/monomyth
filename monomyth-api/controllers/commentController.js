@@ -15,7 +15,7 @@ exports.comments_get = (req, res, next) => {
   .populate('author', 'username _id')
   .exec((err, comments) => {
     if (err) {
-      res.status(500).json(err);
+      res.status(500).json({'error': err});
     } else {
       res.status(200).json(comments);
     }

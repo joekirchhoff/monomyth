@@ -35,6 +35,11 @@ const DateContainer = styled.span`
   justify-content: end;
 `
 
+const StoryErrorMessage = styled.span`
+  text-align: center;
+  color: ${props => props.theme.textWarningColor};
+`
+
 const Title = styled.h1`
   font-weight: 800;
   text-align: center;
@@ -85,6 +90,8 @@ const EditLink = styled(Link)`
 
 function Story(props) {
 
+  const [storyError, setStoryError] = useState('');
+
   // On page load, get and store story data in state
   const [story, setStory] = useState(null)
 
@@ -111,7 +118,6 @@ function Story(props) {
   );
 
   const onChange = (editorState) => {
-      
       setEditorState(editorState)
     }
 
@@ -125,11 +131,18 @@ function Story(props) {
       return res.json();
     })
     .then(data => {
-      setStory(data);
-      // Convert stored Draft.js text content from raw format
-      const storyJSON = JSON.parse(data.text);
-      const newContentState = convertFromRaw(storyJSON);
-      setEditorState(EditorState.createWithContent(newContentState));
+      if (data.error) {
+        console.log(data.error.message);
+        // Error fetching story; set error message
+        setStoryError(data.error.message);
+      } else {
+        // Successful load
+        setStory(data);
+        // Convert stored Draft.js text content from raw format
+        const storyJSON = JSON.parse(data.text);
+        const newContentState = convertFromRaw(storyJSON);
+        setEditorState(EditorState.createWithContent(newContentState));
+      }
     })
   }
 
@@ -196,6 +209,7 @@ function Story(props) {
 
   return (
     <Article >
+      <StoryErrorMessage>{storyError}</StoryErrorMessage>
       <DateContainer>
         {(story) ? <DateTag date={story.date} /> : null }
       </DateContainer>

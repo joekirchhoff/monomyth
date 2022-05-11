@@ -165,7 +165,7 @@ exports.story_get = (req, res, next) => {
   .populate('genres')
   .exec((err, story) => {
     if (err) {
-      res.status(500).json(err);
+      res.status(500).json({'error': err});
     } else {
       res.json(story);
     }

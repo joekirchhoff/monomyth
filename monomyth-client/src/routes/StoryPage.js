@@ -18,6 +18,12 @@ const CommentsHeader = styled.h1`
   text-align: center;
 `
 
+const CommentsErrorMessage = styled.span`
+  text-align: center;
+  color: ${props => props.theme.textWarningColor};
+  padding-bottom: 1rem;
+`
+
 const RevealCommentFormBtn = styled.button`
   padding: 1rem;
   margin: 1rem auto;
@@ -35,6 +41,8 @@ function StoryPage(props) {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+
+  const [commentsError, setCommentsError] = useState('');
 
   const storyID = useParams().storyID;
 
@@ -54,7 +62,11 @@ function StoryPage(props) {
       return res.json();
     })
     .then(data => {
-      setComments(data);
+      if (data.error) {
+        setCommentsError(data.error.message);
+      } else {
+        setComments(data);
+      }
     })
   })
 
@@ -81,6 +93,7 @@ function StoryPage(props) {
   return (
     <PageContainer>
       <Story storyID={storyID} currentUser={props.currentUser} />
+      <CommentsErrorMessage>{commentsError}</CommentsErrorMessage>
       {(comments && comments.length) ? 
         <CommentsHeader >{comments.length} Comments</CommentsHeader>
       : <CommentsHeader>No Comments</CommentsHeader>
