@@ -75,15 +75,16 @@ function Home(props) {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     })
-    .then(function(response) {
-      return response.json();
+    .then(res => {
+      return res.json();
     })
-    .then(function(response) {
-      setStories(response);
+    .then(res => {
+      if (res.error) {
+        setErrorMessage(res.error);
+      } else {
+        setStories(res);
+      }
     })
-    .catch(function(err) {
-      if (err) setErrorMessage(err);
-    });
   }
 
   // Store the number of next page's stories in state (used for pagination)
@@ -121,15 +122,16 @@ function Home(props) {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     })
-    .then(function(response) {
-      return response.json();
+    .then(res => {
+      return res.json();
     })
-    .then(function(response) {
-      setNextStoriesCount(response.length);
+    .then(res => {
+      if (res.error) {
+        setErrorMessage(res.error);
+      } else {
+        setNextStoriesCount(res.length);
+      }
     })
-    .catch(function(err) {
-      if (err) setErrorMessage(err);
-    });
   }
   
   // Genre filtering; genres stored as MongoDB ObjectID, listed on genre checkbox element ID

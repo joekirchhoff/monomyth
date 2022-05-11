@@ -1,7 +1,7 @@
 const async = require('async');
 const Story = require('../models/story');
 const ObjectID = require('mongoose').Types.ObjectId;
-const { body,check,validationResult } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 
 // STORIES --------------------------------------
 
@@ -35,7 +35,7 @@ exports.stories_get = (req, res, next) => {
     .sort(`-${sortMethod}`)
     .exec((err, stories) => {
       if (err) {
-        res.status(500).json(err);
+        res.status(500).json({'error': err});
       } else {
         res.json(stories);
       }
@@ -52,7 +52,7 @@ exports.stories_get = (req, res, next) => {
     .limit(limit)
     .exec((err, stories) => {
       if (err) {
-        res.status(500).json(err);
+        res.status(500).json({'error': err});
       } else {
         res.json(stories);
       }
@@ -69,7 +69,7 @@ exports.stories_get = (req, res, next) => {
     .limit(limit)
     .exec((err, stories) => {
       if (err) {
-        res.status(500).json(err);
+        res.status(500).json({'error': err});
       } else {
         res.json(stories);
       }
@@ -85,7 +85,7 @@ exports.stories_get = (req, res, next) => {
     .limit(limit)
     .exec((err, stories) => {
       if (err) {
-        res.status(500).json(err);
+        res.status(500).json({'error': err});
       } else {
         res.json(stories);
       }
@@ -100,7 +100,7 @@ exports.stories_get = (req, res, next) => {
     .limit(limit)
     .exec((err, stories) => {
       if (err) {
-        res.status(500).json(err);
+        res.status(500).json({'error': err});
       } else {
         res.json(stories);
       }
