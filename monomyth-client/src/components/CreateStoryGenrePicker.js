@@ -40,35 +40,36 @@ const Input = styled.input`
   width: 1.25rem;
 `
 
-const ErrorMessage = styled.p`
+const ErrorMessage = styled.span`
   color: ${props => props.theme.textWarningColor};
 `
 
 function CreateStoryGenrePicker(props) {
 
-  const [showError, setShowError] = useState(false)
+  const [error, setError] = useState('')
 
-  // Get current genre list from backend
   const [genres, setGenres] = useState([]);
-
+  
+  // Get current genre list from backend
   const getGenres = () => {
-
     fetch('http://localhost:8080/api/genres', { 
       method: "GET",
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     })
-    .then(function(response) {
-      return response.json();
+    .then(function(res) {
+      return res.json();
     })
-    .then(function(response) {
-      setGenres(response);
+    .then(function(res) {
+      if (res.err) {
+        // Error response; show error message
+        setError(res.err);
+      } else {
+        // Success; set genre list
+        setGenres(res);
+      }
     })
-    .catch(function(err) {
-      // Error
-      if (err) console.log(err);
-    });
   }
 
   useEffect(() => {
@@ -78,7 +79,6 @@ function CreateStoryGenrePicker(props) {
   return (
     <Fieldset>
       <Legend >Please select three (3) genres</Legend>
-
       {genres.map((genre) => {
         return <FieldContainer key={genre._id}>
           <Input
@@ -91,8 +91,7 @@ function CreateStoryGenrePicker(props) {
           <Label htmlFor={genre._id} title={genre.description} >{genre.name}</Label>
         </FieldContainer>
       })}
-
-      {(showError) ? <ErrorMessage >Please select exactly three (3) genres</ErrorMessage> : null }
+      {(error) ? <ErrorMessage >{error}</ErrorMessage> : null }
     </Fieldset>
   );
 }
