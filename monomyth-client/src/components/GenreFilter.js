@@ -54,7 +54,8 @@ const GenreCheckbox = styled.input`
   width: 1.25rem;
 `
 
-const GenreErrorMessage = styled.p`
+const ErrorMessage = styled.span`
+  text-align: center;
   padding: 1rem;
   grid-column: 1 / 3;
   color: ${props => props.theme.textWarningColor};
@@ -72,6 +73,9 @@ const ClearBtn = styled.button`
 
 function GenreFilter(props) {
 
+  // Fetch error handling
+  const [fetchError, setFetchError] = useState('');
+
   // Genre options from database
   const [genreOptions, setGenreOptions] = useState([]);
 
@@ -83,16 +87,18 @@ function GenreFilter(props) {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     })
-    .then(function(response) {
-      return response.json();
+    .then(res => {
+      return res.json();
     })
-    .then(function(response) {
-      setGenreOptions(response);
+    .then(res => {
+      if (res.err) {
+        // Error fetching genres; set error message
+        setFetchError(res.err);
+      } else {
+        // Success; list genres
+        setGenreOptions(res);
+      }
     })
-    .catch(function(err) {
-      // Error
-      if (err) console.log(err);
-    });
   }
 
   useEffect(() => {
@@ -126,7 +132,8 @@ function GenreFilter(props) {
             </FieldContainer>
           )
         })}
-        {props.genreError ? <GenreErrorMessage>{props.genreError}</GenreErrorMessage> : null}
+        {fetchError ? <ErrorMessage>{fetchError}</ErrorMessage> : null}
+        {props.genreError ? <ErrorMessage>{props.genreError}</ErrorMessage> : null}
         </GenreFieldset>
         <ClearBtn onClick={props.clearGenres} >Clear Selection</ClearBtn>
       </GenreMenu>

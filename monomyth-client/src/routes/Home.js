@@ -144,7 +144,7 @@ function Home(props) {
         newGenres.push(e.target.id);
         setSelectedGenres(newGenres);
       } else { // Max genres already selected, set error message
-        setGenreError('Maximum of three genres selected; please unselect a genre first');
+        setGenreError('Maximum of three genres selected');
         e.target.checked = false;
       }
     }
