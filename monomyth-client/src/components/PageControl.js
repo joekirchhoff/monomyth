@@ -43,9 +43,23 @@ const PageControl = (props) => {
 
   return (
     <ControllerForm>
-      <PageBtn shown={props.page} onClick={onPreviousPageClick}>ᐊ</PageBtn>
+      <PageBtn
+        shown={props.page}
+        onClick={onPreviousPageClick}
+        aria-label='Previous Page'
+        title='Previous Page'
+      >
+        ᐊ
+      </PageBtn>
       <PageNumber>Page {props.page + 1}</PageNumber>
-      <PageBtn shown={props.nextStoriesCount} onClick={onNextPageClick}>ᐅ</PageBtn>
+      <PageBtn
+        shown={props.nextStoriesCount}
+        onClick={onNextPageClick}
+        aria-label='Next Page'
+        title='Next Page'
+      >
+        ᐅ
+      </PageBtn>
     </ControllerForm>
   )
 }

@@ -108,7 +108,7 @@ const CancelBtn = styled.button`
 // DELETE FORM STYLING ==========================
 
 const DeleteMenuBtn = styled.button`
-  color: ${props => props.theme.textLinkColor};
+  color: ${props => props.theme.textWarningColor};
   background-color: transparent;
   border: none;
   padding-right: 1rem;

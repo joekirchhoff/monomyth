@@ -88,7 +88,7 @@ function CreateStoryGenrePicker(props) {
             onChange={props.toggleCheck}
             genreColor={genre.color}
           />
-          <Label htmlFor={genre._id} >{genre.name}</Label>
+          <Label htmlFor={genre._id} title={genre.description} >{genre.name}</Label>
         </FieldContainer>
       })}
 

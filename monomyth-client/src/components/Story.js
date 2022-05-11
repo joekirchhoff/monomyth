@@ -63,6 +63,12 @@ const GenresContainer = styled.div`
   margin: 1rem 0;
 `
 
+const LikeBtnLabel = styled.span`
+  text-align: center;
+  padding: .5rem;
+  font-size: .9rem;
+`
+
 const LikeBtnErrorMessage = styled(Link)`
   font-size: 1rem;
   text-align: center;
@@ -222,7 +228,7 @@ function Story(props) {
         />
         : null
       }
-      
+      <LikeBtnLabel>Like Story</LikeBtnLabel>
       {likeBtnError ? <LikeBtnErrorMessage to='/login'>Please log in to like stories!</LikeBtnErrorMessage> : null }
       {(story && props.currentUser && story.author._id === props.currentUser._id) ?
         <EditLink to={`/story/${story._id}/edit`} >Edit</EditLink>
