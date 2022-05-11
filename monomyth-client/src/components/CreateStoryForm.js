@@ -36,7 +36,6 @@ const Input = styled.input`
   border: ${props => props.theme.borderMain};
   width: 100%;
   height: 2rem;
-  margin-bottom: 1rem;
   padding-left: .5rem;
 `
 
@@ -106,7 +105,7 @@ const CancelBtn = styled(Link)`
 
 const ErrorMessage = styled.span`
   color: ${props => props.theme.textWarningColor};
-  margin-top: 1rem;
+  margin-bottom: 1rem;
 `
 
 const RequiredPrompt = styled.span`
@@ -284,6 +283,7 @@ function CreateStoryForm() {
         onBlur={onTitleBlur}
         required
       />
+      <ErrorMessage>{titleError}</ErrorMessage>
       <StickyWrapper>
         <EditorToolbar onMouseDown={onEditorToolbarClick} >
           <StyleButton highlight={boldHighlight} bold type='button' onMouseDown={ onBoldClick } >B</StyleButton>
