@@ -128,7 +128,7 @@ function GenreFilter(props) {
                 genreColor={genre.color}
                 onChange={props.toggleGenre}
               />
-              <CheckboxLabel htmlFor={genre._id} >{genre.name}</CheckboxLabel>
+              <CheckboxLabel htmlFor={genre._id} title={genre.description}>{genre.name}</CheckboxLabel>
             </FieldContainer>
           )
         })}
