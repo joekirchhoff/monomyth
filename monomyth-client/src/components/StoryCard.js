@@ -16,11 +16,10 @@ const Card = styled(Link)`
   grid-template-columns: 1fr 4fr 1fr;
   grid-template-rows: 1fr 3rem;
   :hover {
-    /* background-color: ${props => props.theme.bgHighlightColor}; */
     transform: scale(1.05);
     box-shadow: ${props => props.theme.boxShadowHigh};
   }
-  transition: transform .1s, box-shadow .1s;
+  transition: transform cubic-bezier(0.16, 1, 0.3, 1) .15s, box-shadow cubic-bezier(0.16, 1, 0.3, 1) .15s;
   align-items: center;
   box-shadow: ${props => props.theme.boxShadowMain};
 `
