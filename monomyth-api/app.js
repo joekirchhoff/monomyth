@@ -3,7 +3,6 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
 const session = require("express-session");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require('bcryptjs');
@@ -32,22 +31,8 @@ app.use(cors({
   'credentials': true,
 }))
 
-// app.options('/users/session', cors({
-//   'origin' : 'http://localhost:3000',
-//   'methods': "GET,POST,PUT,DELETE, PATCH",
-//   'credentials': true,
-// }))
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", 'http://localhost:3000'); // update to match the domain you will make the request from
-//   // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   res.header("Access-Control-Allow-Credentials", true)
-//   res.header("Vary", 'http://localhost:3000');
-//   next();
-// });
 
 // Mongoose connection
 var mongoose = require('mongoose');
@@ -64,9 +49,6 @@ app.use(session({
   resave: false,
   store: new MongoStore({ mongoUrl: `mongodb+srv://${process.env.MONGO_CRED}@cluster0.zojvq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority` }),
   saveUninitialized: false,
-  // cookie: {
-  //   secure: false
-  // }
 }));
   
 app.use(passport.initialize());
@@ -92,7 +74,6 @@ passport.use(
           return done(null, false, { error: "Incorrect password" })
         }
       })
-      // return done(null, user);
     });
   })
 );

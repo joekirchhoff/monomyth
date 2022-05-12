@@ -98,8 +98,6 @@ exports.user_get = (req, res, next) => {
 
 exports.user_update = [
 
-  // TODO: validate / sanitize links
-
   // Validate and sanitize fields.
   body('bio').trim().isLength({ max: 1000 }).escape().withMessage('Bio must not exceed 1000 characters.'),
 
