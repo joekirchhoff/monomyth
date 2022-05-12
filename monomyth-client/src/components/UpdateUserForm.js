@@ -40,6 +40,9 @@ const LinkInput = styled.input`
   margin-bottom: 2rem;
   width: 100%;
   max-width: 20rem;
+  :invalid {
+    outline: ${props => props.theme.outlineWarning};
+  }
 `
 
 const OptionalMsg = styled.p`
@@ -127,9 +130,9 @@ const UpdateUserForm = (props) => {
     })
     .then(res => {
       // Error (continued); set error message for display
-      if (res.authError) {
+      if (res && res.authError) {
         setError(res.authError)
-      } else if (res.validationErrors) {
+      } else if (res && res.validationErrors) {
         setError(res.validationErrors[0].msg);
       }
     });
@@ -142,18 +145,19 @@ const UpdateUserForm = (props) => {
   }
 
   return (
-    <UserForm>
+    <UserForm onSubmit={handleSubmit}>
       <Label htmlFor='bio' >Bio</Label>
       <BioInput id='bio' defaultValue={initialBio} />
       <Label htmlFor='link1' >Link #1</Label>
-      <LinkInput id='link1' name='link1' defaultValue={initialLinks[0]} />
+      <LinkInput type='url' id='link1' name='link1' defaultValue={initialLinks[0]} />
       <Label htmlFor='link2' >Link #2</Label>
-      <LinkInput id='link2' name='link2' defaultValue={initialLinks[1]} />
+      <LinkInput type='url' id='link2' name='link2' defaultValue={initialLinks[1]} />
       <Label htmlFor='link3' >Link #3</Label>
-      <LinkInput id='link3' name='link3' defaultValue={initialLinks[2]} />
+      <LinkInput type='url' id='link3' name='link3' defaultValue={initialLinks[2]} />
       <OptionalMsg>All fields are optional</OptionalMsg>
+      <OptionalMsg>Links must be in complete URL format (http:// or https://)</OptionalMsg>
       <BtnContainer>
-        <SubmitBtn type='submit' onClick={handleSubmit} >Update</SubmitBtn>
+        <SubmitBtn type='submit' >Update</SubmitBtn>
         <CancelBtn type='button' onClick={handleCancel} >Cancel</CancelBtn>
       </BtnContainer>
       {(error) ?

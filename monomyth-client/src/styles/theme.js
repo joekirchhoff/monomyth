@@ -34,9 +34,10 @@ const theme = {
   tooltipTextColor: '#eee',
   tooltipBorderColor: 'gray',
 
-  // Borders
+  // Borders and Outlines
   borderMain: 'gray solid 1px',
   borderHighlight: '#eee solid 1px',
+  outlineWarning: 'tomato solid 1px',
 
   // Box-shadows
   boxShadowMain: '.25rem .5rem 1rem rgba(0, 0, 0, 0.3), 0 0 1.5rem rgba(0, 0, 0, .2)',
