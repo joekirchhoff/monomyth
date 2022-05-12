@@ -53,7 +53,6 @@ const ErrorMsg = styled.p`
 const DeleteStoryForm = (props) => {
 
   const storyID = useParams().storyID;
-
   const [error, setError] = useState('');
 
   // Handle whether "confirm delete" menu is visible

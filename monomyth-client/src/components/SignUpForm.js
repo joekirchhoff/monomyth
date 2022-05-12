@@ -102,7 +102,6 @@ function SignUpForm() {
   }
 
   // Form Submission
-
   const handleSubmit = (e) => {
     
     e.preventDefault();
@@ -120,12 +119,14 @@ function SignUpForm() {
       return res.json();
     })
     .then(res => {
-      // Successful sign up; log in and redirect to account
       if (res.user) {
+        // Successful sign up; log in and redirect to account
         window.location.assign(`/user/${res.user._id}`);
-      } else if (res.validateErrors) { // Validation errors server-side; show error message array
+      } else if (res.validateErrors) {
+        // Validation errors server-side; show error message array
         setSubmitErrors(res.validateErrors);
-      } else if (res.duplicationError) { // Email or username already exist; show error message
+      } else if (res.duplicationError) {
+        // Email or username already exist; show error message
         setSubmitErrors(res.duplicationError);
       }
     });

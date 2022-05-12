@@ -1,4 +1,3 @@
-const async = require('async');
 const Comment = require('../models/comment');
 const { body,validationResult } = require('express-validator');
 
@@ -121,7 +120,6 @@ exports.comment_update = [
         }
       );
     }
-    
   }
 ]
 
@@ -196,9 +194,7 @@ exports.comment_like = (req, res, next) => {
         })
       }
     })
-  }
-
-  
+  }  
 }
 
 exports.comment_unlike = (req, res, next) => {
@@ -245,6 +241,4 @@ exports.comment_unlike = (req, res, next) => {
       }
     })
   }
-
-  
 }

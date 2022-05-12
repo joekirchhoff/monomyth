@@ -32,7 +32,7 @@ const TooltipText = styled.span`
     border-color: transparent transparent ${props => props.theme.tooltipBgColor} transparent;
     z-index: 5;
   }
-  // Tooltip arrow outline; outline formed by slightly second, oversized arrow positioned underneath first
+  // Tooltip arrow outline; outline formed by second, slightly oversized arrow positioned underneath first
   ::after {
     content: "";
     position: absolute;

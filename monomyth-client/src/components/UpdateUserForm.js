@@ -88,7 +88,7 @@ const UpdateUserForm = (props) => {
     }
   }
 
-  // Error handling
+  // Error message handling
   const [error, setError] = useState('');
 
   // Handle form submit

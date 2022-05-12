@@ -21,8 +21,6 @@ const ErrorMsg = styled.p`
   text-align: center;
 `
 
-// COMMENT STYLING ==============================
-
 const Byline = styled(Link)`
   color: ${props => props.theme.textLinkColor};
   font-size: 1.5rem;
@@ -153,8 +151,6 @@ const CancelDeleteBtn = styled.button`
 
 function Comment(props) {
 
-  // COMMENT LIKE ===============================
-
   // Like button toggle state
   const [commentLiked, setCommentLiked] = useState(false);
 
@@ -205,8 +201,6 @@ function Comment(props) {
     }
   }
 
-  // COMMENT EDIT ===============================
-
   // Edit comment form handling; if editable === true, show edit form in place of comment
   const [editable, setEditable] = useState(false);
 
@@ -253,8 +247,6 @@ function Comment(props) {
       }
     });
   }
-
-  // COMMENT DELETE =============================
 
   // Comment delete form handling
   const [showDeleteForm, setShowDeleteForm] = useState(false);

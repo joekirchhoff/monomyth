@@ -43,10 +43,7 @@ function StoryPage(props) {
   }, [])
 
   const [commentsError, setCommentsError] = useState('');
-
   const storyID = useParams().storyID;
-
-  // Comments
   const [comments, setComments] = useState(null)
   const [commentSortMethod, setCommentSortMethod] = useState('score');
 

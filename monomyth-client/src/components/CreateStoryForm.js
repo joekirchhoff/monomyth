@@ -37,6 +37,7 @@ const Input = styled.input`
   width: 100%;
   height: 2rem;
   padding-left: .5rem;
+  font-size: 1.1rem;
 `
 
 const StickyWrapper = styled.div`
@@ -65,13 +66,16 @@ const EditorToolbar = styled.ul`
 const StyleButton = styled.button`
   height: 2rem;
   width: 2rem;
-  border: ${props => props.theme.borderMain};
+  border: ${props => props.highlight ? props.theme.borderHighlight : props.theme.borderMain};
   background-color: ${props => props.highlight ? props.theme.bgHighlightColor : props.theme.bgMainColor};
   color: ${props => props.theme.textMainColor};
   margin-right: .5rem;
   font-weight: ${props => props.bold ? '1000' : 'inherit'};
   font-style: ${props => props.italic ? 'italic' : 'none'};
   text-decoration: ${props => props.underline ? 'underline' : 'none'};
+  :hover {
+    background-color: ${props => props.theme.bgHighlightColor};
+  }
 `
 
 const FormBtnList = styled.ul`
@@ -121,7 +125,6 @@ function CreateStoryForm() {
   const [submitError, setSubmitError] = useState()
 
   const handleSubmit = (e) => {
-    
     e.preventDefault();
 
     // Get form body
@@ -208,7 +211,6 @@ function CreateStoryForm() {
   const onBoldClick = (e) => {
     e.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
-    console.log(JSON.stringify(convertToRaw(editorState.getCurrentContent())));
   }
 
   const onItalicClick = (e) => {
@@ -245,7 +247,6 @@ function CreateStoryForm() {
   }
 
   // Title validation and tracking
-
   const [title, setTitle] = useState('');
 
   const onTitleChange = (e) => {

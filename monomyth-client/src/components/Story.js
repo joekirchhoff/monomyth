@@ -94,13 +94,12 @@ function Story(props) {
 
   // On page load, get and store story data in state
   const [story, setStory] = useState(null)
-
   const [title, setTitle] = useState('')
   
   // On story load, title string is decoded from escaped user input
   const decodeTitle = () => {
     if (story) {
-      // Temporary textarea used to interpret HTML entities; not added directly to DOM
+      // Temporary textarea used to interpret HTML entities
       const textarea = document.createElement('textarea');
       textarea.innerHTML = story.title;
       setTitle(textarea.value);
@@ -132,7 +131,6 @@ function Story(props) {
     })
     .then(data => {
       if (data.error) {
-        console.log(data.error.message);
         // Error fetching story; set error message
         setStoryError(data.error.message);
       } else {
@@ -152,6 +150,7 @@ function Story(props) {
 
   // Like button toggle state
   const [storyLiked, setStoryLiked] = useState(false);
+  
   // Like button error shown (true) if not logged in; links to log in page
   const [likeBtnError, setLikeBtnError] = useState(false);
 

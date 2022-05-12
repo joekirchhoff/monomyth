@@ -85,10 +85,11 @@ function LogInForm() {
       return res.json();
     })
     .then(res => {
-      // Successful login; redirect to home
       if (res.user) {
+        // Successful login; redirect to home
         window.location.assign('/');
-      } else { // Bad login; show error message 
+      } else {
+        // Bad login; show error message
         setShowError(true);
       }
     });

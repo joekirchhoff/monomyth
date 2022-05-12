@@ -2,7 +2,6 @@ const async = require('async');
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const { body,check,validationResult } = require('express-validator');
-const passport = require('passport');
 
 // USER -----------------------------------------
 
@@ -66,7 +65,7 @@ exports.user_create = [
           });
         }
       })
-    };
+    }
   }   
 ]
 

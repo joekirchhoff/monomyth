@@ -23,8 +23,6 @@ const Dot = styled.span`
 `
 
 const Footer = () => {
-
-
   return (
     <StyledFooter>
       <span>© 2022 Joe Kirchhoff</span>

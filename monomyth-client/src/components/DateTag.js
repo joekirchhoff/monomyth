@@ -19,7 +19,7 @@ const DateTag = (props) => {
   // Handle tooltip display state
   const [showTooltip, setShowTooltip] = useState(false);
 
-  // Clicking date tag (and tooltip box, if open) will toggle tooltip open / closed
+  // Clicking date tag (and tooltip box) will toggle tooltip open / closed
   const onFocus = (e) => {
     e.preventDefault();
     setShowTooltip(!showTooltip);
@@ -31,7 +31,7 @@ const DateTag = (props) => {
     setShowTooltip(false)
   }
   
-  // Takes ISO date string, returns <p> element describing
+  // Takes ISO date string, returns element describing
   // time elapsed from now (e.g. "two days ago")
   const datePosted = DateTime.fromISO(props.date);
   const durationString = datePosted.toRelative();

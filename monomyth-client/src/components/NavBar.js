@@ -39,18 +39,6 @@ const MenuContainer = styled.div`
   justify-content: flex-end;
 `
 
-// const MobileMenuBtn = styled.button`
-//   border: none;
-//   background-color: transparent;
-//   color: ${props => props.theme.textMainColor};
-//   font-size: 2rem;
-//   line-height: 1rem;
-//   cursor: pointer;
-//   @media (min-width: 947px) {
-//     display: none;
-//   }
-// `
-
 const MobileMenuList = styled.ul`
   list-style: none;
   border: ${props => props.theme.borderMain};

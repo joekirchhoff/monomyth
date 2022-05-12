@@ -24,15 +24,14 @@ const GenreMenu = styled.div`
   flex-flow: column nowrap;
   align-items: center;
   border: ${props => props.theme.borderMain};
+  border-top: none;
   background-color: ${props => props.theme.bgDarkColor};
-
 `
 
 const GenreFieldset = styled.fieldset`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   padding: .5rem 0;
-  border-top: none;
   width: 100%;
 `
 

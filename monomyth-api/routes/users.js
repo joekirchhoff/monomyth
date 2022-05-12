@@ -1,11 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const bodyParser = require('body-parser');
-const session = require("express-session");
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const bcrypt = require('bcryptjs');
-var User = require('../models/user');
 const cors = require ('cors');
 const user_controller = require('../controllers/userController')
 
@@ -27,12 +23,7 @@ router.post('/', user_controller.user_create);
 // SEARCH ---------------------------------------
 
 // GET user search
-router.get('/search',
-  (req, res, next) => { 
-    console.log('Get middleware: ', req.user)
-    next();
-  },
-  user_controller.user_search);
+router.get('/search', user_controller.user_search);
 
 // SESSION --------------------------------------
 

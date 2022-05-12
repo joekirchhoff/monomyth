@@ -28,7 +28,6 @@ function CommentSorter(props) {
   const [topHighlight, setTopHighlight] = useState(true);
   const [newHighlight, setNewHighlight] = useState(false);
 
-  // Clear all highlighting (to prevent even more highlighting code repetition)
   const clearHighlights = () => {
     setTopHighlight(false);
     setNewHighlight(false);

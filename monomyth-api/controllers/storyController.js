@@ -222,7 +222,7 @@ exports.story_update = [
               }
             })
           }
-        });
+        })
       }
     }
   }
@@ -248,7 +248,7 @@ exports.story_delete = (req, res, next) => {
           res.status(200).json('Delete successful')
         })
       }
-    });
+    })
   }
 }
 

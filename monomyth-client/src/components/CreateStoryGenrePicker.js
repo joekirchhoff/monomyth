@@ -17,9 +17,12 @@ const Fieldset = styled.fieldset`
 `
 
 const Legend = styled.legend`
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   margin: 1rem auto 0 auto;
   padding: 0 .5rem;
+  @media (max-width: 402px) {
+    font-size: 1rem;
+  }
 `
 
 const FieldContainer = styled.div`
@@ -47,7 +50,6 @@ const ErrorMessage = styled.span`
 function CreateStoryGenrePicker(props) {
 
   const [error, setError] = useState('')
-
   const [genres, setGenres] = useState([]);
   
   // Get current genre list from backend

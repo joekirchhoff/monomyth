@@ -13,7 +13,7 @@ const DateSpan = styled.span`
 
 const StoryCardDateTag = (props) => {
   
-  // Takes ISO date string, returns <p> element describing
+  // Takes ISO date string, returns element describing
   // time elapsed from now (e.g. "two days ago")
   const datePosted = DateTime.fromISO(props.date);
   const durationString = datePosted.toRelative();
