@@ -11,10 +11,14 @@ var User = require('./models/user');
 var logger = require('morgan');
 const cors = require('cors');
 const MongoStore = require('connect-mongo');
+const helmet = require('helmet');
 
 var app = express();
 
-// view engine setup
+// Helmet setup
+app.use(helmet());
+
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
