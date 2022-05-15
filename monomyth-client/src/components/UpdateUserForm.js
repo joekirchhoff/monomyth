@@ -110,7 +110,7 @@ const UpdateUserForm = (props) => {
       newLinks.push(document.getElementById('link3').value)
     }
 
-    fetch(`http://localhost:8080/api/users/${props.user._id}`, {
+    fetch(`https://monomyth.herokuapp.com/api/users/${props.user._id}`, {
       method: "PUT",
       headers: {'Content-Type': 'application/json'}, 
       body: JSON.stringify({

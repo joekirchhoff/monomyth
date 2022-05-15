@@ -54,7 +54,7 @@ function CreateStoryGenrePicker(props) {
   
   // Get current genre list from backend
   const getGenres = () => {
-    fetch('http://localhost:8080/api/genres', { 
+    fetch('https://monomyth.herokuapp.com/api/genres', { 
       method: "GET",
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

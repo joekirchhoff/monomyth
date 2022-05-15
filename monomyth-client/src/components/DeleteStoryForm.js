@@ -66,7 +66,7 @@ const DeleteStoryForm = (props) => {
 
   const onConfirmDeleteClick = (e) => {
 
-    fetch(`http://localhost:8080/api/stories/${storyID}`, {
+    fetch(`https://monomyth.herokuapp.com/api/stories/${storyID}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'}, 
       credentials: 'include'
@@ -80,7 +80,7 @@ const DeleteStoryForm = (props) => {
         setError('Must be logged in as author to delete this story');
       } else {
         // Author ID matches user ID, procede to delete; (also verified on backend)
-        fetch(`http://localhost:8080/api/stories/${storyID}`, {
+        fetch(`https://monomyth.herokuapp.com/api/stories/${storyID}`, {
           method: 'DELETE',
           headers: {'Content-Type': 'application/json'}, 
           credentials: 'include'

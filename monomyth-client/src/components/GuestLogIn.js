@@ -40,7 +40,7 @@ function GuestLogIn() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('http://localhost:8080/api/users/session', {
+    fetch('https://monomyth.herokuapp.com/api/users/session', {
       method: "POST",
       headers: {'Content-Type': 'application/json'}, 
       credentials: 'include',

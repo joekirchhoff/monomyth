@@ -67,7 +67,7 @@ const SearchPage = (props) => {
 
   // Fetch stories from search results
   const getStories = () => {
-    fetch('http://localhost:8080/api/stories/search?' + URLParamsString, { 
+    fetch('https://monomyth.herokuapp.com/api/stories/search?' + URLParamsString, { 
       method: "GET",
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

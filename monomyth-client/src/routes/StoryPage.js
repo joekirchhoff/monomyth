@@ -50,7 +50,7 @@ function StoryPage(props) {
   const getComments = (() => {
 
     // Specify comment sort method as string query
-    fetch(`http://localhost:8080/api/stories/${storyID}/comments?sort=${commentSortMethod}`, {
+    fetch(`https://monomyth.herokuapp.com/api/stories/${storyID}/comments?sort=${commentSortMethod}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'}, 
       credentials: 'include'

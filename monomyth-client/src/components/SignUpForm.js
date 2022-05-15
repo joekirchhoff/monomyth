@@ -105,7 +105,7 @@ function SignUpForm() {
   const handleSubmit = (e) => {
     
     e.preventDefault();
-    fetch('http://localhost:8080/api/users', {
+    fetch('https://monomyth.herokuapp.com/api/users', {
       method: "POST",
       headers: {'Content-Type': 'application/json'}, 
       body: JSON.stringify({

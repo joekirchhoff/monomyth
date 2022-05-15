@@ -78,7 +78,7 @@ function CommentForm(props) {
     const commentTextToAdd = commentText;
 
     // Attempt to post comment
-    fetch(`http://localhost:8080/api/stories/${props.storyID}/comments`, {
+    fetch(`https://monomyth.herokuapp.com/api/stories/${props.storyID}/comments`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'}, 
       body: JSON.stringify({

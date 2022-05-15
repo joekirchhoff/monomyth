@@ -97,7 +97,7 @@ function StoryCard(props) {
     }
     // Story not liked; send like request to API
     if (props.currentUser && !storyLiked) {
-      fetch(`http://localhost:8080/api/stories/${props.story._id}/likes`, {
+      fetch(`https://monomyth.herokuapp.com/api/stories/${props.story._id}/likes`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         credentials: 'include'
@@ -109,7 +109,7 @@ function StoryCard(props) {
         setStoryLiked(true);
       });
     } else if (props.currentUser &&  storyLiked) { // Story already liked; send unlike request to API
-      fetch(`http://localhost:8080/api/stories/${props.story._id}/likes`, {
+      fetch(`https://monomyth.herokuapp.com/api/stories/${props.story._id}/likes`, {
         method: "DELETE",
         headers: {'Content-Type': 'application/json'},
         credentials: 'include'

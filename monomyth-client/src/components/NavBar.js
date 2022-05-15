@@ -79,7 +79,7 @@ function NavBar(props) {
 
   // Logout handler
   const logoutBtnHandler = () => {
-    fetch('http://localhost:8080/api/users/session', {
+    fetch('https://monomyth.herokuapp.com/api/users/session', {
       method: "DELETE",
       headers: {'Content-Type': 'application/json'},
       credentials: 'include'

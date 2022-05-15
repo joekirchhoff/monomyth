@@ -133,7 +133,7 @@ function CreateStoryForm() {
     const genresToSave = genres;
 
     // Attempt to post story
-    fetch('http://localhost:8080/api/stories', {
+    fetch('https://monomyth.herokuapp.com/api/stories', {
       method: "POST",
       headers: {'Content-Type': 'application/json'}, 
       body: JSON.stringify({

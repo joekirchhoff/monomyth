@@ -54,7 +54,7 @@ function UserPage(props) {
   });
 
   const getUser = () => {
-    fetch(`http://localhost:8080/api/users/${userID}`, {
+    fetch(`hhttps://monomyth.herokuapp.com/api/users/${userID}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'}, 
       credentials: 'include'
@@ -80,7 +80,7 @@ function UserPage(props) {
   const [storySortMethod, setStorySortMethod] = useState('score')
 
   const getStories = () => {
-    fetch(`http://localhost:8080/api/stories?author=${userID}&sort=${storySortMethod}`, { 
+    fetch(`https://monomyth.herokuapp.com/api/stories?author=${userID}&sort=${storySortMethod}`, { 
       method: "GET",
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

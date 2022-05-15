@@ -69,7 +69,7 @@ function Home(props) {
     const URLParamsString = new URLSearchParams(URLParamsObject);
 
     // Get stories with complete set of string queries
-    fetch('http://localhost:8080/api/stories?' + URLParamsString, { 
+    fetch('https://monomyth.herokuapp.com/api/stories?' + URLParamsString, { 
       method: "GET",
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -116,7 +116,7 @@ function Home(props) {
     const URLParamsString = new URLSearchParams(URLParamsObject);
 
     // Get stories with complete set of string queries
-    fetch('http://localhost:8080/api/stories?' + URLParamsString, { 
+    fetch('https://monomyth.herokuapp.com/api/stories?' + URLParamsString, { 
       method: "GET",
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

@@ -33,7 +33,7 @@ function UpdateUserPage(props) {
   });
 
   const getUser = () => {
-    fetch(`http://localhost:8080/api/users/${userID}`, {
+    fetch(`https://monomyth.herokuapp.com/api/users/${userID}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'}, 
       credentials: 'include'

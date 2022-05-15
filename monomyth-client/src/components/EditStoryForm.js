@@ -171,7 +171,7 @@ function EditStoryForm(props) {
 
   // Get initial story data for populating form
   const getStory = () => {
-    fetch(`http://localhost:8080/api/stories/${storyID}`, {
+    fetch(`https://monomyth.herokuapp.com/api/stories/${storyID}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'}, 
       credentials: 'include'
@@ -271,7 +271,7 @@ function EditStoryForm(props) {
     const genresToSave = genres;
 
     // Attempt to update story
-    fetch(`http://localhost:8080/api/stories/${storyID}`, {
+    fetch(`https://monomyth.herokuapp.com/api/stories/${storyID}`, {
       method: "PUT",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({

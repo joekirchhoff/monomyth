@@ -175,7 +175,7 @@ function Comment(props) {
     }
     // Comment not liked; send like request to API
     if (props.currentUser && !commentLiked) {
-      fetch(`http://localhost:8080/api/stories/${props.storyID}/comments/${props.comment._id}/likes`, {
+      fetch(`https://monomyth.herokuapp.com/api/stories/${props.storyID}/comments/${props.comment._id}/likes`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         credentials: 'include'
@@ -187,7 +187,7 @@ function Comment(props) {
         setCommentLiked(true);
       });
     } else if (props.currentUser &&  commentLiked) { // Comment already liked; send unlike request to API
-      fetch(`http://localhost:8080/api/stories/${props.storyID}/comments/${props.comment._id}/likes`, {
+      fetch(`https://monomyth.herokuapp.com/api/stories/${props.storyID}/comments/${props.comment._id}/likes`, {
         method: "DELETE",
         headers: {'Content-Type': 'application/json'},
         credentials: 'include'
@@ -228,7 +228,7 @@ function Comment(props) {
     e.preventDefault();
 
     // Attempt to update comment
-    fetch(`http://localhost:8080/api/stories/${props.storyID}/comments/${props.comment._id}`, {
+    fetch(`https://monomyth.herokuapp.com/api/stories/${props.storyID}/comments/${props.comment._id}`, {
       method: "PUT",
       headers: {'Content-Type': 'application/json'}, 
       body: JSON.stringify({
@@ -266,7 +266,7 @@ function Comment(props) {
     e.preventDefault();
 
     // Attempt to delete comment
-    fetch(`http://localhost:8080/api/stories/${props.storyID}/comments/${props.comment._id}`, {
+    fetch(`https://monomyth.herokuapp.com/api/stories/${props.storyID}/comments/${props.comment._id}`, {
       method: "DELETE",
       headers: {'Content-Type': 'application/json'}, 
       credentials: 'include'
