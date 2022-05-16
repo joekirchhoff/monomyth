@@ -54,7 +54,7 @@ function UserPage(props) {
   });
 
   const getUser = () => {
-    fetch(`hhttps://monomyth.herokuapp.com/api/users/${userID}`, {
+    fetch(`https://monomyth.herokuapp.com/api/users/${userID}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'}, 
       credentials: 'include'
