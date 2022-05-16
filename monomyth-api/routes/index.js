@@ -12,7 +12,7 @@ router.use(bodyParser.json());
 
 // CORS
 router.use(cors({
-  'origin' : 'http://localhost:3000',
+  'origin' : process.env.CLIENT_URL,
   'methods': "GET,POST,PUT,DELETE, PATCH",
   'credentials': true,
 }))
