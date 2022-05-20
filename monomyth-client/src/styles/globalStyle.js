@@ -1,6 +1,4 @@
 import { createGlobalStyle } from "styled-components";
-import '../fonts/Montserrat/Montserrat-VariableFont_wght.ttf';
-import '../fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf';
 import backgroundImg from '../images/binding_dark.webp';
 
 // Global styling and CSS reset
@@ -26,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
   }
   *, *::before, *::after {
     box-sizing: border-box;
-    font-family: 'Montserrat';
+    font-family: 'Montserrat', san-serif;
   }
   body {
     background-color: ${props => props.theme.bgMainColor};
