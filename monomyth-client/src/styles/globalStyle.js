@@ -38,18 +38,6 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     flex-flow: column nowrap;
   }
-  @font-face {
-    font-family: 'MontserratItalic';
-    src: local("MontserratItalic"),
-      url('./fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf') format('truetype');
-    font-style: italic;
-  }
-  @font-face {
-    font-family: 'Montserrat';
-    src: local("Montserrat"),
-      url('./fonts/Montserrat/Montserrat-VariableFont_wght.ttf') format('truetype');
-      font-style: normal;
-  }
   a {
     text-decoration: none;
   }
